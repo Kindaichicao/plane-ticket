@@ -345,4 +345,14 @@ class AccountModel
         ];
         return $response;   
     }
+
+    public static function test()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "INSERT INTO `ma_xac_thuc`(`ma_tk`, `ma_xt`) VALUES ('123','456')";
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        echo('Created ' . $count);
+    }
 }

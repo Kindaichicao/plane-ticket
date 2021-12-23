@@ -15,11 +15,11 @@ class StatisticsController extends Controller
         parent::__construct();
     }
 
-    public function statistic()
+    public function statistics()
     {
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN01");
-        $this->View->render('statistics/statistic');
+        $this->View->render('statistics/statistics');
     }
 
     public static function statisticByDay(){

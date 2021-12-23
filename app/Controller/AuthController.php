@@ -65,6 +65,12 @@ class AuthController extends Controller
         return $this->View->render('auth/register');
     }
 
+    public function forgotpassword()
+    {
+        Auth::checkNotAuthentication();
+        return $this->View->render('auth/forgotpassword');
+    }
+
     public function registerPost()
     {
         Auth::checkNotAuthentication();

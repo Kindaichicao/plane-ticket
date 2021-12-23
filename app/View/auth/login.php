@@ -24,9 +24,6 @@ use App\Core\View;
         <div class="row h-100">
             <div class="col-lg-6 col-12">
                 <div id="auth-left">
-                    <div class="auth-logo">
-                        <a href="index.html"><img src="<?= View::assets('images/logo/logo.jpeg') ?>" alt="Logo"></a>
-                    </div>
                     <h1 class="auth-title">Đăng nhập.</h1>
                     <p class="auth-subtitle mb-5">Nhập thông tin của bạn để đăng nhập</p>
                     <div id="login-error" class="alert alert-danger d-none">Lỗi nè</div>
@@ -45,6 +42,9 @@ use App\Core\View;
                         </div>
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Đăng nhập</button>
                     </form>
+                    <div class="text-center mt-5 text-lg fs-4">
+                            <a href="<?= View::url('auth/forgotpassword') ?>" class="font-bold">Quên mật khẩu?</a>.
+                    </div>
                     <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">Bạn chưa có tài khoản?
                             <a href="<?= View::url('auth/register') ?>" class="font-bold">Đăng ký</a>.

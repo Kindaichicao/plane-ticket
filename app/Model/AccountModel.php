@@ -80,28 +80,25 @@ class AccountModel
         return false;
     }
 
-    // public static function forgotPassword($username){
-    //     $database = DatabaseFactory::getFactory()->getConnection();
+    public static function forgotPassword($email){
+        $database = DatabaseFactory::getFactory()->getConnection();
         
-    //     $to      = $email;
-    //     $subject = "Mã xác thực";
-    //     $message = "Nội dung email";
+        $integer_part = mt_rand(100000, 999999 - 1);
+            $to      = $email;
+            $subject = "Mã xác thực";
+            $message = $integer_part;
+            
+            $success = mail ($to,$subject,$message);
 
-    //     $success = mail ($to,$subject,$message);
-
-    //     if( $success == true )
-    //     {
-    //         echo "Đã gửi mail thành công...";
-    //     }
-    //     else
-    //     {
-    //         echo "Không gửi đi được...";
-    //     }
-    //     if ($count == 1) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
+            if( $success == true )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            };
+    }
 
     public static function update($email,  $fullname, $maquyen)
     {

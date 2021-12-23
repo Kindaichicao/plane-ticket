@@ -61,6 +61,15 @@ class AccountController extends Controller
         $this->View->renderJSON($response);
     }
 
+    public function forgotPassword(){
+        $email = Request::post('email');
+        $kq = AccountModel::forgotPassword($email);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
     public function update(){
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN01");
@@ -74,16 +83,6 @@ class AccountController extends Controller
         $this->View->renderJSON($response);
     }
 
-    // public function resetPassword(){
-    //     Auth::checkAuthentication();
-    //     Auth::ktraquyen("CN01");
-    //     $email = Request::post('email');
-    //     $kq = UserModel::resetPassword($email);
-    //     $response = [
-    //         'thanhcong' => $kq
-    //     ];
-    //     $this->View->renderJSON($response);
-    // }
     public function deleteUser()
     {
         Auth::checkAuthentication();

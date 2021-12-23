@@ -22,37 +22,29 @@ use App\Core\View;
     <div id="auth">
 
         <div class="row h-100">
-            <div class="col-lg-5 col-12">
+            <div class="col-lg-6 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
                         <a href="index.html"><img src="<?= View::assets('images/logo/logo.jpeg') ?>" alt="Logo"></a>
                     </div>
-                    <h1 class="auth-title">Đăng nhập.</h1>
-                    <p class="auth-subtitle mb-5">Nhập thông tin của bạn để đăng nhập</p>
+                    <h1 class="auth-title">Quên mật khẩu.</h1>
+                    <p class="auth-subtitle mb-5">Nhập tên đăng nhập của bạn</p>
                     <div id="login-error" class="alert alert-danger d-none">Lỗi nè</div>
-                    <form name="login-form" action="<?= View::getAction('AuthController', 'loginPost') ?>" method="POST">
+                    <form name="login-form" action="/" method="POST">
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input id="email" type="text" name="email" class="form-control form-control-xl" placeholder="Tên đăng nhập">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input id="password" type="password" name="password" class="form-control form-control-xl" placeholder="Mật khẩu">
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock"></i>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Đăng nhập</button>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Gửi mã</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class="text-gray-600">Bạn chưa có tài khoản?
-                            <a href="<?= View::url('auth/register') ?>" class="font-bold">Đăng ký</a>.
-                        </p>
+                        <a href="<?= View::url('auth/login') ?>" class="font-bold">Đăng nhập</a>.
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7 d-none d-lg-block">
+            <div class="col-lg-6 d-none d-lg-block">
                 <div id="auth-right">
                     <img src="<?= View::assets('images/bg/login.jpg')?>" class=" d-block w-100">
                 </div>
@@ -72,40 +64,29 @@ use App\Core\View;
                     email: {
                         required: true,
                     },
-                    password: {
-                        required: true,
-                        minlength: 8
-                    }
                 },
                 messages: {
                     // Báo lỗi chung cho required và email
                     email: "Vui lòng nhập tên đăng nhập",
-                    // Message báo lỗi cụ thể cho từng trường hợp
-                    password: {
-                        required: "Vui lòng nhập mật khẩu",
-                        minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự"
-                    },
                 },
                 // JQuery sẽ chặn submit đến khi nào dữ liệu đã được validate
                 submitHandler: function(form) {
-                    dangNhapAjax()
+                    forgotPasswordAjax()
                 }
             });
 
-            function dangNhapAjax() {
+            function forgotPasswordAjax() {
                 $('#login-error').text("")
                 $('#login-error').addClass("d-none")
                 // lay gia tri input
                 const email = $("#email").val()
-                const password = $("#password").val()
 
                 // dung ajax de submit 1 2 3
                 $.ajax({
-                    url: "http://localhost/Software-Technology/auth/loginPost",
+                    url: "http://localhost/Software-Technology/account/forgotPassword",
                     type: "post",
                     data: {
                         email: email,
-                        password: password
                     },
                     success: function(result) {
                         console.log(result);

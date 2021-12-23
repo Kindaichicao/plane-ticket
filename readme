@@ -1,0 +1,27 @@
+# Thông tin
+- template: https://zuramai.github.io/mazer/demo/component-button.html
+- jquery validate: https://jqueryvalidation.org/documentation/
+
+## Cách cài đặt:
+- Cấu hình ở file /app/Config/config.php
+- Nếu sửa tên thư mục dự án, cần cập nhật lại ở public/.htaccess
+
+## Cách hoạt động:
+Các request lên server thông thường có url như sau: localhost/Software-Technology/auth/login
+sẽ được apache viết lại (do cấu hình htaccess) thành localhost/Software-Technology/public/index.php?url=auth/login
+như vậy mọi request đều được xử lý bởi file public/index.php, và có tham số url
+file index.php sẽ tạo Application
+Application sẽ cắt chuỗi từ tham số url để  new controller và gọi action (là hàm của controller) tương ứng.
+Controller có thể gọi Model để đọc ghi dữ liệu từ Database
+Sau khi Controller xử lý xong sẽ trả về View
+
+## Một số lưu ý:
+- Hạn chế sửa các file ở thư mục Core, vì nó là khung của framework, nhiều người dùng chung, sửa sẽ ảnh hưởng code người khác
+- Khi tạo file mới cần chú ý namespace
+- Nên chia thư mục view giống tên controller, tên file view giống tên action của controller render view đó
+- Tên Class phải theo chuẩn PascalCase, vd: IndexController
+- Tên biến và hàm phải theo chuẩn camelCase, vd: controllerName hoặc getUser()
+- Chỉ nên render View ở method GET, đối với method POST (khi submit form) sau khi xử lý xong thì Redirect qua trang khác
+- Những phần view cần tái sử dụng thì tách ra và để trong __partial
+- Model chỉ nên xử lý đơn giản như get 1 user, get nhiều user, thêm, sửa, xóa, hạn chế xử lý logic ở đây
+- Sử dụng các class margin padding align của bootstrap thay vì tự viết css

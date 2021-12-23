@@ -1,0 +1,34 @@
+body {
+  background-color: #fff;
+}
+#auth {
+  height: 100vh;
+  overflow-x: hidden;
+}
+#auth #auth-right {
+  height: 100%;
+  background: url(../../images/bg/4853433.jpg);
+}
+#auth #auth-left {
+  padding: 3rem 5rem;
+}
+#auth #auth-left .auth-title {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+#auth #auth-left .auth-subtitle {
+  font-size: 1.7rem;
+  line-height: 2.5rem;
+  color: #a8aebb;
+}
+#auth #auth-left .auth-logo {
+  margin-bottom: 3rem;
+}
+#auth #auth-left .auth-logo img {
+  height: 4rem;
+}
+@media screen and (max-width: 767px) {
+  #auth #auth-left {
+    padding: 5rem;
+  }
+}

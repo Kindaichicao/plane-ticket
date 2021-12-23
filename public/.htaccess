@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+  #Options -Multiviews
+  # Activates URL rewriting
+  RewriteEngine On
+
+  # Không cho user truy cập thẳng vô thư mục này.
+  Options -Indexes
+
+  # Tên thư mục dự án
+  #RewriteBase /Software-Technology/public
+  # Nếu các điều kiện này đúng thì rewrite url
+  # Nếu filename không phải là thư mục
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # Nếu truy cập vào 1 file có tồn tại thì ko viết lại
+  RewriteCond %{REQUEST_FILENAME} !-f
+  # Viết lại url:
+  # Tất cả request sẽ truy cập vô file index.php để xử lý, và url lúc đầu sẽ được gán cho biến url
+  # index.php đọc url này vào điều hướng vào đúng controller
+
+  # /Software-Technology/public/assests/css ko viet lai
+  # /Software-Technology/public/assests/css/app.css ko viet lai
+  # /Software-Technology/public/auth/login viet lai
+  # /auth/login
+  # index.php?url=auth/login
+  RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+</IfModule>

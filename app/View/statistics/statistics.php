@@ -2,7 +2,7 @@
 
 use App\Core\View;
 
-View::$activeItem = 'statistic';
+View::$activeItem = 'statistics';
 
 ?>
 <!DOCTYPE html>

@@ -15,7 +15,7 @@ class WalletController extends Controller
         parent::__construct();
     }
 
-    public function account()
+    public function wallet()
     {
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN01");

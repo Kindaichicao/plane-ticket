@@ -89,8 +89,8 @@ use App\Core\View;
                         <span>Ví Airpro</span>
                     </a>
                 </li>
-                <li id="CN12" class=" sidebar-item  <?= View::$activeItem == 'statistic' ? 'active' : '' ?>">
-                    <a href="<?= View::url('statistics/statistic') ?>" class="sidebar-link">
+                <li id="CN12" class=" sidebar-item  <?= View::$activeItem == 'statistics' ? 'active' : '' ?>">
+                    <a href="<?= View::url('statistics/statistics') ?>" class="sidebar-link">
                         <i class="bi bi-graph-up"></i>
                         <span>Thống kê</span>
                     </a>

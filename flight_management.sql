@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 23, 2021 lúc 04:32 AM
+-- Thời gian đã tạo: Th12 24, 2021 lúc 03:32 PM
 -- Phiên bản máy phục vụ: 10.4.21-MariaDB
 -- Phiên bản PHP: 8.0.11
 
@@ -172,7 +172,7 @@ CREATE TABLE `hang_hang_khong` (
   `ten` varchar(255) NOT NULL,
   `mo_ta` varchar(255) NOT NULL,
   `loai_hang` varchar(255) NOT NULL,
-  `ngay_ban` datetime NOT NULL,
+  `ngay_ban` varchar(7) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -275,6 +275,17 @@ CREATE TABLE `ma_xac_thuc` (
   `ma_tk` int(11) NOT NULL,
   `ma_xt` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `ma_xac_thuc`
+--
+
+INSERT INTO `ma_xac_thuc` (`ma_tk`, `ma_xt`) VALUES
+(123, '456'),
+(123, '456'),
+(123, '456'),
+(123, '456'),
+(123, '456');
 
 -- --------------------------------------------------------
 

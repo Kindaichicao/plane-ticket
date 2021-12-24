@@ -46,8 +46,15 @@ class CustomerModel{
         return false;
     }
 
-    public static function update(){
-        
+    public static function update($makh, $fullname, $hochieu, $cccd, $sdt, $email, $ngaysinh, $gender, $address){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        // $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $sql = "";
+        $sql .= "UPDATE khach_hang SET ho_ten ='$fullname', so_ho_chieu = '$hochieu', gioi_tinh ='$gender', ngay_sinh = '$ngaysinh', email ='$email', cccd = '$cccd', sdt ='$sdt', dia_chi = '$address'  WHERE ma_kh = '$makh'";
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        return true;
     }
 
     public static function delete(){

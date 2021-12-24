@@ -6,9 +6,29 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class AirlineModel{
-    public static function create(){
+    public static function findOneByMaHangHangKhong($mahanghangkhong){
+        $database = DatabaseFactory::getFactory()->getConnection();
 
+        $query = $database->prepare("SELECT * FROM hang_hang_khong WHERE ma_hang_hang_khong = :mahanghangkhong LIMIT 1");
+        $query->execute([':mahanghangkhong' => $mahanghangkhong]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
+    public static function create($mahang, $tenhang, $motahang, $loaihang, $ngayban){
+            $database = DatabaseFactory::getFactory()->getConnection();
+            $sql = 'INSERT INTO `hang_hang_khong` (`ma_hang_hang_khong`, `ten`, `mo_ta`, `loai_hang`, `ngay_ban`, `trang_thai`) VALUES ("'.$mahang.'", "'.$tenhang.'", "'.$motahang.'", "'.$loaihang.'", "'.$ngayban.'", 1)';
+            $query = $database->query($sql);
+            $count = $query->rowCount();
+            if ($count == 1) {
+                return true;
+            }
+    
+            return false;
+        }
+
 
     public static function update(){
         
@@ -70,18 +90,17 @@ class AirlineModel{
 
         $database = DatabaseFactory::getFactory()->getConnection();
         $raw = 'SELECT * FROM hang_hang_khong';
-
-        if ($search2 == '1') {
+        if ($search2 == '0') {
+            $raw .= ' WHERE (ma_hang_hang_khong LIKE :search OR ten LIKE :search OR mo_ta LIKE :search OR loai_hang LIKE :search)  AND trang_thai = 1';
+        }
+      if ($search2 == '1') {
             $raw .= ' WHERE (ma_hang_hang_khong LIKE :search )  AND trang_thai = 1';
         } 
-        if ($search2 == '2') {
+         if ($search2 == '2') {
             $raw .= ' WHERE (ten LIKE :search )  AND trang_thai = 1';
         } 
-        if ($search2 == '3') {
+       if ($search2 == '3') {
             $raw .= ' WHERE (loai_hang LIKE :search )  AND trang_thai = 1';
-        } 
-        if ($search2 == '4') {
-            $raw .= ' WHERE (ngay_ban LIKE :search )  AND trang_thai = 1';
         } 
         $search = '%' . $search . '%';
 
@@ -96,6 +115,9 @@ class AirlineModel{
 
 
         $count = 'SELECT COUNT(ma_hang_hang_khong) FROM hang_hang_khong';
+        if ($search2 == '0') {
+            $count .= ' WHERE (ma_hang_hang_khong LIKE :search OR ten LIKE :search OR loai_hang LIKE :search)  AND trang_thai = 1';
+        }
         if ($search2 == '1') {
             $count .= ' WHERE (ma_hang_hang_khong LIKE :search )  AND trang_thai = 1';
         } 
@@ -104,9 +126,6 @@ class AirlineModel{
         } 
         if ($search2 == '3') {
             $count .= ' WHERE (loai_hang LIKE :search )  AND trang_thai = 1';
-        } 
-        if ($search2 == '4') {
-            $count .= ' WHERE (ngay_ban LIKE :search )  AND trang_thai = 1';
         } 
         $countQuery = $database->prepare($count);
         $countQuery->bindValue(':search', $search, PDO::PARAM_STR);
@@ -122,5 +141,6 @@ class AirlineModel{
         return $response;
     }    
 
+    
     
 }

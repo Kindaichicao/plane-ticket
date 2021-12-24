@@ -51,27 +51,27 @@ View::$activeItem = 'airline';
                         <div class="row">
                             <div class="col-12 col-md-7 order-md-1 order-last">
                                 <label>
-                                    <h3>Danh sách người dùng</h3>
+                                    <h3>Danh sách hãng hàng không</h3>
                                 </label>
                                 <label>
                                     <h5 style="margin-left: 50px; margin-right: 10px;"> Lọc Theo:</h5>
                                 </label>
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
-                                    <option value="" selected>Tất Cả </option>
+                                    <option value="0" selected>Tất Cả </option>
                                     <option value="1">Mã hãng hàng không </option>
                                     <option value="2">Tên hãng hàng không</option>
                                     <option value="3">Loại hãng</option>
-                                    <option value="4">Ngày bán</option>
+                                    <!-- <option value="4">Ngày bán</option> -->
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
 
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-user' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa tài khoản
+                                    <button id='btn-delete-airline' class="btn btn-danger">
+                                        <i class="bi bi-trash-fill"></i> Xóa hãng hàng không
                                     </button>
-                                    <button id='open-add-user-btn' class="btn btn-primary">
-                                        <i class="bi bi-plus"></i> Thêm tài khoản
+                                    <button id='open-add-airline-btn' class="btn btn-primary">
+                                        <i class="bi bi-plus"></i> Thêm hãng hàng không
                                     </button>
                                 </div>
                             </div>
@@ -88,7 +88,6 @@ View::$activeItem = 'airline';
                                                 <th>Tên hãng hàng không</th>
                                                 <th>Mô tả</th>
                                                 <th>Loại hãng</th>
-                                                <th>Ngày bán</th>
                                                 <th>Tác Vụ</th>
                                             </tr>
                                         </thead>
@@ -105,33 +104,61 @@ View::$activeItem = 'airline';
                 </div>
 
               <!-- MODAL ADD -->
-                <!-- <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="add-airline-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Thêm Tài Khoản</h4>
+                                <h4 class="modal-title">Thêm hãng hàng không</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form name="add-user-form" action="/" method="POST">
+                                <form name="add-airline-form" action="/" method="POST">
                                     <div class="modal-body">
-                                        <label for="email">Tên Đăng Nhập: </label>
+                                        <label for="mahanghangkhong">Mã hãng hàng không: </label>
                                         <div class="form-group">
-                                            <input type="text" id="email" name="email" placeholder="Mã Số" class="form-control">
+                                            <input type="text" id="mahanghangkhong" name="mahanghangkhong" placeholder="Mã Hãng" class="form-control">
                                         </div>
-                                        <label for="fullname">Họ tên: </label>
+                                        <label for="tenhanghangkhong">Tên hãng hàng không: </label>
                                         <div class="form-group">
-                                            <input type="text" id="fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                            <input type="text" id="tenhanghangkhong" name="tenhanghangkhong" placeholder="Tên hãng" class="form-control">
                                         </div>
-                                        <label for="password">Mật khẩu: </label>
+                                        <label for="motahanghangkhong">Mô tả: </label>
                                         <div class="form-group">
-                                            <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                            <textarea type="text" id="motahanghangkhong" name="motahanghangkhong" placeholder="Mô tả" class="form-control"> </textarea>
                                         </div>
-                                        <label for="cars-quyen">Quyền: </label>
-                                        <select class="form-group" name="maquyen" id="cars-quyen">
-                                        </select>
+                                        <label for="loaihanghangkhong">Loại hãng: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="loaihanghangkhong" name="loaihanghangkhong" placeholder="Loại hãng" class="form-control">
+                                        </div>
+                                        <label for="ngaybanhanghangkhong">Ngày bán: </label>
+                                        <ul id="view-thu-list" class="list-unstyled mb-0">
+                                            <?php
+                                            $s="";
+                                            for($i=2;$i<=7;$i++){ 
+                                                $s.="<li class='d-inline-block me-0 mb-1 w-50'>
+                                                        <div class='form-check'>
+                                                    <div class='custom-control custom-checkbox'> 
+                                                    <input type='checkbox' id='thu$i'  value='$i' class='form-check-input form-check-success sc' >
+                                                        <label class='form-check-label'>Thứ $i </label>
+                                                        </div>
+                                                        </div>
+                                                        </li>";
+                                                        
+                                            }
+                                            $s.="     <li class='d-inline-block me-0 mb-1 w-50'>
+                                                    <div class='form-check'>
+                                                    <div class='custom-control custom-checkbox'> 
+                                                        <input type='checkbox' id='thu8'  value='8' class='form-check-input form-check-success sc' >
+                                                        <label class='form-check-label'>Chủ nhật </label>
+                                                        </div>
+                                                        </div>
+                                                        </li>";
+                                                        echo $s;
+                                                        
+                                            ?>
+                                        </ul>
                                     </div>
                             </div>
                             <div class="modal-footer">
@@ -147,7 +174,7 @@ View::$activeItem = 'airline';
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!--MODAL SUA-->
                 <!-- <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -247,7 +274,32 @@ View::$activeItem = 'airline';
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Ngày bán:</label>
-                                            <input type="text" class="form-control" id="view-ngayban" disabled>
+                                            <ul id="view-thu-list" class="list-unstyled mb-0">
+                                            <?php
+                                            $s="";
+                                            for($i=2;$i<=7;$i++){ 
+                                                $s.="<li class='d-inline-block me-0 mb-1 w-50'>
+                                                        <div class='form-check'>
+                                                    <div class='custom-control custom-checkbox'> 
+                                                    <input type='checkbox' id='thu$i'  value='$i' class='form-check-input form-check-success sc1' >
+                                                        <label class='form-check-label'>Thứ $i </label>
+                                                        </div>
+                                                        </div>
+                                                        </li>";
+                                                        
+                                            }
+                                            $s.="     <li class='d-inline-block me-0 mb-1 w-50'>
+                                                    <div class='form-check'>
+                                                    <div class='custom-control custom-checkbox'> 
+                                                        <input type='checkbox' id='thu8'  value='8' class='form-check-input form-check-success sc1' >
+                                                        <label class='form-check-label'>Chủ nhật </label>
+                                                        </div>
+                                                        </div>
+                                                        </li>";
+                                                        echo $s;
+                                                        
+                                            ?>
+                                        </ul>
                                         </div>
                                     </li>
                                 </ul>
@@ -300,84 +352,115 @@ View::$activeItem = 'airline';
             //kietm tra quyen
             
 
-            // Đặt sự kiện validate cho modal add user
-            // $("form[name='add-user-form']").validate({
-            //     rules: {
-            //         email: {
-            //             required: true,
-            //             remote: {
-            //                 url: "http://localhost/Software-Technology/user/checkValidEmail",
-            //                 type: "POST",
-            //             }
-            //         },
-            //         fullname: {
-            //             required: true,
-            //             validateName: true,
-            //         },
-            //         password: {
-            //             required: true,
-            //             minlength: 8,
-            //         },
-            //     },
-            //     messages: {
-            //         email: {
-            //             required: "Vui lòng nhập tên đăng nhập",
-            //         },
-            //         fullname: {
-            //             required: "Vui lòng nhập họ tên",
-            //         },
-            //         password: {
-            //             required: "Vui lòng nhập mật khẩu",
-            //             minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
-            //         },
-            //     },
-            //     submitHandler: function(form, event) {
-            //         event.preventDefault();
-            //         // lấy dữ liệu từ form
-            //         const data = Object.fromEntries(new FormData(form).entries());
+            // Đặt sự kiện validate cho modal add airline
+            $("form[name='add-airline-form']").validate({
+                rules: {
+                    mahanghangkhong: {
+                        required: true,
+                        remote: {
+                            url: "http://localhost/Software-Technology/airline/checkValidMaHangHangKhong",
+                            type: "POST",
+                        }
+                    },
+                    tenhanghangkhong: {
+                        required: true,
+                    },
+                    motahanghangkhong: {
+                        required: true,
+                    },
+                    loaihanghangkhong: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    mahanghangkhong: {
+                        required: "Vui lòng nhập mã hãng hàng không",
+                    },
+                    tenhanghangkhong: {
+                        required: "Vui lòng nhập tên hãng hàng không",
+                    },
+                    motahanghangkhong: {
+                        required: "Vui lòng nhập mô tả hãng hàng không",
+                    },
+                    loaihanghangkhong: {
+                        required: "Vui lòng nhập loại hãng hàng không",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    var s="";
+                    var x=document.getElementsByClassName('sc');
+                    alert(x.length);
+                    var sl=0,d=0;
+                    for (i=0;i<x.length;i++){
+                        if (x[i].checked==true){
+                            s+="1";
+                            sl++;
+                        }
+                        else {
+                            s+="0";
+                            d++;
+                        }
+                    }
+                    if(d==x.length){
+                        alert("Chưa chọn ngày bán");
+                    }
+                    else{
+                       
+                        event.preventDefault();
+                        // lấy dữ liệu từ form
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        data['ngay_ban']=s;
+                        $.post(`http://localhost/Software-Technology/airline/addAirline`, data, function(response) {
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSListAjax();
+                                Toastify({
+                                    text: "Thêm Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Thêm Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
 
-            //         $.post(`http://localhost/Software-Technology/user/addUser`, data, function(response) {
-            //             if (response.thanhcong) {
-            //                 currentPage = 1;
-            //                 layDSUserAjax();
-            //                 Toastify({
-            //                     text: "Thêm Thành Công",
-            //                     duration: 1000,
-            //                     close: true,
-            //                     gravity: "top",
-            //                     position: "center",
-            //                     backgroundColor: "#4fbe87",
-            //                 }).showToast();
-            //             } else {
-            //                 Toastify({
-            //                     text: "Thêm Thất Bại",
-            //                     duration: 1000,
-            //                     close: true,
-            //                     gravity: "top",
-            //                     position: "center",
-            //                     backgroundColor: "#FF6A6A",
-            //                 }).showToast();
-            //             }
+                            // Đóng modal
+                            $("#add-airline-modal").modal('toggle')
+                            
+                        });
+                        var x=document.getElementsByClassName('sc');
+                            for (i=0;i<x.length;i++){
+                                x[i].checked=false;
+                            }
 
-            //             // Đóng modal
-            //             $("#add-user-modal").modal('toggle')
-            //         });
-            //         $('#email').val("");
-            //         $('#password').val("");
-            //         $('#maquyen').val("");
-            //         $('#fullname').val("");
-            //     }
-            // })
+                       
+                        $('#mahanghangkhong').val("");
+                        $('#tenhanghangkhong').val("");
+                        $('#motahanghangkhong').val("");
+                        $('#loaihanghangkhong').val("");;
+                    }
+
+                }
+            })
 
         });
 
-        // $("#open-add-user-btn").click(function() {
-        //     $('#email').val("");
-        //     $('#password').val("");
-        //     $('#maquyen').val("");
-        //     $('#fullname').val("");
-        //     $("#add-user-modal").modal('toggle')
-        // });
+        $("#open-add-airline-btn").click(function() {
+            $('#mahanghangkhong').val("");
+            $('#tenhanghangkhong').val("");
+            $('#motahanghangkhong').val("");
+            $('#loaihanghangkhong').val("");
+            $("#add-airline-modal").modal('toggle')
+        });
 
 
         function changePage(newPage) {
@@ -429,7 +512,6 @@ View::$activeItem = 'airline';
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
                             <td>${data.loai_hang}</td>
-                            <td>${data.ngay_ban}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -453,7 +535,6 @@ View::$activeItem = 'airline';
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
                             <td>${data.loai_hang}</td>
-                            <td>${data.ngay_ban}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -521,7 +602,6 @@ View::$activeItem = 'airline';
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
                             <td>${data.loai_hang}</td>
-                            <td>${data.ngay_ban}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -545,7 +625,6 @@ View::$activeItem = 'airline';
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
                             <td>${data.loai_hang}</td>
-                            <td>${data.ngay_ban}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -592,11 +671,21 @@ View::$activeItem = 'airline';
             };
             $.post(`http://localhost/Software-Technology/airline/getAirline`, data, function(response) {
                 if (response.thanhcong) {
+                    var x=document.getElementsByClassName('sc1');
+                            for (i=0;i<x.length;i++){
+                                x[i].checked=false;
+                            }
                     $("#view-mahanghangkhong").val(response.ma_hang_hang_khong);
                     $("#view-tenhanghangkhong").val(response.ten);   
                     $("#view-motahanghangkhong").val(response.mo_ta);
                     $("#view-loaihanghangkhong").val(response.loai_hang);
-                    $("#view-ngayban").val(response.ngay_ban);                
+                    var db = response.ngay_ban;
+                    var x=document.getElementsByClassName('sc1');
+                            for (i=0;i<x.length;i++){
+                               if(db[i]=='1'){
+                                   x[i].checked=true;
+                               }
+                            }    
                 }
             });
             $("#view-airline-modal").modal('toggle');

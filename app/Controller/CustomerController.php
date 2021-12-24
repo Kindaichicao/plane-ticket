@@ -23,7 +23,21 @@ class CustomerController extends Controller
     }
 
     public function create(){
-
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $fullname = Request::post('fullnamekh');
+        $hochieu = Request::post('hochieukh');
+        $cccd = Request::post('cccdkh');
+        $sdt = Request::post('numberphonekh');
+        $email = Request::post('emailkh');
+        $ngaysinh = Request::post('birthdaykh');
+        $gender = Request::post('genderkh');
+        $address = Request::post('addresskh');
+        $kq = CustomerModel::create($fullname, $hochieu, $cccd, $sdt, $email, $ngaysinh, $gender, $address);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function update(){

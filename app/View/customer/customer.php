@@ -100,7 +100,7 @@ View::$activeItem = 'customer';
                 </div>
 
                 <!-- MODAL ADD -->
-                <!-- <div class="modal fade text-left" id="add-customer-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="add-customer-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -137,8 +137,12 @@ View::$activeItem = 'customer';
                                             <input type="date" id="birthdaykh" name="birthdaykh" placeholder="Ngày sinh" class="form-control">
                                         </div>
                                         <label for="genderkh">Giới tính: </label>
-                                        <select class="form-group" name="genderkh" id="genderkh">
+                                        <div class="form-group">
+                                        <select class="form-select" name="genderkh" id="genderkh">
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
                                         </select>
+                                        </div>
                                         <label for="addresskh">Địa chỉ: </label>
                                         <div class="form-group">
                                             <input type="text" id="addresskh" name="addresskh" placeholder="Địa chỉ" class="form-control">
@@ -158,9 +162,9 @@ View::$activeItem = 'customer';
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!--MODAL SUA-->
-                <!-- <div class="modal fade text-left" id="repair-customer-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="repair-customer-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -169,8 +173,9 @@ View::$activeItem = 'customer';
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
-                            <form name="repair-customer-form" action="/" method="POST">
-                                <div class="modal-body">
+                            <div class="modal-body">
+                                <form name="repair-customer-form" action="/" method="POST">
+                                    <div class="modal-body">
                                         <label for="re-fullnamekh">Họ tên: </label>
                                         <div class="form-group">
                                             <input type="text" id="re-fullnamekh" name="fullnamekh" placeholder="Họ tên" class="form-control">
@@ -196,12 +201,18 @@ View::$activeItem = 'customer';
                                             <input type="date" id="re-birthdaykh" name="birthdaykh" placeholder="Ngày sinh" class="form-control">
                                         </div>
                                         <label for="re-genderkh">Giới tính: </label>
-                                        <select class="form-group" name="genderkh" id="re-genderkh">
+                                        <div class="form-group">
+                                        <select class="form-select" name="re-genderkh" id="re-genderkh">
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
                                         </select>
+                                        </div>
                                         <label for="re-addresskh">Địa chỉ: </label>
                                         <div class="form-group">
                                             <input type="text" id="re-addresskh" name="addresskh" placeholder="Địa chỉ" class="form-control">
                                         </div>
+                                    </div>
+                                </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -213,10 +224,10 @@ View::$activeItem = 'customer';
                                         <span class="d-none d-sm-block">Sửa</span>
                                     </button>
                                 </div>
-                            </form>
+                            
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal Thong bao -->
                 <!-- <div class="modal fade text-left" id="question-customer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -360,83 +371,112 @@ View::$activeItem = 'customer';
             
 
             // Đặt sự kiện validate cho modal add user
-        //     $("form[name='add-user-form']").validate({
-        //         rules: {
-        //             email: {
-        //                 required: true,
-        //                 remote: {
-        //                     url: "http://localhost/Software-Technology/user/checkValidEmail",
-        //                     type: "POST",
-        //                 }
-        //             },
-        //             fullname: {
-        //                 required: true,
-        //                 validateName: true,
-        //             },
-        //             password: {
-        //                 required: true,
-        //                 minlength: 8,
-        //             },
-        //         },
-        //         messages: {
-        //             email: {
-        //                 required: "Vui lòng nhập tên đăng nhập",
-        //             },
-        //             fullname: {
-        //                 required: "Vui lòng nhập họ tên",
-        //             },
-        //             password: {
-        //                 required: "Vui lòng nhập mật khẩu",
-        //                 minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
-        //             },
-        //         },
-        //         submitHandler: function(form, event) {
-        //             event.preventDefault();
-        //             // lấy dữ liệu từ form
-        //             const data = Object.fromEntries(new FormData(form).entries());
+            $("form[name='add-customer-form']").validate({
+                rules: {
+                    fullnamekh: {
+                        required: true,
+                        validateName: true,
+                    },
 
-        //             $.post(`http://localhost/Software-Technology/user/addUser`, data, function(response) {
-        //                 if (response.thanhcong) {
-        //                     currentPage = 1;
-        //                     layDSUserAjax();
-        //                     Toastify({
-        //                         text: "Thêm Thành Công",
-        //                         duration: 1000,
-        //                         close: true,
-        //                         gravity: "top",
-        //                         position: "center",
-        //                         backgroundColor: "#4fbe87",
-        //                     }).showToast();
-        //                 } else {
-        //                     Toastify({
-        //                         text: "Thêm Thất Bại",
-        //                         duration: 1000,
-        //                         close: true,
-        //                         gravity: "top",
-        //                         position: "center",
-        //                         backgroundColor: "#FF6A6A",
-        //                     }).showToast();
-        //                 }
+                    cccdkh: {
+                        required: true,
+                        number: true,
+                    },
+                    numberphonekh: {
+                        required: true,
+                        number: true,
 
-        //                 // Đóng modal
-        //                 $("#add-user-modal").modal('toggle')
-        //             });
-        //             $('#email').val("");
-        //             $('#password').val("");
-        //             $('#maquyen').val("");
-        //             $('#fullname').val("");
-        //         }
-        //     })
+                    },
+                    emailkh: {
+                        required: true,
+                        email:true,
+                    },
+                    birthdaykh: {
+                        required: true,
+                    },
+                    genderkh: {
+                        required: true,
+                    },
+                    addresskh: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    fullnamekh: {
+                        required: "Vui lòng nhập họ tên",
+                    },
+                    cccdkh: {
+                        required: "Vui lòng nhập căn cước công dân",
+                        number: "Căn cước công dân phải là số"
+                    },
+                    numberphonekh: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Số điện thoại dân phải là số"
+                    },
+                    emailkh: {
+                        required: "Vui lòng nhập email",
+                        email: "Vui lòng nhập đúng định dạng email"
+                    },
+                    birthdaykh: {
+                        required: "Vui lòng nhập ngày sinh",
+                    },
+                    addresskh: {
+                        required: "Vui lòng nhập địa chỉ",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    // lấy dữ liệu từ form
+                    const data = Object.fromEntries(new FormData(form).entries());
+
+                    $.post(`http://localhost/Software-Technology/customer/create`, data, function(response) {
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSCustomerAjax();
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: "Thêm Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+
+                        // Đóng modal
+                        $("#add-customer-modal").modal('toggle')
+                    });
+                    $('#fullnamekh').val("");
+                    $('#hochieukh').val("");
+                    $('#cccdkh').val("");
+                    $('#numberphonekh').val("");
+                    $('#emailkh').val("");
+                    $('#birthdaykh').val("");
+                    $('#addresskh').val("");
+                }
+            })
 
         });
 
-        // $("#open-add-user-btn").click(function() {
-        //     $('#email').val("");
-        //     $('#password').val("");
-        //     $('#maquyen').val("");
-        //     $('#fullname').val("");
-        //     $("#add-user-modal").modal('toggle')
-        // });
+        $("#open-add-customer-btn").click(function() {
+            $('#fullnamekh').val("");
+            $('#hochieukh').val("");
+            $('#cccdkh').val("");
+            $('#numberphonekh').val("");
+            $('#emailkh').val("");
+            $('#birthdaykh').val("");
+            $('#addresskh').val("");
+            $("#add-customer-modal").modal('toggle')
+        });
 
 
         // function changePage(newPage) {
@@ -710,73 +750,73 @@ View::$activeItem = 'customer';
         //     });
         // }
 
-        // function repairRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
+        function repairRow(params) {
+            let data = {
+                makh: params
+            };
 
-        //     $.post(`http://localhost/Software-Technology/user/viewUser`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $('#re-email').val(response.TenDangNhap);
-        //             $('#cars-quyen-sua').val(response.MaQuyen).prop('selected', true);
-        //             $('#re-fullname').val(response.FullName);
-        //         }
-        //     });
-        //     $("#repair-user-modal").modal('toggle');
-        //     //Sua form
-        //     $("form[name='repair-user-form']").validate({
-        //         rules: {
-        //             fullname: {
-        //                 required: true,
-        //                 validateName: true,
-        //             }
-        //         },
-        //         messages: {
-        //             fullname: {
-        //                 required: "Vui lòng nhập họ tên",
-        //             }
-        //         },
-        //         submitHandler: function(form, event) {
-        //             event.preventDefault();
-        //             $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //             $("#question-model").text("Bạn có chắc chắn muốn sửa tài khoản này không");
-        //             $("#question-user-modal").modal('toggle');
-        //             $('#thuchien').off('click')
-        //             $("#thuchien").click(function() {
-        //                 // lấy dữ liệu từ form
+            $.post(`http://localhost/Software-Technology/customer/viewCustomer`, data, function(response) {
+                if (response.thanhcong) {
+                    $('#re-fullnamekh').val(response.FullName);
+                    $('#re-hochieukh').val(response.hochieu);
+                    $('#re-cccdkh').val(response.cccd);
+                    $('#re-numberphonekh').val(response.sdt);
+                    $('#re-emailkh').val(response.email);
+                    $('#re-birthdaykh').val(response.date);
+                    $('#re-genderkh').val(response.gender).prop('selected', true);;
+                    $('#re-addresskh').val(response.address);
+                }
+            });
+            $("#repair-customer-modal").modal('toggle');
+            //Sua form
+            $("form[name='repair-customer-form']").validate({
+                rules: {
+                    
+                },
+                messages: {
+                    
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $("#myModalLabel110").text("Quản Lý Khách Hàng");
+                    $("#question-model").text("Bạn có chắc chắn muốn sửa khách hàng này không");
+                    $("#question-customer-modal").modal('toggle');
+                    $('#thuchien').off('click')
+                    $("#thuchien").click(function() {
+                        // lấy dữ liệu từ form
 
-        //                 const data = Object.fromEntries(new FormData(form).entries());
-        //                 data['email'] = $('#re-email').val();
-        //                 $.post(`http://localhost/Software-Technology/user/repairUser`, data, function(response) {
-        //                     if (response.thanhcong) {
-        //                         currentPage = 1;
-        //                         layDSUserAjax();
-        //                         Toastify({
-        //                             text: "Sửa Thành Công",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#4fbe87",
-        //                         }).showToast();
-        //                     } else {
-        //                         Toastify({
-        //                             text: "Sửa Thất Bại",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#FF6A6A",
-        //                         }).showToast();
-        //                     }
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        data['email'] = $('#re-email').val();
+                        $.post(`http://localhost/Software-Technology/customer/repairUser`, data, function(response) {
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSUserAjax();
+                                Toastify({
+                                    text: "Sửa Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Sửa Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
 
-        //                     // Đóng modal
-        //                     $("#repair-user-modal").modal('toggle')
-        //                 });
-        //             });
-        //         }
-        //     })
-        // }
+                            // Đóng modal
+                            $("#repair-customer-modal").modal('toggle')
+                        });
+                    });
+                }
+            })
+        }
 
         // function deleteRow(params) {
         //     let data = {

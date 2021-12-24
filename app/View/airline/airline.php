@@ -38,9 +38,9 @@ View::$activeItem = 'airline';
                 <div class="page-heading">
                     <div class="col-sm-6">
                         <h6>Tìm Kiếm</h6>
-                        <div id="search-user-form" name="search-user-form">
+                        <div id="search-airline-form" name="search-airline-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                <input id="serch-airline-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -57,7 +57,11 @@ View::$activeItem = 'airline';
                                     <h5 style="margin-left: 50px; margin-right: 10px;"> Lọc Theo:</h5>
                                 </label>
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
-                                    <option value="">Tất Cả</option>
+                                    <option value="" selected>Tất Cả </option>
+                                    <option value="1">Mã hãng hàng không </option>
+                                    <option value="2">Tên hãng hàng không</option>
+                                    <option value="3">Loại hãng</option>
+                                    <option value="4">Ngày bán</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
@@ -209,7 +213,7 @@ View::$activeItem = 'airline';
                     </div>
                 </div> -->
                 <!-- Modal View -->
-                <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="view-airline-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
 
@@ -381,22 +385,22 @@ View::$activeItem = 'airline';
             layDSListAjax();
         }
 
-        // function changePageSearchNangCao(newPage, search, search2) {
-        //     currentPage = newPage;
-        //     layDSUserSearchNangCao(search, search2);
-        // }
+        function changePageSearchNangCao(newPage, search, search2) {
+            currentPage = newPage;
+            layDSAirlineSearchNangCao(search, search2);
+        }
 
-        // $('#cars-search').change(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSUserSearchNangCao($('#serch-user-text').val(), search);
-        // });
+        $('#cars-search').change(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSAirlineSearchNangCao($('#serch-airline-text').val(), search);
+        });
 
-        // $("#search-user-form").keyup(debounce(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSUserSearchNangCao($('#serch-user-text').val(), search);
-        // },200));
+        $("#search-airline-form").keyup(debounce(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSAirlineSearchNangCao($('#serch-airline-text').val(), search);
+        },200));
 
         function layDSListAjax() {
             $.get(`http://localhost/Software-Technology/airline/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
@@ -413,22 +417,19 @@ View::$activeItem = 'airline';
                 $row = 0;
                 response.data.forEach(data => {
                     let disabled = "disabled btn icon icon-left btn-secondary";
-                    if (data.YeuCau == 1) {
-                        disabled = "btn btn-primary";
-                    }
                     if ($row % 2 == 0) {
 
                         table1.append(`
                         <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
                                 </div>
                             </td>
                             <td>${data.ten}</td>
-                            <td>${data.mota}</td>
+                            <td>${data.mo_ta}</td>
                             <td>${data.loai_hang}</td>
-                            <td>${data.ngayban}</td>
+                            <td>${data.ngay_ban}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -449,9 +450,10 @@ View::$activeItem = 'airline';
                                     <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
                                 </div>
                             </td>
-                            <td>${data.ma_hang_hang_khong}</td>
-                            <td>${data.ma_hang_hang_khong}</td>
-                            <td>${data.ma_hang_hang_khong}</td>
+                            <td>${data.ten}</td>
+                            <td>${data.mo_ta}</td>
+                            <td>${data.loai_hang}</td>
+                            <td>${data.ngay_ban}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -492,107 +494,97 @@ View::$activeItem = 'airline';
             });
         }
 
-        // function layDSUserSearchNangCao(search, search2) {
-        //     $.get(`http://localhost/Software-Technology/user/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
-        //         // Không được gán biến response này ra ngoài function,
-        //         // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-        //         // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-        //         //data là danh sách usser
-        //         //page là trang hiện tại
-        //         // rowsPerpage là số dòng trên 1 trang
-        //         // totalPage là tổng số trang
-        //         const table1 = $('#table1 > tbody');
-        //         table1.empty();
-        //         checkedRows = [];
-        //         $row = 0;
-        //         response.data.forEach(data => {
-        //             let disabled = "disabled btn icon icon-left btn-secondary";
-        //             if (data.YeuCau == 1) {
-        //                 disabled = "btn btn-primary";
-        //             }
-        //             let tenQuyen = "";
-        //             quyens.forEach(quyen => {
-        //                 if (quyen.MaQuyen == data.MaQuyen) {
-        //                     tenQuyen = quyen.TenQuyen;
-        //                     return true;
-        //                 }
-        //             });
-        //             if ($row % 2 == 0) {
+        function layDSAirlineSearchNangCao(search, search2) {
+            $.get(`http://localhost/Software-Technology/airline/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    if ($row % 2 == 0) {
 
-        //                 table1.append(`
-        //                 <tr class="table-light">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.TenDangNhap}</td>
-        //                     <td>${data.FullName}</td>
-        //                     <td>${tenQuyen}</td>
-        //                     <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             } else {
-        //                 table1.append(`
-        //                 <tr class="table-info">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.TenDangNhap}</td>
-        //                     <td>${data.FullName}</td>
-        //                     <td>${tenQuyen}</td>
-        //                     <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             }
-        //             checkedRows.push(data.TenDangNhap);
-        //             $row += 1;
-        //         });
+                        table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
+                                </div>
+                            </td>
+                            <td>${data.ten}</td>
+                            <td>${data.mo_ta}</td>
+                            <td>${data.loai_hang}</td>
+                            <td>${data.ngay_ban}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
+                                </div>
+                            </td>
+                            <td>${data.ten}</td>
+                            <td>${data.mo_ta}</td>
+                            <td>${data.loai_hang}</td>
+                            <td>${data.ngay_ban}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_hang_hang_khong);
+                    $row += 1;
+                });
 
-        //         const pagination = $('#pagination');
-        //         // Xóa phân trang cũ
-        //         pagination.empty();
-        //         if (response.totalPage > 1) {
-        //             for (let i = 1; i <= response.totalPage; i++) {
-        //                 if (i == currentPage) {
-        //                     pagination.append(`
-        //                 <li class="page-item active">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 } else {
-        //                     pagination.append(`
-        //                 <li class="page-item">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 }
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
 
-        //             }
-        //         }
+                    }
+                }
 
-        //     });
-        // }
+            });
+        }
 
         function viewRow(params) {
             let data = {
@@ -607,7 +599,7 @@ View::$activeItem = 'airline';
                     $("#view-ngayban").val(response.ngay_ban);                
                 }
             });
-            $("#view-user-modal").modal('toggle');
+            $("#view-airline-modal").modal('toggle');
         }
 
         // function resetPass(params) {

@@ -371,6 +371,7 @@ View::$activeItem = 'rank';
 
         function layDSRankAjax() {
             $.get(`http://localhost/Software-Technology/rank/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
+                console.log(response);
                 // Không được gán biến response này ra ngoài function,
                 // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
                 // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.

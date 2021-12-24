@@ -65,7 +65,26 @@ class PositionController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $macv = Request::post('macv');
+        $kq= PositionModel::delete($macv);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
+    public function deletes(){
+        Auth::checkAuthentication();       
+        Auth::ktraquyen("CN07");
+        $macvs = Request::post('macvs');
+        $macvs = json_decode($macvs);
+        $kq = PositionModel::deletes($macvs);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function getList(){
@@ -105,7 +124,7 @@ class PositionController extends Controller
         $search = Request::get('search');
         $search2 = Request::get('search2');
         $page = Request::get('page', 1);
-        $rowsPerPage = Request::get('rowsPerPage', 20);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
         $data = PositionModel::getListSearch($search, $search2,$page, $rowsPerPage);
         $this->View->renderJSON($data);
     }

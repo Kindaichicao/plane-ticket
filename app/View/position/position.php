@@ -311,6 +311,7 @@ View::$activeItem = 'position';
                 rules: {                   
                     machucvu: {
                         required: true,   
+                        validateName: true,
                         remote: {
                             url: "http://localhost/Software-Technology/position/checkValidMaChucVu",
                             type: "POST",
@@ -403,11 +404,11 @@ View::$activeItem = 'position';
             layDSChucVuSearchNangCao(search, search2);
         }
 
-        // $('#cars-search').change(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSChucVuSearchNangCao($('#serch-user-text').val(), search);
-        // });
+        $('#cars-search').change(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSChucVuSearchNangCao($('#serch-user-text').val(), search);
+        });
 
         $("#search-user-form").keyup(debounce(function() {
             let search = $('#cars-search').val();
@@ -437,7 +438,7 @@ View::$activeItem = 'position';
                         <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuc_vu}">
                                 </div>
                             </td>
                             <td>${data.ma_chuc_vu}</td>
@@ -459,7 +460,7 @@ View::$activeItem = 'position';
                         <tr class="table-info">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuc_vu}">
                                 </div>
                             </td>
                             <td>${data.ma_chuc_vu}</td>
@@ -703,80 +704,81 @@ View::$activeItem = 'position';
             })
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/user/deleteUser`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
+        function deleteRow(params) {
+            let data = {
+                macv: params
+            };
+            $("#myModalLabel110").text("Quản Lý Chức Vụ");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa chức vụ này không");
+            $("#question-user-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/position/delete`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSChucVuAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
 
-        // }
-        // $("#btn-delete-user").click(function() {
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click')
-        //     $("#thuchien").click(function() {
-        //         let datas = []
-        //         checkedRows.forEach(checkedRow => {
-        //             if ($('#' + checkedRow).prop("checked")) {
-        //                 datas.push(checkedRow);
-        //             }
-        //         });
-        //         let data = {
-        //             emails: JSON.stringify(datas)
-        //         };
-        //         $.post(`http://localhost/Software-Technology/user/deleteUsers`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // });
+        }
+        $("#btn-delete-user").click(function() {
+            $("#myModalLabel110").text("Quản Lý Chức Vụ");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa những chức vụ này không");
+            $("#question-user-modal").modal('toggle');
+            $('#thuchien').off('click')
+            $("#thuchien").click(function() {
+                let datas = []
+                checkedRows.forEach(checkedRow => {
+                    if ($('#' + checkedRow).prop("checked")) {
+                        datas.push(checkedRow);
+                    }
+                });
+                console.log(datas);
+                let data = {
+                    macvs: JSON.stringify(datas)
+                };
+                $.post(`http://localhost/Software-Technology/position/deletes`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSChucVuAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        });
     </script>
 </body>

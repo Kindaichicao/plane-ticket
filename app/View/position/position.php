@@ -37,9 +37,9 @@ View::$activeItem = 'position';
                 <div class="page-heading">
                     <div class="col-sm-6">
                         <h6>Tìm Kiếm</h6>
-                        <div id="search-user-form" name="search-user-form">
+                        <div id="search-position-form" name="search-position-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                <input id="serch-position-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -64,10 +64,10 @@ View::$activeItem = 'position';
                             <div class="col-12 col-md-5 order-md-2 order-first">
 
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-user' class="btn btn-danger">
+                                    <button id='btn-delete-position' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Xóa chức vụ
                                     </button>
-                                    <button id='open-add-user-btn' class="btn btn-primary">
+                                    <button id='open-add-position-btn' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm chức vụ
                                     </button>
                                 </div>
@@ -100,7 +100,7 @@ View::$activeItem = 'position';
                 </div>
 
                 <!-- MODAL ADD -->
-                <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="add-position-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -110,7 +110,7 @@ View::$activeItem = 'position';
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form name="add-user-form" action="/" method="POST">
+                                <form name="add-position-form" action="/" method="POST">
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Mã chức vụ:</label>
@@ -145,7 +145,7 @@ View::$activeItem = 'position';
                     </div>
                 </div>
                 <!--MODAL SUA-->
-                <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="repair-position-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -154,7 +154,7 @@ View::$activeItem = 'position';
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
-                            <form name="repair-user-form" action="/" method="POST">
+                            <form name="repair-position-form" action="/" method="POST">
                                 <div class="modal-body">
                                     <li class="list-group-item">
                                         <div class="form-group">
@@ -190,7 +190,7 @@ View::$activeItem = 'position';
                     </div>
                 </div>
                 <!-- Modal Thong bao -->
-                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-position-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -216,7 +216,7 @@ View::$activeItem = 'position';
                     </div>
                 </div>
                 <!-- Modal View -->
-                <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="view-position-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
 
@@ -306,8 +306,8 @@ View::$activeItem = 'position';
                 });
             });             
             layDSChucVuAjax();
-            //Đặt sự kiện validate cho modal add user
-            $("form[name='add-user-form']").validate({
+            //Đặt sự kiện validate cho modal add position
+            $("form[name='add-position-form']").validate({
                 rules: {                   
                     machucvu: {
                         required: true,   
@@ -378,7 +378,7 @@ View::$activeItem = 'position';
                         }
 
                         // Đóng modal
-                        $("#add-user-modal").modal('toggle')
+                        $("#add-position-modal").modal('toggle')
                     });
                     $('#machucvu').val("");
                     $('#tenchucvu').val("");
@@ -387,10 +387,10 @@ View::$activeItem = 'position';
 
         });
 
-        $("#open-add-user-btn").click(function() {
+        $("#open-add-position-btn").click(function() {
             $('#machucvu').val("");
             $('#tenchucvu').val("");
-            $("#add-user-modal").modal('toggle')
+            $("#add-position-modal").modal('toggle')
         });
 
 
@@ -407,13 +407,13 @@ View::$activeItem = 'position';
         $('#cars-search').change(function() {
             let search = $('#cars-search option').filter(':selected').val();
             currentPage = 1;
-            layDSChucVuSearchNangCao($('#serch-user-text').val(), search);
+            layDSChucVuSearchNangCao($('#serch-position-text').val(), search);
         });
 
-        $("#search-user-form").keyup(debounce(function() {
+        $("#search-position-form").keyup(debounce(function() {
             let search = $('#cars-search').val();
             currentPage = 1;
-            layDSChucVuSearchNangCao($('#serch-user-text').val(), search);
+            layDSChucVuSearchNangCao($('#serch-position-text').val(), search);
         },200));
 
         function layDSChucVuAjax() {
@@ -609,7 +609,7 @@ View::$activeItem = 'position';
                     });                 
                 }
             });
-            $("#view-user-modal").modal('toggle');
+            $("#view-position-modal").modal('toggle');
         }        
 
         function repairRow(params) {
@@ -628,9 +628,9 @@ View::$activeItem = 'position';
                     });                 
                 }
             });
-            $("#repair-user-modal").modal('toggle');
+            $("#repair-position-modal").modal('toggle');
             //Sua form
-            $("form[name='repair-user-form']").validate({
+            $("form[name='repair-position-form']").validate({
                 rules: {                                
                     tenchucvu: {
                         required: true,
@@ -645,7 +645,7 @@ View::$activeItem = 'position';
                     event.preventDefault();
                     $("#myModalLabel110").text("Quản Lý chức vụ");
                     $("#question-model").text("Bạn có chắc chắn muốn sửa chức vụ này không");
-                    $("#question-user-modal").modal('toggle');                    
+                    $("#question-position-modal").modal('toggle');                    
                     $('#thuchien').off('click')
                     $("#thuchien").click(function() {
                         // lấy dữ liệu từ form
@@ -697,7 +697,7 @@ View::$activeItem = 'position';
                             }
 
                             // Đóng modal
-                            $("#repair-user-modal").modal('toggle')
+                            $("#repair-position-modal").modal('toggle')
                         });
                     });
                 }
@@ -710,7 +710,7 @@ View::$activeItem = 'position';
             };
             $("#myModalLabel110").text("Quản Lý Chức Vụ");
             $("#question-model").text("Bạn có chắc chắn muốn xóa chức vụ này không");
-            $("#question-user-modal").modal('toggle');
+            $("#question-position-modal").modal('toggle');
             $('#thuchien').off('click');
             $("#thuchien").click(function() {
                 $.post(`http://localhost/Software-Technology/position/delete`, data, function(response) {
@@ -739,10 +739,10 @@ View::$activeItem = 'position';
             });
 
         }
-        $("#btn-delete-user").click(function() {
+        $("#btn-delete-position").click(function() {
             $("#myModalLabel110").text("Quản Lý Chức Vụ");
             $("#question-model").text("Bạn có chắc chắn muốn xóa những chức vụ này không");
-            $("#question-user-modal").modal('toggle');
+            $("#question-position-modal").modal('toggle');
             $('#thuchien').off('click')
             $("#thuchien").click(function() {
                 let datas = []

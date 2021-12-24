@@ -67,8 +67,34 @@ class PositionModel{
         return false;
     }
 
-    public static function delete(){
+    public static function delete($macv){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `chuc_vu` SET trang_thai = 0  WHERE ma_chuc_vu = :machucvu";
+        $query = $database->prepare($sql);
+        $query->execute([':machucvu' => $macv]);       
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function deletes($macvs){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        foreach ($macvs as &$key) {
+            $raw .= "'" . $key . "',";
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
+
+        $sql = "UPDATE `chuc_vu` SET trang_thai = 0  WHERE  ma_chuc_vu IN " . $raw;
+        $count  = $database->exec($sql);
         
+        if (!$count) {
+            return false;
+        }
+        return true;
     }
 
     public static function getPosition($macv){

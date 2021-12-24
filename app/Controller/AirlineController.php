@@ -27,7 +27,18 @@ class AirlineController extends Controller
     }
 
     public function update(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $mahang = Request::post('mahanghangkhong1');
+        $tenhang = Request::post('tenhanghangkhong1');
+        $motahang = Request::post('motahanghangkhong1');
+        $loaihang = Request::post('loaihanghangkhong1');
+        $ngayban = Request::post('ngay_ban1');
+        $kq = AirlineModel::update($mahang, $tenhang, $motahang, $loaihang, $ngayban);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function delete(){

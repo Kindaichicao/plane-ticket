@@ -30,8 +30,17 @@ class AirlineModel{
         }
 
 
-    public static function update(){
-        
+    public static function update($mahang, $tenhang, $motahang, $loaihang, $ngayban){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "UPDATE `hang_hang_khong` SET `ten`= :tenhang,`mo_ta`= :motahang,`loai_hang`= :loaihang,`ngay_ban`= :ngayban WHERE ma_hang_hang_khong = :mahang";
+        $query = $database->prepare($sql);
+        $query->execute([':mahang' => $mahang,':tenhang' => $tenhang,':motahang' => $motahang,':loaihang' => $loaihang,':ngayban' => $ngayban]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
     }
 
     public static function delete(){

@@ -23,7 +23,17 @@ class PositionController extends Controller
     }
 
     public function create(){
-
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $machucvu= Request::post('machucvu');
+        $tenchucvu = Request::post('tenchucvu');
+        $chitiets = Request::post('chitiets');
+        $chitiets = json_decode($chitiets);
+        $kq = PositionModel::create($machucvu,$tenchucvu,$chitiets);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function update(){

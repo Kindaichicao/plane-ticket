@@ -7,8 +7,25 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class PositionModel{
-    public static function create(){
+    public static function create($machucvu,$tenchucvu,$chitiets){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "INSERT INTO chuc_vu (ma_chuc_vu, ten_chuc_vu,trang_thai) VALUES (:machucvu,:tenchucvu,1) ";
+        $query = $database->prepare($sql);
+        $query->execute([':machucvu' => $machucvu,':tenchucvu' => $tenchucvu]);
 
+        $count2 = 0;
+        foreach ($chitiets as &$chitiet) {
+            $sql2 = "INSERT INTO chi_tiet_quyen (ma_chuc_vu, ma_chuc_nang) VALUES (:machucvu,:machucnang)";
+            $query2 = $database->prepare($sql2);
+            $query2->execute([':machucvu' => $chitiet->ma_chuc_vu,':machucnang' => $chitiet->ma_chuc_nang]);
+            $count2 += $query2->rowCount();
+        }
+
+        $count = $query->rowCount() + $count2;
+        if ($count > 0) {
+            return true;
+        }
+        return false;
     }
 
     public static function update(){

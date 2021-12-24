@@ -167,8 +167,8 @@ View::$activeItem = 'promotion';
                                 <div class="modal-body">
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Mã chức vụ:</label>
-                                            <input type="text" class="form-control" id="re-machucvu" name="machucvu" readonly>
+                                            <label>Mã chương trình:</label>
+                                            <input type="text" class="form-control" id="re-ma" name="machucvu" readonly>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -179,9 +179,19 @@ View::$activeItem = 'promotion';
                                     </li>
                                     <li class="list-group-item">
                                         <label>Chi Tiết:</label>
-                                        <ul id="re-chucnang-list" class="list-unstyled mb-0">
-
-                                        </ul>
+                                        <table class="table mb-0 table-danger" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>Tên chương trình</th>
+                                                <th>Ngày bắt đầu</th>
+                                                <th>Ngày kết thúc</th>
+                                                <th>Tình trạng</th>
+                                                <th>Tác Vụ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                     </li>
                                 </div>
                                 <div class="modal-footer">
@@ -226,10 +236,9 @@ View::$activeItem = 'promotion';
                 </div>
                 <!-- Modal View -->
                 <div class="modal fade" id="view-promotion-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
-                        <div class="modal-content">
-
-                            <div class="modal-body">
+                    <div style="width:700px" class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content" style="width:700px;overflow:visible">
+                            <div class="modal-body" style="width:700px">
                                 <ul class="list-group">
                                     <li class="list-group-item active">Thông Tin Chi Tiết</li>
                                     <li class="list-group-item">
@@ -261,10 +270,26 @@ View::$activeItem = 'promotion';
                                             <label>Nội dung:</label>
                                             <textarea rows="3" class="form-control" id="view-noidungkm" name="noidungkm" disabled></textarea>
                                         </div>
-                                    </li>                 
+                                    </li>   
+                                    <li class="list-group-item">
+                                        <label>Chi Tiết:</label>
+                                            <table class="table mb-0 table-danger" id="table2">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hạng DV</th>
+                                                    <th>Chuyến bay</th>
+                                                    <th>Hãng</th>
+                                                    <th>Hạng KH</th>
+                                                    <th>%KM</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                    </table>
+                                    </li>              
                                 </ul>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer" style="width:700px">
                                 <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                                     <i class="bx bx-x d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Đóng</span>
@@ -477,7 +502,7 @@ View::$activeItem = 'promotion';
                             </td>
                         </tr>`);
                     }
-                    checkedRows.push(data.ma_chuc_vu);
+                    checkedRows.push(data.ma_km);
                     $row += 1;
                 });
 
@@ -592,24 +617,81 @@ View::$activeItem = 'promotion';
         //     });
         // }
 
-        // function viewRow(params) {
-        //     chucnangs.forEach(function(cn) {
-        //             $('#view-' + cn.ma_chuc_nang).prop('checked', false);                        
-        //     }); 
-        //     let data = {
-        //         macv: params
-        //     };
-        //     $.post(`http://localhost/Software-Technology/promotion/getpromotion`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $("#view-machucvu").val(response.ma_chuc_vu);
-        //             $("#view-tenchucvu").val(response.ten_chuc_vu);   
-        //             response.chitiet.forEach(function(cn) {
-        //                 $('#view-' + cn.ma_chuc_nang).prop('checked', true);                        
-        //             });                 
-        //         }
-        //     });
-        //     $("#view-promotion-modal").modal('toggle');
-        // }        
+        function viewRow(params) {            
+            let data = {
+                makm: params
+            };
+            $.post(`http://localhost/Software-Technology/promotion/getPromotion`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#view-makm").val(response.ma_km);
+                    $("#view-tenkm").val(response.ten);   
+                    $("#view-ngaybdkm").val(response.ngay_bat_dau); 
+                    $("#view-ngayktkm").val(response.ngay_ket_thuc); 
+                    $("#view-noidungkm").val(response.noi_dung);  
+                    $.post(`http://localhost/Software-Technology/promotion/getPromotionDetail`,data, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table2 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+
+                response.chitiet.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";                                     
+                    if ($row % 2 == 0) {
+
+                        table1.append(`
+                        <tr class="table-light">                            
+                            <td>${data.ma_hang_dich_vu}</td>
+                            <td>${data.ma_chuyen_bay}</td>  
+                            <td>${data.ma_hang}</td>
+                            <td>${data.ma_hang_kh}</td> 
+                            <td>${data.khuyen_mai}</td>                                                     
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">                           
+                            <td>${data.ma_hang_dich_vu}</td>
+                            <td>${data.ma_chuyen_bay}</td>  
+                            <td>${data.ma_hang}</td>
+                            <td>${data.ma_hang_kh}</td> 
+                            <td>${data.khuyen_mai}</td>                           
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_km);
+                    $row += 1;
+                });
+
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                        }
+
+                    }
+                }
+
+            });             
+                }
+            });
+            $("#view-promotion-modal").modal('toggle');
+        }        
 
         // function repairRow(params) {
         //     chucnangs.forEach(function(cn) {
@@ -779,5 +861,5 @@ View::$activeItem = 'promotion';
         //         });
         //     });
         // });
-    </script>
+    </script>    
 </body>

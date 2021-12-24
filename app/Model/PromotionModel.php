@@ -19,8 +19,35 @@ class PromotionModel{
         
     }
 
-    public static function getPromotion(){
+    public static function getPromotion($makm){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM chuong_trinh_khuyen_mai WHERE trang_thai != 0 AND ma_km = :makm LIMIT 1");
+        $query->execute([':makm' => $makm]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
+
+    public static function getPromotionDetail($makm){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = 'SELECT * FROM chi_tiet_khuyen_mai WHERE ma_km = :makm';
+        $query = $database->prepare($sql);
+        $query->execute([':makm' => $makm]);
         
+        $data = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$data,
+        ];
+        return $response;
     }
 
     public static function getList($page = 1, $rowsPerPage = 10){

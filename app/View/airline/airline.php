@@ -130,7 +130,10 @@ View::$activeItem = 'airline';
                                         </div>
                                         <label for="loaihanghangkhong">Loại hãng: </label>
                                         <div class="form-group">
-                                            <input type="text" id="loaihanghangkhong" name="loaihanghangkhong" placeholder="Loại hãng" class="form-control">
+                                            <select class="form-select" name="loaihanghangkhong" id="loaihanghangkhong" >
+                                                <option value="Ký hợp đồng">Ký hợp đồng</option>
+                                                <option value="Công ty quản lý" selected>Công ty quản lý</option>
+                                            </select>
                                         </div>
                                         <label for="ngaybanhanghangkhong">Ngày bán: </label>
                                         <ul id="view-thu-list" class="list-unstyled mb-0">
@@ -201,7 +204,10 @@ View::$activeItem = 'airline';
                                         </div>
                                         <label for="loaihanghangkhong1">Loại hãng: </label>
                                         <div class="form-group">
-                                            <input type="text" id="loaihanghangkhong1" name="loaihanghangkhong1" placeholder="Loại hãng" class="form-control">
+                                            <select class="form-select" name="loaihanghangkhong1" id="loaihanghangkhong1">
+                                                <option value="Ký hợp đồng">Ký hợp đồng</option>
+                                                <option value="Công ty quản lý">Công ty quản lý</option>
+                                            </select>
                                         </div>
                                         <label for="ngaybanhanghangkhong1">Ngày bán: </label>
                                         <ul id="view-thu-list" class="list-unstyled mb-0">
@@ -300,7 +306,10 @@ View::$activeItem = 'airline';
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Loại hãng:</label>
-                                            <input type="text" class="form-control" id="view-loaihanghangkhong" disabled>
+                                                <select class="form-select" name="view-loaihanghangkhong" id="view-loaihanghangkhong" disabled>
+                                                    <option value="Ký hợp đồng">Ký hợp đồng</option>
+                                                    <option value="Công ty quản lý">Công ty quản lý</option>
+                                                </select>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -389,7 +398,6 @@ View::$activeItem = 'airline';
                 rules: {
                     mahanghangkhong: {
                         required: true,
-                        validatename: true,
                           remote: {
                             url: "http://localhost/Software-Technology/airline/checkValidMaHangHangKhong",
                             type: "POST",

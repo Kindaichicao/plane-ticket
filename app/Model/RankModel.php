@@ -20,7 +20,14 @@ class RankModel{
     }
 
     public static function getRank($mahang){
-       
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT * FROM hang_khach_hang WHERE ma_hang_kh = :mahang LIMIT 1");
+        $query->execute([':mahang' => $mahang]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
 
     public static function getList($page = 1, $rowsPerPage = 10){

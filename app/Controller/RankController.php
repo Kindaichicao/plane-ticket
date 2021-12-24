@@ -45,6 +45,18 @@ class RankController extends Controller
     }
 
     public function getRank(){
-        
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $mahang=Request::post('mahang');
+        $data = RankModel::getRank($mahang);
+        if($data==null){
+            $response = ['thanhcong' => false]; 
+        }else{
+            $response['mahang'] = $data->ma_hang_kh;
+            $response['tenhang'] = $data->ten_hang;
+            $response['mucdiem'] = $data->muc_diem;
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
     }
 }

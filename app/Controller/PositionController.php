@@ -45,6 +45,25 @@ class PositionController extends Controller
     }
 
     public function getPosition(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $macv = Request::post('macv');
+        $kq1 = PositionModel::getPosition($macv);
+        $kq2 = PositionModel::getPositionDetails($macv);
+        if($kq1 == null || $kq2 == null ){
+            $response['thanhcong'] = false;
+        } else{   
+            $response['ma_chuc_vu'] = $kq1->ma_chuc_vu;
+            $response['ten_chuc_vu'] = $kq1->ten_chuc_vu;
+            $response['chitiet'] = $kq2['data'];
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
+    }
+    public function getChucNang(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $data = PositionModel::getChucNang();
+        $this->View->renderJSON($data);
     }
 }

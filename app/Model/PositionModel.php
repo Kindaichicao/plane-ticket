@@ -19,8 +19,51 @@ class PositionModel{
         
     }
 
-    public static function getPosition(){
+    public static function getPosition($macv){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM chuc_vu WHERE trang_thai = 1 AND ma_chuc_vu = :macv LIMIT 1");
+        $query->execute([':macv' => $macv]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
+
+    public static function getPositionDetails($macv){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = 'SELECT * FROM chi_tiet_quyen WHERE ma_chuc_vu = :macv';
+        $query = $database->prepare($sql);
+        $query->execute([':macv' => $macv]);
         
+        $data = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$data,
+        ];
+        return $response;
+    }
+
+    public static function getChucNang(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'SELECT * FROM `chuc_nang`';
+        $query = $database->query($sql);
+        $row = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$row,
+        ];
+        return $response;
     }
 
     public static function getList($page = 1, $rowsPerPage = 10){

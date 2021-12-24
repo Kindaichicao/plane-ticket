@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 24, 2021 lúc 03:32 PM
+-- Thời gian đã tạo: Th12 24, 2021 lúc 07:37 PM
 -- Phiên bản máy phục vụ: 10.4.21-MariaDB
--- Phiên bản PHP: 8.0.11
+-- Phiên bản PHP: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `chi_tiet_hoa_don` (
   `ma_hoa_don` int(11) NOT NULL,
-  `ma_ve` int(11) NOT NULL,
+  `ma_ve` varchar(255) NOT NULL,
   `gia_goc` int(11) NOT NULL,
   `gia_ve_km` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -92,7 +92,8 @@ INSERT INTO `chuc_nang` (`ma_chuc_nang`, `ten`) VALUES
 ('CN14', 'Săn vé giá rẻ'),
 ('CN15', 'Mua vé tự động'),
 ('CN16', 'Kho vé của tôi'),
-('CN17', 'Ví của tôi');
+('CN17', 'Ví của tôi'),
+('CN18', 'Quản lý vé');
 
 -- --------------------------------------------------------
 
@@ -149,6 +150,14 @@ CREATE TABLE `chuyen_bay` (
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `chuyen_bay`
+--
+
+INSERT INTO `chuyen_bay` (`ma_chuyen_bay`, `ma_san_bay_den`, `ma_hang_hang_khong`, `ma_san_bay_di`, `so_hieu_may_bay`, `ten`, `gio_bay`, `gio_den`, `ngay_bay`, `hoan_tien`, `trang_thai`) VALUES
+('0', 'sb1', 'hkh1', 'sb1', 'mb1', '0', '00:00:00', '00:00:00', '0000-00-00', 0, 0),
+('cb1', 'sb2', 'hkh1', 'sb1', 'mb1', 'cb1', '15:35:02', '20:35:02', '2021-12-26', 30, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -160,6 +169,13 @@ CREATE TABLE `hang_dich_vu` (
   `ten_hang` varchar(255) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `hang_dich_vu`
+--
+
+INSERT INTO `hang_dich_vu` (`ma_hang_dich_vu`, `ten_hang`, `trang_thai`) VALUES
+('hdv1', 'hdv1', 1);
 
 -- --------------------------------------------------------
 
@@ -176,6 +192,13 @@ CREATE TABLE `hang_hang_khong` (
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `hang_hang_khong`
+--
+
+INSERT INTO `hang_hang_khong` (`ma_hang_hang_khong`, `ten`, `mo_ta`, `loai_hang`, `ngay_ban`, `trang_thai`) VALUES
+('hkh1', 'vj', 'kh co gi', 'thue', '1111000', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -188,6 +211,15 @@ CREATE TABLE `hang_khach_hang` (
   `muc_diem` int(11) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `hang_khach_hang`
+--
+
+INSERT INTO `hang_khach_hang` (`ma_hang_kh`, `ten_hang`, `muc_diem`, `trang_thai`) VALUES
+('0', '0', -1, 0),
+('H1', 'Sắt', 0, 1),
+('h2', 'vang', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -215,7 +247,7 @@ CREATE TABLE `hoa_don` (
 
 CREATE TABLE `khach_hang` (
   `ma_kh` int(11) NOT NULL,
-  `ma_tk` int(11) NOT NULL,
+  `ma_tk` int(11) DEFAULT NULL,
   `ma_hang_kh` varchar(255) DEFAULT NULL,
   `so_ho_chieu` int(11) DEFAULT NULL,
   `ho_ten` varchar(255) NOT NULL,
@@ -234,8 +266,11 @@ CREATE TABLE `khach_hang` (
 --
 
 INSERT INTO `khach_hang` (`ma_kh`, `ma_tk`, `ma_hang_kh`, `so_ho_chieu`, `ho_ten`, `gioi_tinh`, `ngay_sinh`, `email`, `cccd`, `sdt`, `dia_chi`, `diem_tich_luy`, `trang_thai`) VALUES
-(1, 1, NULL, NULL, 'Trần Thị Thu Thanh', NULL, NULL, 'kindaichicao@gmail.com', NULL, NULL, NULL, NULL, 1),
-(2, 2, NULL, NULL, 'Nguyễn Văn Minh Đức', NULL, NULL, 'minhduc140401@gmail.com', NULL, NULL, NULL, NULL, 1);
+(0, 1, 'H1', NULL, 'Trần Thị Thu Thanh', 'Nữ', '2001-12-01', 'kindaichicao@gmail.com', '1234567892', '098987987', '12b/asd', 0, 1),
+(2, 2, 'H1', NULL, 'Nguyễn Văn Minh Đức', NULL, NULL, 'minhduc140401@gmail.com', NULL, NULL, NULL, 0, 1),
+(10, NULL, 'H1', NULL, 'Trần Thị Thu Thanh', 'Nữ', '2001-12-01', 'kindaichicao@gmail.com', '1234567892', '098987987', '12b/asd', 0, 1),
+(11, NULL, 'H1', 54785, 'Trần Thị Thu Thanh', 'Nam', '2021-12-15', 'kindaichicao@gmail.com', '1234567892', '0123456789', '12b/abc', 0, 1),
+(12, NULL, 'H1', NULL, 'asddasds', 'Nam', '2021-12-01', 'kindaichicao@gmail.com', '1234567892', '2', '12b/asd', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -265,6 +300,13 @@ CREATE TABLE `may_bay` (
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `may_bay`
+--
+
+INSERT INTO `may_bay` (`so_hieu_may_bay`, `ma_hang_hang_khong`, `so_ghe_thuong`, `so_ghe_thuong_gia`, `tong_so_ghe`, `trang_thai`) VALUES
+('mb1', 'hkh1', 40, 10, 50, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -275,17 +317,6 @@ CREATE TABLE `ma_xac_thuc` (
   `ma_tk` int(11) NOT NULL,
   `ma_xt` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `ma_xac_thuc`
---
-
-INSERT INTO `ma_xac_thuc` (`ma_tk`, `ma_xt`) VALUES
-(123, '456'),
-(123, '456'),
-(123, '456'),
-(123, '456'),
-(123, '456');
 
 -- --------------------------------------------------------
 
@@ -318,9 +349,17 @@ CREATE TABLE `san_bay` (
   `dia_diem` varchar(255) NOT NULL,
   `so_luong_may_bay_toi_da` int(11) NOT NULL,
   `so_luong_may_bay_du_bi` int(11) NOT NULL,
-  `loai_may_bay` varchar(255) NOT NULL,
+  `loai_san_bay` varchar(255) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `san_bay`
+--
+
+INSERT INTO `san_bay` (`ma_san_bay`, `ten`, `dia_diem`, `so_luong_may_bay_toi_da`, `so_luong_may_bay_du_bi`, `loai_san_bay`, `trang_thai`) VALUES
+('sb1', 'sb1', 'sb1', 50, 10, 'sbchinh', 1),
+('sb2', 'sb2', 'sb2', 50, 10, 'sbching', 1);
 
 -- --------------------------------------------------------
 
@@ -351,7 +390,7 @@ INSERT INTO `tai_khoan` (`ma_tk`, `username`, `hash_password`, `ma_cv`, `trang_t
 --
 
 CREATE TABLE `ve` (
-  `ma_ve` int(11) NOT NULL,
+  `ma_ve` varchar(255) NOT NULL,
   `ma_chuyen_bay` varchar(255) NOT NULL,
   `ma_hang_hang_khong` varchar(255) NOT NULL,
   `ma_hang_dich_vu` varchar(255) NOT NULL,
@@ -361,6 +400,14 @@ CREATE TABLE `ve` (
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `ve`
+--
+
+INSERT INTO `ve` (`ma_ve`, `ma_chuyen_bay`, `ma_hang_hang_khong`, `ma_hang_dich_vu`, `so_ghe`, `gia_goc`, `tien_thue`, `trang_thai`) VALUES
+('v1', 'cb1', 'hkh1', 'hdv1', 1, 99999, 699999, 1),
+('v2', 'cb1', 'hkh1', 'hdv1', 2, 99999, 699999, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -368,7 +415,7 @@ CREATE TABLE `ve` (
 --
 
 CREATE TABLE `ve_khach_hang` (
-  `ma_ve` int(11) NOT NULL,
+  `ma_ve` varchar(255) NOT NULL,
   `ma_kh` int(11) NOT NULL,
   `ma_km` int(11) NOT NULL,
   `hanh_ly` double NOT NULL,
@@ -402,11 +449,11 @@ ALTER TABLE `chi_tiet_hoa_don`
 -- Chỉ mục cho bảng `chi_tiet_khuyen_mai`
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
-  ADD PRIMARY KEY (`ma_km`,`ma_hang_dich_vu`),
   ADD KEY `ma_hang` (`ma_hang`),
   ADD KEY `ma_chuyen_bay` (`ma_chuyen_bay`),
   ADD KEY `ma_hang_dich_vu` (`ma_hang_dich_vu`),
-  ADD KEY `ma_hang_kh` (`ma_hang_kh`);
+  ADD KEY `ma_hang_kh` (`ma_hang_kh`),
+  ADD KEY `ma_km` (`ma_km`);
 
 --
 -- Chỉ mục cho bảng `chi_tiet_quyen`
@@ -547,7 +594,7 @@ ALTER TABLE `hoa_don`
 -- AUTO_INCREMENT cho bảng `khach_hang`
 --
 ALTER TABLE `khach_hang`
-  MODIFY `ma_kh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_kh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `nhan_vien`
@@ -562,12 +609,6 @@ ALTER TABLE `tai_khoan`
   MODIFY `ma_tk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT cho bảng `ve`
---
-ALTER TABLE `ve`
-  MODIFY `ma_ve` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Các ràng buộc cho các bảng đã đổ
 --
 
@@ -575,8 +616,8 @@ ALTER TABLE `ve`
 -- Các ràng buộc cho bảng `chi_tiet_hoa_don`
 --
 ALTER TABLE `chi_tiet_hoa_don`
-  ADD CONSTRAINT `chi_tiet_hoa_don_ibfk_1` FOREIGN KEY (`ma_ve`) REFERENCES `ve` (`ma_ve`),
-  ADD CONSTRAINT `chi_tiet_hoa_don_ibfk_2` FOREIGN KEY (`ma_hoa_don`) REFERENCES `hoa_don` (`ma_hoa_don`);
+  ADD CONSTRAINT `chi_tiet_hoa_don_ibfk_2` FOREIGN KEY (`ma_hoa_don`) REFERENCES `hoa_don` (`ma_hoa_don`),
+  ADD CONSTRAINT `chi_tiet_hoa_don_ibfk_3` FOREIGN KEY (`ma_ve`) REFERENCES `ve` (`ma_ve`);
 
 --
 -- Các ràng buộc cho bảng `chi_tiet_khuyen_mai`
@@ -649,8 +690,8 @@ ALTER TABLE `ve`
 --
 ALTER TABLE `ve_khach_hang`
   ADD CONSTRAINT `ve_khach_hang_ibfk_1` FOREIGN KEY (`ma_km`) REFERENCES `chuong_trinh_khuyen_mai` (`ma_km`),
-  ADD CONSTRAINT `ve_khach_hang_ibfk_2` FOREIGN KEY (`ma_ve`) REFERENCES `ve` (`ma_ve`),
-  ADD CONSTRAINT `ve_khach_hang_ibfk_3` FOREIGN KEY (`ma_kh`) REFERENCES `khach_hang` (`ma_kh`);
+  ADD CONSTRAINT `ve_khach_hang_ibfk_3` FOREIGN KEY (`ma_kh`) REFERENCES `khach_hang` (`ma_kh`),
+  ADD CONSTRAINT `ve_khach_hang_ibfk_4` FOREIGN KEY (`ma_ve`) REFERENCES `ve` (`ma_ve`);
 
 --
 -- Các ràng buộc cho bảng `vi_thanh_toan`

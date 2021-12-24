@@ -450,13 +450,13 @@ View::$activeItem = 'staff';
 
         });
 
-        // $("#open-add-staff-btn").click(function() {
-        //     $('#mahanghangkhong').val("");
-        //     $('#tenhanghangkhong').val("");
-        //     $('#motahanghangkhong').val("");
-        //     $('#loaihanghangkhong').val("");
-        //     $("#add-staff-modal").modal('toggle')
-        // });
+        $("#open-add-staff-btn").click(function() {
+            $('#mahanghangkhong').val("");
+            $('#tenhanghangkhong').val("");
+            $('#motahanghangkhong').val("");
+            $('#loaihanghangkhong').val("");
+            $("#add-staff-modal").modal('toggle')
+        });
 
 
         function changePage(newPage) {
@@ -464,22 +464,22 @@ View::$activeItem = 'staff';
             layDSListStaffAjax();
         }
 
-        // function changePageSearchNangCao(newPage, search, search2) {
-        //     currentPage = newPage;
-        //     layDSstaffSearchNangCao(search, search2);
-        // }
+        function changePageSearchNangCao(newPage, search, search2) {
+            currentPage = newPage;
+            layDSStaffSearchNangCao(search, search2);
+        }
 
-        // $('#cars-search').change(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSstaffSearchNangCao($('#serch-staff-text').val(), search);
-        // });
+        $('#cars-search').change(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSStaffSearchNangCao($('#serch-staff-text').val(), search);
+        });
 
-        // $("#search-staff-form").keyup(debounce(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSstaffSearchNangCao($('#serch-staff-text').val(), search);
-        // },200));
+        $("#search-staff-form").keyup(debounce(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSStaffSearchNangCao($('#serch-staff-text').val(), search);
+        },200));
 
         function layDSListStaffAjax() {
             $.get(`http://localhost/Software-Technology/staff/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
@@ -573,95 +573,95 @@ View::$activeItem = 'staff';
             });
         }
 
-        // function layDSstaffSearchNangCao(search, search2) {
-        //     $.get(`http://localhost/Software-Technology/staff/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
-        //         // Không được gán biến response này ra ngoài function,
-        //         // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-        //         // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-        //         //data là danh sách usser
-        //         //page là trang hiện tại
-        //         // rowsPerpage là số dòng trên 1 trang
-        //         // totalPage là tổng số trang
-        //         const table1 = $('#table1 > tbody');
-        //         table1.empty();
-        //         checkedRows = [];
-        //         $row = 0;
-        //         response.data.forEach(data => {
-        //             let disabled = "disabled btn icon icon-left btn-secondary";
-        //             if ($row % 2 == 0) {
+        function layDSStaffSearchNangCao(search, search2) {
+            $.get(`http://localhost/Software-Technology/staff/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    if ($row % 2 == 0) {
 
-        //                 table1.append(`
-        //                 <tr class="table-light">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.ten}</td>
-        //                     <td>${data.mo_ta}</td>
-        //                     <td>${data.loai_hang}</td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             } else {
-        //                 table1.append(`
-        //                 <tr class="table-info">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.ten}</td>
-        //                     <td>${data.mo_ta}</td>
-        //                     <td>${data.loai_hang}</td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             }
-        //             checkedRows.push(data.ma_hang_hang_khong);
-        //             $row += 1;
-        //         });
+                        table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
+                                </div>
+                            </td>
+                            <td>${data.ten}</td>
+                            <td>${data.mo_ta}</td>
+                            <td>${data.loai_hang}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
+                                </div>
+                            </td>
+                            <td>${data.ten}</td>
+                            <td>${data.mo_ta}</td>
+                            <td>${data.loai_hang}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_hang_hang_khong);
+                    $row += 1;
+                });
 
-        //         const pagination = $('#pagination');
-        //         // Xóa phân trang cũ
-        //         pagination.empty();
-        //         if (response.totalPage > 1) {
-        //             for (let i = 1; i <= response.totalPage; i++) {
-        //                 if (i == currentPage) {
-        //                     pagination.append(`
-        //                 <li class="page-item active">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 } else {
-        //                     pagination.append(`
-        //                 <li class="page-item">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 }
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
 
-        //             }
-        //         }
+                    }
+                }
 
-        //     });
-        // }
+            });
+        }
 
         function viewRow(params) {
             let data = {

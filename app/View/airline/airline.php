@@ -835,80 +835,80 @@ View::$activeItem = 'airline';
             })
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/user/deleteUser`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
+        function deleteRow(params) {
+            let data = {
+                mahhk: params
+            };
+            $("#myModalLabel110").text("Quản Lý Hãng Hàng Không");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa hãng hàng không này không ?");
+            $("#question-airline-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/airline/delete`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSListAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
 
-        // }
-        // $("#btn-delete-user").click(function() {
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click')
-        //     $("#thuchien").click(function() {
-        //         let datas = []
-        //         checkedRows.forEach(checkedRow => {
-        //             if ($('#' + checkedRow).prop("checked")) {
-        //                 datas.push(checkedRow);
-        //             }
-        //         });
-        //         let data = {
-        //             emails: JSON.stringify(datas)
-        //         };
-        //         $.post(`http://localhost/Software-Technology/user/deleteUsers`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // });
+        }
+        $("#btn-delete-airline").click(function() {
+            $("#myModalLabel110").text("Quản Lý Hãng Hàng Không");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa những hãng hàng không này không ?");
+            $("#question-airline-modal").modal('toggle');
+            $('#thuchien').off('click')
+            $("#thuchien").click(function() {
+                let datas = []
+                checkedRows.forEach(checkedRow => {
+                    if ($('#' + checkedRow).prop("checked")) {
+                        datas.push(checkedRow);
+                    }
+                });
+                let data = {
+                    mahhks: JSON.stringify(datas)
+                };
+                $.post(`http://localhost/Software-Technology/airline/deletes`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSListAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        });
     </script>
 </body>

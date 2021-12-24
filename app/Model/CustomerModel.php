@@ -7,6 +7,18 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class CustomerModel{
+    public static function findOneByMaKH($makh)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.ma_kh = :makh and kh.ma_hang_kh = hkh.ma_hang_kh LIMIT 1");
+        $query->execute([':makh' => $makh]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
     public static function create(){
 
     }

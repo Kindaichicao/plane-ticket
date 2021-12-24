@@ -47,4 +47,29 @@ class CustomerController extends Controller
     public function getCustomer(){
         
     }
+    public function viewCustomer()
+    {
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $makh = Request::post('makh');
+        $kq = CustomerModel::findOneByMaKH($makh);
+        $response = ['thanhcong' => false];
+        if($kq == null){
+            $response['thanhcong'] = false;
+        } else{   
+            $response['FullName'] = $kq->ho_ten;
+            $response['tenhang'] = $kq->ten_hang;
+            $response['hochieu'] = $kq->so_ho_chieu;
+            $response['cccd'] = $kq->cccd;
+            $response['sdt'] = $kq->sdt;
+            $response['email'] = $kq->email;
+            $response['date'] = $kq->ngay_sinh;
+            $response['gender'] = $kq->gioi_tinh;
+            $response['address'] = $kq->dia_chi;
+            $response['diemtichluy'] = $kq->diem_tich_luy;
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
+        
+    }
 }

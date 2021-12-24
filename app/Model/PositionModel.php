@@ -7,6 +7,19 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class PositionModel{
+    
+    public static function checkValidMaChucVu($macv){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM chuc_vu WHERE ma_chuc_vu = :macv LIMIT 1");
+        $query->execute([':macv' => $macv]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
+
     public static function create($machucvu,$tenchucvu,$chitiets){
         $database = DatabaseFactory::getFactory()->getConnection();
         $sql = "INSERT INTO chuc_vu (ma_chuc_vu, ten_chuc_vu,trang_thai) VALUES (:machucvu,:tenchucvu,1) ";
@@ -28,8 +41,30 @@ class PositionModel{
         return false;
     }
 
-    public static function update(){
-        
+    public static function update($machucvu, $tenchucvu,$chitiets){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "UPDATE chuc_vu SET ten_chuc_vu =:tenchucvu WHERE ma_chuc_vu = :machucvu";
+        $query = $database->prepare($sql);
+        $query->execute([':machucvu' => $machucvu,':tenchucvu' => $tenchucvu]);
+
+        $sql1 = "DELETE FROM `chi_tiet_quyen` WHERE ma_chuc_vu= :machucvu";
+        $query1 = $database->prepare($sql1);
+        $query1->execute([':machucvu' => $machucvu]);
+
+        $count2 = 0;
+        foreach ($chitiets as &$chitiet) {
+            $sql2 = "INSERT INTO chi_tiet_quyen (ma_chuc_vu, ma_chuc_nang) VALUES (:machucvu,:machucnang)";
+            $query2 = $database->prepare($sql2);
+            $query2->execute([':machucvu' => $chitiet->ma_chuc_vu,':machucnang' => $chitiet->ma_chuc_nang]);
+            $count2 += $query2->rowCount();
+        }
+
+        $count = $query->rowCount() + $count2;
+        if ($count > 0) {
+            return true;
+        }
+        return false;
     }
 
     public static function delete(){

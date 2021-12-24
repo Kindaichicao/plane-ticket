@@ -97,4 +97,57 @@ class PositionModel{
         ];
         return $response;   
     }
+
+    public static function getListSearch($search,$search2,$page = 1, $rowsPerPage = 10){
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        
+        if ($search2 == '1') {
+            $raw = 'SELECT * FROM chuc_vu WHERE (ma_chuc_vu LIKE :search OR ten_chuc_vu LIKE :search ) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+        } else {
+            if ($search2 == '2'){
+                $raw = 'SELECT * FROM chuc_vu WHERE (ma_chuc_vu LIKE :search ) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+            }
+            else{
+                $raw = 'SELECT * FROM chuc_vu WHERE (ten_chuc_vu LIKE :search ) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+            }
+        }
+
+        $search = '%' . $search . '%';
+
+        $query = $database->prepare($raw);
+
+        $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $query->bindValue(':search', $search, PDO::PARAM_STR);
+        $query->execute();
+        $data = $query->fetchAll();
+        
+        $count = 'SELECT COUNT(ma_chuc_vu) FROM chuc_vu';
+        if ($search2 == '1') {
+            $count .= ' WHERE (ma_chuc_vu LIKE :search OR ten_chuc_vu LIKE :search ) AND trang_thai=1';
+        } else {
+            if ($search2 == '2'){
+                $count .= ' WHERE (ma_chuc_vu LIKE :search ) AND trang_thai=1';
+            }
+            else{
+                $count .= ' WHERE (ten_chuc_vu LIKE :search ) AND trang_thai=1';
+            }
+        }
+
+        $countQuery = $database->prepare($count);
+        $countQuery->bindValue(':search', $search, PDO::PARAM_STR);
+        $countQuery->execute();
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
+
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+        ];
+        return $response;
+    }
 }

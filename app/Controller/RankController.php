@@ -23,7 +23,7 @@ class RankController extends Controller
     }
 
     public function create(){
-
+        
     }
 
     public function update(){
@@ -35,7 +35,13 @@ class RankController extends Controller
     }
 
     public function getList(){
-        
+        Auth::checkAuthentication(); // Ktra có đang đăng nhập hay chưa
+        //Auth::ktraquyen("CN01");
+        $search = Request::get('search');
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
+        $data = RankModel::getList($page, $rowsPerPage);
+        $this->View->renderJSON($data);
     }
 
     public function getRank(){

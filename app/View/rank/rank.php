@@ -102,7 +102,7 @@ View::$activeItem = 'rank';
                 </div>
 
                 <!-- MODAL ADD -->
-                <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="add-rank-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -143,28 +143,29 @@ View::$activeItem = 'rank';
                     </div>
                 </div>
                 <!--MODAL SUA-->
-                <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="repair-rank-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Sửa Tài Khoản</h4>
+                                <h4 class="modal-title">Sửa hạng khách hàng</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
-                            <form name="repair-user-form" action="/" method="POST">
+                            <form name="repair-rank-form" action="/" method="POST">
                                 <div class="modal-body">
-                                    <label>Tên Đăng Nhập: </label>
+                                    <label>Mã hạng khách hàng: </label>
                                     <div class="form-group">
-                                        <input type="text" id="re-email" name="email" class="form-control" disabled>
+                                        <input type="text" id="re-mahang" name="mahang" class="form-control" readonly>
                                     </div>
-                                    <label for="re-fullname">Họ tên: </label>
+                                    <label for="re-fullname">Tên hạng khách hàng: </label>
                                     <div class="form-group">
-                                        <input type="text" id="re-fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                        <input type="text" id="re-tenhang" name="tenhang" placeholder=" nhập tên hạng" class="form-control">
                                     </div>
-                                    <label for="cars-quyen-sua">Quyền: </label>
-                                    <select class="form-group " name="maquyen" id="cars-quyen-sua">
-                                    </select>
+                                    <label for="re-fullname">Mức điểm: </label>
+                                    <div class="form-group">
+                                        <input type="text" id="re-mucdiem" name="mucdiem" placeholder="nhập mức điểm" class="form-control">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -207,7 +208,7 @@ View::$activeItem = 'rank';
                     </div>
                 </div>
                 <!-- Modal View -->
-                <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="view-rank-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
 
@@ -318,7 +319,7 @@ View::$activeItem = 'rank';
                             }).showToast();
                         }
                         // Đóng modal
-                        $("#add-user-modal").modal('toggle')
+                        $("#add-rank-modal").modal('toggle')
                     });
                     $('#themmahang').val("");
                     $('#themtenhang').val("");
@@ -332,7 +333,7 @@ View::$activeItem = 'rank';
             $('#themmahang').val("");
             $('#themtenhang').val("");
             $('#themmucdiem').val("");
-            $("#add-user-modal").modal('toggle')
+            $("#add-rank-modal").modal('toggle')
         });
 
 
@@ -571,7 +572,7 @@ View::$activeItem = 'rank';
                     $("#view-mucdiem").val(response.mucdiem);
                 }
             });
-            $("#view-user-modal").modal('toggle');
+            $("#view-rank-modal").modal('toggle');
         }
 
         // function resetPass(params) {
@@ -604,73 +605,83 @@ View::$activeItem = 'rank';
         //     });
         // }
 
-        // function repairRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
+        function repairRow(params) {
+            let data = {
+                mahang: params
+            };
+            $.post(`http://localhost/Software-Technology/rank/getRank`, data, function(response) {
+                if (response.thanhcong) {
+                    $('#re-mahang').val(response.mahang);
+                    $('#re-tenhang').val(response.tenhang);
+                    $('#re-mucdiem').val(response.mucdiem);
+                }
+            });
+            $("#repair-rank-modal").modal('toggle');
+            //Sua form
+            $("form[name='repair-rank-form']").validate({
+                rules: {
+                    mahang: {
+                        required: true,
+                    },
+                    tenhang: {
+                        required: true,
+                    },
+                    mucdiem: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    mahang: {
+                        required: "Vui lòng nhập mã hạng",
+                    },
+                    tenhang: {
+                        required: "Vui lòng nhập tên hạng",
+                    },
+                    mucdiem: {
+                        required: "Vui lòng nhập mức điểm",
+                    }
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $("#myModalLabel110").text("Quản Lý hạng khách hàng");
+                    $("#question-model").text("Bạn có chắc chắn muốn sửa hạng khách hàng này không?");
+                    $("#question-user-modal").modal('toggle');
+                    $('#thuchien').off('click');
+                    $("#thuchien").click(function() {
+                        // lấy dữ liệu từ form
 
-            // $.post(`http://localhost/Software-Technology/rank/getRank`, data, function(response) {
-            //     if (response.thanhcong) {
-            //         $('#view-mahang').val(response.mahang);
-            //         $('#view-tenhang').val(response.tenhang);
-            //         $('#view-mucdiem').val(response.mucdiem);
-            //     }
-            // });
-        //     $("#repair-user-modal").modal('toggle');
-        //     //Sua form
-        //     $("form[name='repair-user-form']").validate({
-        //         rules: {
-        //             fullname: {
-        //                 required: true,
-        //                 validateName: true,
-        //             }
-        //         },
-        //         messages: {
-        //             fullname: {
-        //                 required: "Vui lòng nhập họ tên",
-        //             }
-        //         },
-        //         submitHandler: function(form, event) {
-        //             event.preventDefault();
-        //             $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //             $("#question-model").text("Bạn có chắc chắn muốn sửa tài khoản này không");
-        //             $("#question-user-modal").modal('toggle');
-        //             $('#thuchien').off('click')
-        //             $("#thuchien").click(function() {
-        //                 // lấy dữ liệu từ form
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        $.post(`http://localhost/Software-Technology/rank/update`, data, function(response) {
+                            console.log(response);
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSRankAjax();
+                                Toastify({
+                                    text: "Sửa Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Sửa Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
 
-        //                 const data = Object.fromEntries(new FormData(form).entries());
-        //                 data['email'] = $('#re-email').val();
-        //                 $.post(`http://localhost/Software-Technology/user/repairUser`, data, function(response) {
-        //                     if (response.thanhcong) {
-        //                         currentPage = 1;
-        //                         layDSUserAjax();
-        //                         Toastify({
-        //                             text: "Sửa Thành Công",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#4fbe87",
-        //                         }).showToast();
-        //                     } else {
-        //                         Toastify({
-        //                             text: "Sửa Thất Bại",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#FF6A6A",
-        //                         }).showToast();
-        //                     }
-
-        //                     // Đóng modal
-        //                     $("#repair-user-modal").modal('toggle')
-        //                 });
-        //             });
-        //         }
-        //     })
-        // }
+                            // Đóng modal
+                            $("#repair-rank-modal").modal('toggle')
+                        });
+                    });
+                }
+            })
+        }
 
         // function deleteRow(params) {
         //     let data = {

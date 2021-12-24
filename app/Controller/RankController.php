@@ -23,7 +23,16 @@ class RankController extends Controller
     }
 
     public function create(){
-        
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $mahang = Request::post('mahang');
+        $tenhang = Request::post('tenhang');
+        $mucdiem = Request::post('mucdiem');
+        $kq = RankModel::create($mahang, $tenhang, $mucdiem);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function update(){

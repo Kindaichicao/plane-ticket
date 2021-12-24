@@ -7,8 +7,18 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class RankModel{
-    public static function create(){
+    public static function create($mahang, $tenhang, $mucdiem){
+        $database = DatabaseFactory::getFactory()->getConnection();
 
+        $sql = "INSERT INTO  hang_khach_hang (ma_hang_kh,ten_hang,muc_diem,trang_thai)
+                VALUES (:mahang,:tenhang,:mucdiem, 1)";
+        $query = $database->prepare($sql);
+        $query->execute([':mahang' => $mahang, ':tenhang' => $tenhang,':mucdiem' => $mucdiem]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
     }
 
     public static function update(){

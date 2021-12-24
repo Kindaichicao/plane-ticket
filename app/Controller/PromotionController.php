@@ -35,7 +35,12 @@ class PromotionController extends Controller
     }
 
     public function getList(){
-        
+        Auth::checkAuthentication(); // Ktra có đang đăng nhập hay chưa
+        //Auth::ktraquyen("CN01");        
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
+        $data = PromotionModel::getList($page, $rowsPerPage);
+        $this->View->renderJSON($data);
     }
 
     public function getPromotion(){

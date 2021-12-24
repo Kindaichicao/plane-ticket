@@ -43,8 +43,34 @@ class AirlineModel{
         return false;
     }
 
-    public static function delete(){
+    public static function delete($mahhk){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `hang_hang_khong` SET trang_thai = 0  WHERE ma_hang_hang_khong = :mahhk";
+        $query = $database->prepare($sql);
+        $query->execute([':mahhk' => $mahhk]);       
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function deletes($mahhks){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        foreach ($mahhks as &$key) {
+            $raw .= "'" . $key . "',";
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
+
+        $sql = "UPDATE `hang_hang_khong` SET trang_thai = 0  WHERE  ma_hang_hang_khong IN " . $raw;
+        $count  = $database->exec($sql);
         
+        if (!$count) {
+            return false;
+        }
+        return true;
     }
 
     public static function getAirline($mahhk){

@@ -42,7 +42,26 @@ class AirlineController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $mahhk = Request::post('mahhk');
+        $kq= AirlineModel::delete($mahhk);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
+    public function deletes(){
+        Auth::checkAuthentication();       
+        // Auth::ktraquyen("CN07");
+        $mahhks = Request::post('mahhks');
+        $mahhks = json_decode($mahhks);
+        $kq = AirlineModel::deletes($mahhks);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function getList(){

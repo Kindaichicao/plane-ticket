@@ -202,7 +202,7 @@ View::$activeItem = 'customer';
                                         </div>
                                         <label for="re-genderkh">Giới tính: </label>
                                         <div class="form-group">
-                                        <select class="form-select" name="re-genderkh" id="re-genderkh">
+                                        <select class="form-select" name="genderkh" id="re-genderkh">
                                             <option value="Nam">Nam</option>
                                             <option value="Nữ">Nữ</option>
                                         </select>
@@ -212,7 +212,7 @@ View::$activeItem = 'customer';
                                             <input type="text" id="re-addresskh" name="addresskh" placeholder="Địa chỉ" class="form-control">
                                         </div>
                                     </div>
-                                </form>
+                                
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -224,12 +224,12 @@ View::$activeItem = 'customer';
                                         <span class="d-none d-sm-block">Sửa</span>
                                     </button>
                                 </div>
-                            
+                                </form>
                         </div>
                     </div>
                 </div>
                 <!-- Modal Thong bao -->
-                <!-- <div class="modal fade text-left" id="question-customer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-customer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -253,7 +253,7 @@ View::$activeItem = 'customer';
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal View -->
                 <div class="modal fade" id="view-customer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -771,10 +771,56 @@ View::$activeItem = 'customer';
             //Sua form
             $("form[name='repair-customer-form']").validate({
                 rules: {
-                    
+                    fullnamekh: {
+                        required: true,
+                        validateName: true,
+                    },
+
+                    cccdkh: {
+                        required: true,
+                        number: true,
+                    },
+                    numberphonekh: {
+                        required: true,
+                        number: true,
+
+                    },
+                    emailkh: {
+                        required: true,
+                        email:true,
+                    },
+                    birthdaykh: {
+                        required: true,
+                    },
+                    genderkh: {
+                        required: true,
+                    },
+                    addresskh: {
+                        required: true,
+                    },
                 },
                 messages: {
-                    
+                    fullnamekh: {
+                        required: "Vui lòng nhập họ tên",
+                    },
+                    cccdkh: {
+                        required: "Vui lòng nhập căn cước công dân",
+                        number: "Căn cước công dân phải là số"
+                    },
+                    numberphonekh: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Số điện thoại dân phải là số"
+                    },
+                    emailkh: {
+                        required: "Vui lòng nhập email",
+                        email: "Vui lòng nhập đúng định dạng email"
+                    },
+                    birthdaykh: {
+                        required: "Vui lòng nhập ngày sinh",
+                    },
+                    addresskh: {
+                        required: "Vui lòng nhập địa chỉ",
+                    },
                 },
                 submitHandler: function(form, event) {
                     event.preventDefault();
@@ -786,11 +832,11 @@ View::$activeItem = 'customer';
                         // lấy dữ liệu từ form
 
                         const data = Object.fromEntries(new FormData(form).entries());
-                        data['email'] = $('#re-email').val();
-                        $.post(`http://localhost/Software-Technology/customer/repairUser`, data, function(response) {
+                        data['makh'] = params;
+                        $.post(`http://localhost/Software-Technology/customer/update`, data, function(response) {
                             if (response.thanhcong) {
                                 currentPage = 1;
-                                layDSUserAjax();
+                                layDSCustomerAjax();
                                 Toastify({
                                     text: "Sửa Thành Công",
                                     duration: 1000,
@@ -818,41 +864,41 @@ View::$activeItem = 'customer';
             })
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/user/deleteUser`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
+        function deleteRow(params) {
+            let data = {
+                email: params
+            };
+            $("#myModalLabel110").text("Quản Lý Khách Hàng");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa khách hàng này không");
+            $("#question-customer-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/customer/delete`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSUserAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
 
-        // }
+        }
 
         // $("#btn-delete-user").click(function() {
         //     $("#myModalLabel110").text("Quản Lý Tài Khoản");

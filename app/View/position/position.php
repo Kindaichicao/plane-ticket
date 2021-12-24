@@ -219,7 +219,6 @@ View::$activeItem = 'position';
                 <div class="modal fade" id="view-position-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
-
                             <div class="modal-body">
                                 <ul class="list-group">
                                     <li class="list-group-item active">Thông Tin Chi Tiết</li>
@@ -311,7 +310,6 @@ View::$activeItem = 'position';
                 rules: {                   
                     machucvu: {
                         required: true,   
-                        validateName: true,
                         remote: {
                             url: "http://localhost/Software-Technology/position/checkValidMaChucVu",
                             type: "POST",

@@ -49,18 +49,46 @@ class RankModel{
         return false;
     }
 
-    public static function delete(){
+    public static function delete($mahang){
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "UPDATE `user` SET TrangThai = 0  WHERE TenDangNhap = :email";
+        $sql = "SELECT  ma_kh FROM `khach_hang` WHERE ma_hang_kh= :mahang";
         $query = $database->prepare($sql);
-        $query->execute([':email' => $email]);
+        $query->execute([':mahang' => $mahang]);
         $count = $query->rowCount();
-        if ($count == 1) {
-            return true;
+        if($count<1){
+            $sql1 = "DELETE FROM `hang_khach_hang` WHERE ma_hang_kh= :mahang";
+            $query1 = $database->prepare($sql1);
+            $query1->execute([':mahang' => $mahang]);
+            return 0;
         }
-        return false;
+        return 2;
     }
+    public static function deletes($mahang){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        $i=0;
+        foreach ($mahang as $mahang) {
+            $sql = "SELECT  ma_kh FROM `khach_hang` WHERE ma_hang_kh= :mahang";
+            $query = $database->prepare($sql);
+            $query->execute([':mahang' => $mahang]);
+            $count = $query->rowCount();
+            if($count<1){
+                $i++;
+                $raw .= "'" . $mahang . "',";
+            }
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
 
+        $sql1 = "DELETE from `hang_khach_hang`  WHERE  ma_hang_kh IN " . $raw;
+        $query1=$database->prepare($sql1);
+        $query1->execute();
+        $count= $query1->rowCount();
+        if ($count<1) {
+            return 0;
+        }
+        return $i;
+    }
     public static function getRank($mahang){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT * FROM hang_khach_hang WHERE ma_hang_kh = :mahang LIMIT 1");
@@ -102,5 +130,85 @@ class RankModel{
             'data' => $data,
         ];
         return $response;
+    }
+    public static function searchRank($search,$search2,$page = 1, $rowsPerPage = 10){
+        //echo "dsadasd";
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw="SELECT * FROM  hang_khach_hang";
+        if ($search2 == '0') {
+            $raw .= ' WHERE (ma_hang_kh LIKE :search OR ten_hang LIKE :search OR muc_diem LIKE :search) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+        } else {
+            if ($search2 == '1'){
+                $raw .= ' WHERE (ma_hang_kh LIKE :search ) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+            }
+            else if($search2 == '2'){
+                $raw .= ' WHERE (ten_hang LIKE :search ) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+            }
+            else  if($search2 == '3'){
+                $raw .= ' WHERE (muc_diem LIKE :search ) AND trang_thai=1 LIMIT :limit OFFSET :offset';
+            }
+        }
+
+        $search = '%' . $search . '%';
+        $query = $database->prepare($raw);
+
+        $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $query->bindValue(':search', $search, PDO::PARAM_STR);
+        $query->execute();
+        $data = $query->fetchAll();
+        
+        $count = 'SELECT COUNT(ma_hang_kh) FROM hang_khach_hang';
+        if ($search2 == '0') {
+            $count .= ' WHERE (ma_hang_kh LIKE :search OR ten_hang LIKE :search OR muc_diem LIKE :search) AND trang_thai=1';
+        } else {
+            if ($search2 == '1'){
+                $count .= ' WHERE (ma_hang_kh LIKE :search ) AND trang_thai=1';
+            }
+            else if($search2 == '2'){
+                $count .= ' WHERE (ten_hang LIKE :search ) AND trang_thai=1';
+            }
+            else if($search2 == '3'){
+                $count .= ' WHERE (muc_diem LIKE :search ) AND trang_thai=1';
+            }
+        }
+
+        $countQuery = $database->prepare($count);
+        $countQuery->bindValue(':search', $search, PDO::PARAM_STR);
+        $countQuery->execute();
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
+
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+        ];
+        return $response;
+    }
+    public static function findOneByMahang($mahang){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM hang_khach_hang WHERE ma_hang_kh = :mahang LIMIT 1");
+        $query->execute([':mahang' => $mahang]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
+    public static function findOneBymucdiem($mucdiem){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM hang_khach_hang WHERE muc_diem = :mucdiem LIMIT 1");
+        $query->execute([':mucdiem' => $mucdiem]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
 }

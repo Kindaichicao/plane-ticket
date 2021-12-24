@@ -39,7 +39,7 @@ View::$activeItem = 'rank';
                         <h6>Tìm Kiếm</h6>
                         <div id="search-user-form" name="search-user-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                <input id="serch-rank-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -56,16 +56,16 @@ View::$activeItem = 'rank';
                                     <h5 style="margin-left: 50px; margin-right: 10px;"> Lọc Theo:</h5>
                                 </label>
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
-                                    <option value="">Tất Cả</option>
-                                    <option value="">Mã hạng</option>
-                                    <option value="">Tên hạng</option>
-                                    <option value="">Mức điểm</option>
+                                    <option value="0">Tất Cả</option>
+                                    <option value="1">Mã hạng</option>
+                                    <option value="2">Tên hạng</option>
+                                    <option value="3">Mức điểm</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
 
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-user' class="btn btn-danger">
+                                    <button id='btn-delete-rank' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Xóa hạng
                                     </button>
                                     <button id='open-add-rank-btn' class="btn btn-primary">
@@ -272,12 +272,20 @@ View::$activeItem = 'rank';
                 rules: {
                     mahang: {
                         required: true,
+                        remote: {
+                            url: "http://localhost/Software-Technology/rank/checkvaliemahang",
+                            type: "POST",
+                        }
                     },
                     tenhang: {
                         required: true,
                     },
                     mucdiem: {
                         required: true,
+                        remote: {
+                            url: "http://localhost/Software-Technology/rank/checkvaliemucdiem",
+                            type: "POST",
+                        }
                     },
                 },
                 messages: {
@@ -342,22 +350,24 @@ View::$activeItem = 'rank';
             layDSRankAjax();
         }
 
-        // function changePageSearchNangCao(newPage, search, search2) {
-        //     currentPage = newPage;
-        //     layDSUserSearchNangCao(search, search2);
-        // }
+        function changePageSearchNangCao(newPage, search, search2) {
+            currentPage = newPage;
+            layDSRankSearchNangCao(search, search2);
+        }
 
-        // $('#cars-search').change(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSUserSearchNangCao($('#serch-user-text').val(), search);
-        // });
+        $('#cars-search').change(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            //alert(search);
+            currentPage = 1;
+            layDSRankSearchNangCao($('#serch-rank-text').val(), search);
+        });
 
-        // $("#search-user-form").keyup(debounce(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSUserSearchNangCao($('#serch-user-text').val(), search);
-        // },200));
+        $("#search-user-form").keyup(debounce(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            //alert($('#serch-rank-text').val());
+            layDSRankSearchNangCao($('#serch-rank-text').val(), search);
+        },200));
 
         function layDSRankAjax() {
             $.get(`http://localhost/Software-Technology/rank/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
@@ -390,7 +400,7 @@ View::$activeItem = 'rank';
                         <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_kh}">
                                 </div>
                             </td>
                             <td>${data.ma_hang_kh}</td>
@@ -413,7 +423,7 @@ View::$activeItem = 'rank';
                         <tr class="table-info">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_kh}">
                                 </div>
                             </td>
                             <td>${data.ma_hang_kh}</td>
@@ -459,107 +469,96 @@ View::$activeItem = 'rank';
             });
          }
 
-        // function layDSUserSearchNangCao(search, search2) {
-        //     $.get(`http://localhost/Software-Technology/user/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
-        //         // Không được gán biến response này ra ngoài function,
-        //         // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-        //         // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-        //         //data là danh sách usser
-        //         //page là trang hiện tại
-        //         // rowsPerpage là số dòng trên 1 trang
-        //         // totalPage là tổng số trang
-        //         const table1 = $('#table1 > tbody');
-        //         table1.empty();
-        //         checkedRows = [];
-        //         $row = 0;
-        //         response.data.forEach(data => {
-        //             let disabled = "disabled btn icon icon-left btn-secondary";
-        //             if (data.YeuCau == 1) {
-        //                 disabled = "btn btn-primary";
-        //             }
-        //             let tenQuyen = "";
-        //             quyens.forEach(quyen => {
-        //                 if (quyen.MaQuyen == data.MaQuyen) {
-        //                     tenQuyen = quyen.TenQuyen;
-        //                     return true;
-        //                 }
-        //             });
-        //             if ($row % 2 == 0) {
+        function layDSRankSearchNangCao(search, search2) {
+            $.get(`http://localhost/Software-Technology/rank/searchRank1?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang;
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    if ($row % 2 == 0) {
 
-        //                 table1.append(`
-        //                 <tr class="table-light">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.TenDangNhap}</td>
-        //                     <td>${data.FullName}</td>
-        //                     <td>${tenQuyen}</td>
-        //                     <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             } else {
-        //                 table1.append(`
-        //                 <tr class="table-info">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.TenDangNhap}</td>
-        //                     <td>${data.FullName}</td>
-        //                     <td>${tenQuyen}</td>
-        //                     <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             }
-        //             checkedRows.push(data.TenDangNhap);
-        //             $row += 1;
-        //         });
+                        table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_kh}">
+                                </div>
+                            </td>
+                            <td>${data.ma_hang_kh}</td>
+                            <td>${data.ten_hang}</td>
+                            <td>${data.muc_diem}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_kh}">
+                                </div>
+                            </td>
+                            <td>${data.ma_hang_kh}</td>
+                            <td>${data.ten_hang}</td>
+                            <td>${data.muc_diem}</td>
 
-        //         const pagination = $('#pagination');
-        //         // Xóa phân trang cũ
-        //         pagination.empty();
-        //         if (response.totalPage > 1) {
-        //             for (let i = 1; i <= response.totalPage; i++) {
-        //                 if (i == currentPage) {
-        //                     pagination.append(`
-        //                 <li class="page-item active">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 } else {
-        //                     pagination.append(`
-        //                 <li class="page-item">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 }
+                            <td>
+                                <button onclick="viewRow('${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_hang_kh);
+                    $row += 1;
+                });
 
-        //             }
-        //         }
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
 
-        //     });
-        // }
+                    }
+                }
+
+            });
+        }
 
         function viewRow(params) {
             let data = {
@@ -683,80 +682,90 @@ View::$activeItem = 'rank';
             })
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/user/deleteUser`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-
-        // }
-        // $("#btn-delete-user").click(function() {
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click')
-        //     $("#thuchien").click(function() {
-        //         let datas = []
-        //         checkedRows.forEach(checkedRow => {
-        //             if ($('#' + checkedRow).prop("checked")) {
-        //                 datas.push(checkedRow);
-        //             }
-        //         });
-        //         let data = {
-        //             emails: JSON.stringify(datas)
-        //         };
-        //         $.post(`http://localhost/Software-Technology/user/deleteUsers`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // });
+        function deleteRow(params) {
+            let data = {
+                mahang: params
+            };
+            $("#myModalLabel110").text("Quản Lý hạng khách hàng");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa  hạng khách hàng này không?");
+            $("#question-user-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/rank/delete`, data, function(response) {
+                    console.log(response);
+                    if (response.thanhcong==0) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSRankAjax();
+                    } else  if(response.thanhcong==1){
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }else {
+                        Toastify({
+                            text: "Hạng khách hàng có chứa khách hàng không thể xóa",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        }
+        $("#btn-delete-rank").click(function() {
+            $("#myModalLabel110").text("Quản Lý Tài Khoản");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa những hạng khách hàng này không");
+            $("#question-user-modal").modal('toggle');
+            $('#thuchien').off('click')
+            $("#thuchien").click(function() {
+                let datas = []
+                checkedRows.forEach(checkedRow => {
+                    if ($('#' + checkedRow).prop("checked")) {
+                        datas.push(checkedRow);
+                    }
+                });
+                let data = {
+                    mahang: JSON.stringify(datas)
+                };
+                $.post(`http://localhost/Software-Technology/rank/deletes`, data, function(response) {
+                    console.log(response);
+                    if (response.thanhcong>0) {
+                        Toastify({
+                            text: response.tb,
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSRankAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        });
     </script>
 </body>

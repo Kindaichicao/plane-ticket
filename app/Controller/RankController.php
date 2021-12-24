@@ -49,9 +49,27 @@ class RankController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $mahang = Request::post('mahang');
+        $kq= RankModel::delete($mahang);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
-
+    public function deletes(){
+        Auth::checkAuthentication();  
+        //Auth::ktraquyen("CN01");     
+        $mahang = Request::post('mahang');
+        $mahang = json_decode($mahang);
+        $kq = RankModel::deletes($mahang);
+        $response = [
+            'tb' => "$kq"." hạng khách hàng đã được xóa"
+        ];
+        $response['thanhcong']=$kq;
+        $this->View->renderJSON($response);
+    }
     public function getList(){
         Auth::checkAuthentication(); // Ktra có đang đăng nhập hay chưa
         //Auth::ktraquyen("CN01");
@@ -74,6 +92,40 @@ class RankController extends Controller
             $response['tenhang'] = $data->ten_hang;
             $response['mucdiem'] = $data->muc_diem;
             $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
+    }
+    public function searchRank1(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $search = Request::get('search');
+        $search2 = Request::get('search2');
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
+        $data = RankModel::searchRank($search, $search2,$page, $rowsPerPage);
+        $this->View->renderJSON($data);
+    }
+    public function checkvaliemahang(){
+        Auth::checkAuthentication();
+        $mahang = Request::post('mahang');
+        $mahang1 = RankModel::findOneByMahang($mahang);
+
+        $response = true;
+
+        if ($mahang1) {
+            $response = 'Mã hạng khách hàng đã tồn tại trong hệ thống';
+        }
+        $this->View->renderJSON($response);
+    }
+    public function checkvaliemucdiem(){
+        Auth::checkAuthentication();
+        $mucdiem = Request::post('mucdiem');
+        $mucdiem1 = RankModel::findOneBymucdiem($mucdiem);
+
+        $response = true;
+
+        if ($mucdiem1) {
+            $response = 'Mức điểm đã tồn tại trong hệ thống';
         }
         $this->View->renderJSON($response);
     }

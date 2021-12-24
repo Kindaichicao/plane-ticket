@@ -9,24 +9,56 @@ use PDO;
 class RankModel{
     public static function create($mahang, $tenhang, $mucdiem){
         $database = DatabaseFactory::getFactory()->getConnection();
-
-        $sql = "INSERT INTO  hang_khach_hang (ma_hang_kh,ten_hang,muc_diem,trang_thai)
-                VALUES (:mahang,:tenhang,:mucdiem, 1)";
+        $sql = "SELECT ma_hang_kh FROM `hang_khach_hang` WHERE muc_diem= :mucdiem";
         $query = $database->prepare($sql);
-        $query->execute([':mahang' => $mahang, ':tenhang' => $tenhang,':mucdiem' => $mucdiem]);
+        $query->execute([':mucdiem' => $mucdiem]);
+        $count = $query->rowCount();
+        if($count<1)
+        {
+            $sql = "INSERT INTO  hang_khach_hang (ma_hang_kh,ten_hang,muc_diem,trang_thai)
+                    VALUES (:mahang,:tenhang,:mucdiem, 1)";
+            $query = $database->prepare($sql);
+            $query->execute([':mahang' => $mahang, ':tenhang' => $tenhang,':mucdiem' => $mucdiem]);
+            $count = $query->rowCount();
+            if ($count == 1) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public static function update($mahang,$tenhang,$mucdiem){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        // $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $sql1 = "SELECT ma_hang_kh FROM `hang_khach_hang` WHERE ma_hang_kh != :mahang and muc_diem= :mucdiem";
+        $query2 = $database->prepare($sql1);
+        $query2->execute([':mahang' => $mahang,':mucdiem' => $mucdiem]);
+        $count1 = $query2->rowCount();
+        if($count1<1)
+        {
+            $sql = "UPDATE hang_khach_hang SET ten_hang  = :tenhang, muc_diem= :mucdiem WHERE ma_hang_kh= :mahang ";
+            $query = $database->prepare($sql);
+            $query->execute([':mahang' => $mahang, ':tenhang' => $tenhang, ':mucdiem' => $mucdiem]);
+            $count = $query->rowCount();
+            if ($count == 1) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public static function delete(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `user` SET TrangThai = 0  WHERE TenDangNhap = :email";
+        $query = $database->prepare($sql);
+        $query->execute([':email' => $email]);
         $count = $query->rowCount();
         if ($count == 1) {
             return true;
         }
         return false;
-    }
-
-    public static function update(){
-        
-    }
-
-    public static function delete(){
-        
     }
 
     public static function getRank($mahang){

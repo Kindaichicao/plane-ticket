@@ -71,5 +71,35 @@ class AirlineController extends Controller
         $rowsPerPage = Request::get('rowsPerPage', 10);
         $data = AirlineModel::getAdvancedPagination($search, $search2,$page, $rowsPerPage);
         $this->View->renderJSON($data);
-    }    
+    }  
+    public function checkValidMaHangHangKhong()
+    {   
+        Auth::checkAuthentication();
+        $mahanghangkhong = Request::post('mahanghangkhong');
+        $mahanghangkhong1 = AirlineModel::findOneByMaHangHangKhong($mahanghangkhong);
+
+        $response = true;
+
+        if ($mahanghangkhong1) {
+            $response = 'Mã hãng hàng không đã tồn tại trong hệ thống';
+        }
+        $this->View->renderJSON($response);
+    }
+
+    public function addAirline() {
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN04");
+        $mahang = Request::post('mahanghangkhong');
+        $tenhang = Request::post('tenhanghangkhong');
+        $motahang = Request::post('motahanghangkhong');
+        $loaihang = Request::post('loaihanghangkhong');
+        $ngayban = Request::post('ngay_ban');
+
+        $kq = AirlineModel::create($mahang, $tenhang, $motahang, $loaihang, $ngayban);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+    
 }

@@ -19,8 +19,31 @@ class CustomerModel{
         }
         return null;
     }
-    public static function create(){
+    public static function create($fullname, $hochieu, $cccd, $sdt, $email, $ngaysinh, $gender, $address){
+        $database = DatabaseFactory::getFactory()->getConnection();
 
+        $sqlhkh = "SELECT ma_hang_kh FROM hang_khach_hang WHERE muc_diem = 0 and trang_thai=1";
+        $qrhkh = $database->prepare($sqlhkh);
+        $qrhkh->execute();
+        $mahkh = $qrhkh->fetch(PDO::FETCH_COLUMN);
+
+        $sql = "";
+        if(empty($hochieu)){
+            $sql .= "INSERT INTO khach_hang (ma_tk, ma_hang_kh, so_ho_chieu, ho_ten, gioi_tinh, ngay_sinh, email, cccd, sdt, dia_chi, diem_tich_luy, trang_thai)
+                    VALUES ( NULL, '$mahkh', NULL, '$fullname', '$gender', '$ngaysinh', '$email', '$cccd', '$sdt', '$address', 0, 1)";
+        }
+        else {
+            $sql .= "INSERT INTO khach_hang (ma_tk, ma_hang_kh, so_ho_chieu, ho_ten, gioi_tinh, ngay_sinh, email, cccd, sdt, dia_chi, diem_tich_luy, trang_thai)
+                    VALUES ( NULL, '$mahkh', '$hochieu', '$fullname', '$gender', '$ngaysinh', '$email', '$cccd', '$sdt', '$address', 0, 1)";
+        }
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function update(){

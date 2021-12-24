@@ -418,7 +418,7 @@ View::$activeItem = 'rank';
                                 </button>
                             </td>
                         </tr>`);
-                    } else {
+                    } else { 
                         table1.append(`
                         <tr class="table-info">
                             <td>

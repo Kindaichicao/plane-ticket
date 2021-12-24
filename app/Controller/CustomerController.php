@@ -60,7 +60,26 @@ class CustomerController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $makh = Request::post('makh');
+        $kq= CustomerModel::delete($makh);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+    
+    public function deletes(){
+        Auth::checkAuthentication();  
+        //Auth::ktraquyen("CN01");     
+        $makh = Request::post('makh');
+        $makh = json_decode($makh);
+        $kq = CustomerModel::deletes($makh);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function getList(){

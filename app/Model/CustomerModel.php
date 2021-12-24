@@ -54,11 +54,41 @@ class CustomerModel{
         $query = $database->prepare($sql);
         $query->execute();
         $count = $query->rowCount();
-        return true;
+        if ($count >= 1) {
+            return true;
+        }
+        return false;
     }
 
-    public static function delete(){
-        
+    public static function delete($makh){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `khach_hang` SET trang_thai = 0  WHERE ma_kh = '$makh'";
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        if ($count >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function deletes($makhs) {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        foreach ($makhs as &$makh) {
+            $raw .= "'" . $makh . "',";
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
+
+        $sql = "UPDATE `khach_hang` SET trang_thai = 0  WHERE  ma_kh IN " . $raw;
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        if ($count>=1) {
+            return true;
+        }
+        return false;
     }
 
     public static function getCustomer(){

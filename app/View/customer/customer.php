@@ -866,7 +866,7 @@ View::$activeItem = 'customer';
 
         function deleteRow(params) {
             let data = {
-                email: params
+                makh: params
             };
             $("#myModalLabel110").text("Quản Lý Khách Hàng");
             $("#question-model").text("Bạn có chắc chắn muốn xóa khách hàng này không");
@@ -884,7 +884,7 @@ View::$activeItem = 'customer';
                             backgroundColor: "#4fbe87",
                         }).showToast();
                         currentPage = 1;
-                        layDSUserAjax();
+                        layDSCustomerAjax();
                     } else {
                         Toastify({
                             text: "Xóa Thất Bại",
@@ -900,45 +900,45 @@ View::$activeItem = 'customer';
 
         }
 
-        // $("#btn-delete-user").click(function() {
-        //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
-        //     $("#question-user-modal").modal('toggle');
-        //     $('#thuchien').off('click')
-        //     $("#thuchien").click(function() {
-        //         let datas = []
-        //         checkedRows.forEach(checkedRow => {
-        //             if ($('#' + checkedRow).prop("checked")) {
-        //                 datas.push(checkedRow);
-        //             }
-        //         });
-        //         let data = {
-        //             emails: JSON.stringify(datas)
-        //         };
-        //         $.post(`http://localhost/Software-Technology/user/deleteUsers`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSUserAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        //});
+        $("#btn-delete-customer").click(function() {
+            $("#myModalLabel110").text("Quản Lý Khách Hàng");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa những khách hàng này không");
+            $("#question-customer-modal").modal('toggle');
+            $('#thuchien').off('click')
+            $("#thuchien").click(function() {
+                let datas = []
+                checkedRows.forEach(checkedRow => {
+                    if ($('#' + checkedRow).prop("checked")) {
+                        datas.push(checkedRow);
+                    }
+                });
+                let data = {
+                    makh: JSON.stringify(datas)
+                };
+                $.post(`http://localhost/Software-Technology/customer/deletes`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSCustomerAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        });
     </script>
 </body>

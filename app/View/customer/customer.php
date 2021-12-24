@@ -244,7 +244,7 @@ View::$activeItem = 'customer';
                     </div>
                 </div> -->
                 <!-- Modal View -->
-                <!-- <div class="modal fade" id="view-customer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="view-customer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
 
@@ -255,6 +255,12 @@ View::$activeItem = 'customer';
                                         <div class="form-group">
                                             <label>Họ Và Tên:</label>
                                             <input type="text" class="form-control" id="view-hotenkh" disabled>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Tên hạng:</label>
+                                            <input type="text" class="form-control" id="view-tenhangkh" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -299,6 +305,12 @@ View::$activeItem = 'customer';
                                             <input type="text" class="form-control" id="view-addresskh" disabled>
                                         </div>
                                     </li>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Điểm tích lũy:</label>
+                                            <input type="text" class="form-control" id="view-tichluykh" disabled>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="modal-footer">
@@ -309,7 +321,7 @@ View::$activeItem = 'customer';
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- FOOTER -->
                 <?php View::partial('footer')  ?>
@@ -416,7 +428,7 @@ View::$activeItem = 'customer';
         //         }
         //     })
 
-        // });
+        });
 
         // $("#open-add-user-btn").click(function() {
         //     $('#email').val("");
@@ -647,26 +659,26 @@ View::$activeItem = 'customer';
         //     });
         // }
 
-        // function viewRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
-        //     $.post(`http://localhost/Software-Technology/user/viewUser`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $("#view-hoten").val(response.FullName);
-        //             $("#view-ms").val(response.TenDangNhap);
-        //             let tenQuyen = "";
-        //             quyens.forEach(quyen => {
-        //                 if (quyen.MaQuyen == response.MaQuyen) {
-        //                     tenQuyen = quyen.TenQuyen;
-        //                     return true;
-        //                 }
-        //             });
-        //             $("#view-quyen").val(tenQuyen);
-        //         }
-        //     });
-        //     $("#view-user-modal").modal('toggle');
-        // }
+        function viewRow(params) {
+            let data = {
+                makh: params
+            };
+            $.post(`http://localhost/Software-Technology/customer/viewCustomer`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#view-hotenkh").val(response.FullName);
+                    $("#view-tenhangkh").val(response.tenhang);
+                    $("#view-hochieukh").val(response.hochieu);
+                    $("#view-cccdkh").val(response.cccd);
+                    $("#view-sdtkh").val(response.sdt);
+                    $("#view-emailkh").val(response.email);
+                    $("#view-datekh").val(response.date);
+                    $("#view-genderkh").val(response.gender);
+                    $("#view-addresskh").val(response.address);
+                    $("#view-tichluykh").val(response.diemtichluy);
+                }
+            });
+            $("#view-customer-modal").modal('toggle');
+        }
 
         // function resetPass(params) {
         //     let data = {
@@ -841,7 +853,6 @@ View::$activeItem = 'customer';
         //             }
         //         });
         //     });
-        });
+        //});
     </script>
 </body>
-</html>

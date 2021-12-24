@@ -50,7 +50,11 @@ class CustomerModel{
         $database = DatabaseFactory::getFactory()->getConnection();
         // $hashed_password = password_hash($password, PASSWORD_BCRYPT);
         $sql = "";
-        $sql .= "UPDATE khach_hang SET ho_ten ='$fullname', so_ho_chieu = '$hochieu', gioi_tinh ='$gender', ngay_sinh = '$ngaysinh', email ='$email', cccd = '$cccd', sdt ='$sdt', dia_chi = '$address'  WHERE ma_kh = '$makh'";
+        if(empty($hochieu)) {
+            $sql .= "UPDATE khach_hang SET ho_ten ='$fullname', so_ho_chieu = NULL, gioi_tinh ='$gender', ngay_sinh = '$ngaysinh', email ='$email', cccd = '$cccd', sdt ='$sdt', dia_chi = '$address'  WHERE ma_kh = '$makh'";
+        } else {
+            $sql .= "UPDATE khach_hang SET ho_ten ='$fullname', so_ho_chieu = '$hochieu', gioi_tinh ='$gender', ngay_sinh = '$ngaysinh', email ='$email', cccd = '$cccd', sdt ='$sdt', dia_chi = '$address'  WHERE ma_kh = '$makh'";
+        }
         $query = $database->prepare($sql);
         $query->execute();
         $count = $query->rowCount();
@@ -125,5 +129,49 @@ class CustomerModel{
             'data' => $data,
         ];
         return $response; 
+    }
+
+    public static function getListSearch($search,$search2,$page = 1, $rowsPerPage = 10){
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        
+        $raw = "";
+        $raw1 = "";
+
+        if ($search2 == '2') {
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.ho_ten LIKE '%$search%' AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE ho_ten LIKE '%$search%' AND trang_thai = 1";
+        } else if ($search2 == '3') {
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.cccd LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE cccd LIKE '%$search%'  AND trang_thai = 1";
+        } else if ($search2 == '4') {
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.sdt LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE sdt LIKE '%$search%'  AND trang_thai = 1";
+        } else if ($search2 == '5') {
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE hkh.ten_hang LIKE '%$search%'  AND kh.trang_thai = 1 AND kh.ma_hang_kh = hkh.ma_hang_kh ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE hkh.ten_hang LIKE '%$search%'  AND kh.trang_thai = 1 AND kh.ma_hang_kh = hkh.ma_hang_kh";
+        } else if ($search2 == '6') {
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.diem_tich_luy LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE diem_tich_luy LIKE '%$search%'  AND trang_thai = 1";
+        } else {
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE (kh.ho_ten LIKE '%$search%' OR kh.cccd LIKE '%$search%' OR kh.sdt LIKE '%$search%' OR hkh.ten_hang LIKE '%$search%' OR kh.diem_tich_luy LIKE '%$search%') AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE (kh.ho_ten LIKE '%$search%' OR kh.cccd LIKE '%$search%' OR kh.sdt LIKE '%$search%' OR hkh.ten_hang LIKE '%$search%' OR kh.diem_tich_luy LIKE '%$search%')  AND kh.trang_thai = 1";
+        }
+        $query = $database->prepare($raw);
+        $query->execute();
+        $data = $query->fetchAll();
+        
+        $query1 = $database->prepare($raw1);
+        $query1->execute();
+        $totalRows = $query1->fetch(PDO::FETCH_COLUMN);
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+        ];
+        return $response;
     }
 }

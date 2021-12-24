@@ -19,8 +19,16 @@ class AirlineModel{
         
     }
 
-    public static function getAirline(){
-        
+    public static function getAirline($mahhk){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM hang_hang_khong WHERE trang_thai = 1 AND ma_hang_hang_khong = :mahhk LIMIT 1");
+        $query->execute([':mahhk' => $mahhk]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
 
         public static function getList($page = 1, $rowsPerPage = 10){
@@ -54,4 +62,5 @@ class AirlineModel{
             ];
             return $response;
         }
+    
 }

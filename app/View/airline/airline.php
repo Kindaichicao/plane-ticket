@@ -101,7 +101,7 @@ View::$activeItem = 'airline';
                 </div>
 
               <!-- MODAL ADD -->
-                <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <!-- <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -143,9 +143,9 @@ View::$activeItem = 'airline';
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--MODAL SUA-->
-                <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <!-- <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -181,9 +181,9 @@ View::$activeItem = 'airline';
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- Modal Thong bao -->
-                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <!-- <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -207,7 +207,7 @@ View::$activeItem = 'airline';
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- Modal View -->
                 <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -218,20 +218,32 @@ View::$activeItem = 'airline';
                                     <li class="list-group-item active">Thông Tin Chi Tiết</li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Họ Và Tên:</label>
-                                            <input type="text" class="form-control" id="view-hoten" disabled>
+                                            <label>Mã hãng hàng không:</label>
+                                            <input type="text" class="form-control" id="view-mahanghangkhong" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Tên Đăng Nhập:</label>
-                                            <input type="text" class="form-control" id="view-ms" disabled>
+                                            <label>Tên hãng hàng không:</label>
+                                            <input type="text" class="form-control" id="view-tenhanghangkhong" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Mã Quyền:</label>
-                                            <input type="text" class="form-control" id="view-quyen" disabled>
+                                            <label>Mô tả:</label>
+                                            <input type="text" class="form-control" id="view-motahanghangkhong" disabled>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Loại hãng:</label>
+                                            <input type="text" class="form-control" id="view-loaihanghangkhong" disabled>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Ngày bán:</label>
+                                            <input type="text" class="form-control" id="view-ngayban" disabled>
                                         </div>
                                     </li>
                                 </ul>
@@ -584,20 +596,15 @@ View::$activeItem = 'airline';
 
         function viewRow(params) {
             let data = {
-                email: params
+                mahhk: params
             };
-            $.post(`http://localhost/Software-Technology/user/viewUser`, data, function(response) {
+            $.post(`http://localhost/Software-Technology/airline/getAirline`, data, function(response) {
                 if (response.thanhcong) {
-                    $("#view-hoten").val(response.FullName);
-                    $("#view-ms").val(response.TenDangNhap);
-                    let tenQuyen = "";
-                    quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == response.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
-                            return true;
-                        }
-                    });
-                    $("#view-quyen").val(tenQuyen);
+                    $("#view-mahanghangkhong").val(response.ma_hang_hang_khong);
+                    $("#view-tenhanghangkhong").val(response.ten);   
+                    $("#view-motahanghangkhong").val(response.mo_ta);
+                    $("#view-loaihanghangkhong").val(response.loai_hang);
+                    $("#view-ngayban").val(response.ngay_ban);                
                 }
             });
             $("#view-user-modal").modal('toggle');

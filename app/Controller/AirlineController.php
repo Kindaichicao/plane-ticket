@@ -45,6 +45,20 @@ class AirlineController extends Controller
     }
 
     public function getAirline(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $mahhk = Request::post('mahhk');
+        $kq1 = AirlineModel::getAirline($mahhk);
+        if($kq1 == null ){
+            $response['thanhcong'] = false;
+        } else{   
+            $response['ma_hang_hang_khong'] = $kq1->ma_hang_hang_khong;
+            $response['ten'] = $kq1->ten;
+            $response['mo_ta'] = $kq1->mo_ta;
+            $response['loai_hang'] = $kq1->loai_hang;
+            $response['ngay_ban'] = $kq1->ngay_ban;
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
     }
 }

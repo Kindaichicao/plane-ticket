@@ -68,7 +68,7 @@ View::$activeItem = 'rank';
                                     <button id='btn-delete-user' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Xóa hạng
                                     </button>
-                                    <button id='open-add-user-btn' class="btn btn-primary">
+                                    <button id='open-add-rank-btn' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm hạng
                                     </button>
                                 </div>
@@ -106,29 +106,26 @@ View::$activeItem = 'rank';
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Thêm Tài Khoản</h4>
+                                <h4 class="modal-title">Thêm hạng khách hàng</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form name="add-user-form" action="/" method="POST">
+                                <form name="add-rank-form" action="/" method="POST">
                                     <div class="modal-body">
-                                        <label for="email">Tên Đăng Nhập: </label>
+                                        <label for="email">Mã hạng khách hàng: </label>
                                         <div class="form-group">
-                                            <input type="text" id="email" name="email" placeholder="Mã Số" class="form-control">
+                                            <input type="text" id="themmahang" name="mahang" placeholder="Mã hạng" class="form-control">
                                         </div>
-                                        <label for="fullname">Họ tên: </label>
+                                        <label for="fullname">Tên hạng khách hàng: </label>
                                         <div class="form-group">
-                                            <input type="text" id="fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                            <input type="text" id="themtenhang" name="tenhang" placeholder="Tên hạng" class="form-control">
                                         </div>
-                                        <label for="password">Mật khẩu: </label>
+                                        <label for="password">Mức điểm: </label>
                                         <div class="form-group">
-                                            <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                            <input type="number" id="themmucdiem" name="mucdiem" placeholder="Mức điểm" class="form-control">
                                         </div>
-                                        <label for="cars-quyen">Quyền: </label>
-                                        <select class="form-group" name="maquyen" id="cars-quyen">
-                                        </select>
                                     </div>
                             </div>
                             <div class="modal-footer">
@@ -219,19 +216,19 @@ View::$activeItem = 'rank';
                                     <li class="list-group-item active">Thông Tin Chi Tiết</li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Họ Và Tên:</label>
+                                            <label>Mã hạng khách hàng:</label>
                                             <input type="text" class="form-control" id="view-mahang" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Tên Đăng Nhập:</label>
+                                            <label>Tên hạng khách hàng:</label>
                                             <input type="text" class="form-control" id="view-tenhang" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Mã Quyền:</label>
+                                            <label>Mức điểm:</label>
                                             <input type="text" class="form-control" id="view-mucdiem" disabled>
                                         </div>
                                     </li>
@@ -268,85 +265,75 @@ View::$activeItem = 'rank';
         // on ready
         $(function() {
             layDSRankAjax();
-            //kietm tra quyen
+            // kietm tra quyen
             // Đặt sự kiện validate cho modal add user
-            // $("form[name='add-user-form']").validate({
-            //     rules: {
-            //         email: {
-            //             required: true,
-            //             remote: {
-            //                 url: "http://localhost/Software-Technology/user/checkValidEmail",
-            //                 type: "POST",
-            //             }
-            //         },
-            //         fullname: {
-            //             required: true,
-            //             validateName: true,
-            //         },
-            //         password: {
-            //             required: true,
-            //             minlength: 8,
-            //         },
-            //     },
-            //     messages: {
-            //         email: {
-            //             required: "Vui lòng nhập tên đăng nhập",
-            //         },
-            //         fullname: {
-            //             required: "Vui lòng nhập họ tên",
-            //         },
-            //         password: {
-            //             required: "Vui lòng nhập mật khẩu",
-            //             minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
-            //         },
-            //     },
-            //     submitHandler: function(form, event) {
-            //         event.preventDefault();
-            //         // lấy dữ liệu từ form
-            //         const data = Object.fromEntries(new FormData(form).entries());
-
-            //         $.post(`http://localhost/Software-Technology/user/addUser`, data, function(response) {
-            //             if (response.thanhcong) {
-            //                 currentPage = 1;
-            //                 layDSUserAjax();
-            //                 Toastify({
-            //                     text: "Thêm Thành Công",
-            //                     duration: 1000,
-            //                     close: true,
-            //                     gravity: "top",
-            //                     position: "center",
-            //                     backgroundColor: "#4fbe87",
-            //                 }).showToast();
-            //             } else {
-            //                 Toastify({
-            //                     text: "Thêm Thất Bại",
-            //                     duration: 1000,
-            //                     close: true,
-            //                     gravity: "top",
-            //                     position: "center",
-            //                     backgroundColor: "#FF6A6A",
-            //                 }).showToast();
-            //             }
-
-            //             // Đóng modal
-            //             $("#add-user-modal").modal('toggle')
-            //         });
-            //         $('#email').val("");
-            //         $('#password').val("");
-            //         $('#maquyen').val("");
-            //         $('#fullname').val("");
-            //     }
-            // })
+            $("form[name='add-rank-form']").validate({
+                rules: {
+                    mahang: {
+                        required: true,
+                    },
+                    tenhang: {
+                        required: true,
+                    },
+                    mucdiem: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    mahang: {
+                        required: "Vui lòng nhập mã hạng",
+                    },
+                    tenhang: {
+                        required: "Vui lòng nhập tên hạng",
+                    },
+                    mucdiem: {
+                        required: "Vui lòng nhập mức điểm",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    // lấy dữ liệu từ form
+                    const data = Object.fromEntries(new FormData(form).entries());
+                    $.post(`http://localhost/Software-Technology/rank/create`, data, function(response) {
+                        console.log(response);
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSRankAjax();
+                            Toastify({
+                                text: "Thêm thành công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else{
+                            Toastify({
+                                text: "Thêm thất bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                        // Đóng modal
+                        $("#add-user-modal").modal('toggle')
+                    });
+                    $('#themmahang').val("");
+                    $('#themtenhang').val("");
+                    $('#themmucdiem').val("");
+                }
+            })
 
         });
 
-        // $("#open-add-user-btn").click(function() {
-        //     $('#email').val("");
-        //     $('#password').val("");
-        //     $('#maquyen').val("");
-        //     $('#fullname').val("");
-        //     $("#add-user-modal").modal('toggle')
-        // });
+        $("#open-add-rank-btn").click(function() {
+            $('#themmahang').val("");
+            $('#themtenhang').val("");
+            $('#themmucdiem').val("");
+            $("#add-user-modal").modal('toggle')
+        });
 
 
         function changePage(newPage) {
@@ -372,7 +359,7 @@ View::$activeItem = 'rank';
         // },200));
 
         function layDSRankAjax() {
-            $.get(`http://localhost/Software-Technology/rank/getList?rowsPerPage=1&page=${currentPage}`, function(response) {
+            $.get(`http://localhost/Software-Technology/rank/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
                 // Không được gán biến response này ra ngoài function,
                 // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
                 // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
@@ -389,7 +376,7 @@ View::$activeItem = 'rank';
                     if (data.YeuCau == 1) {
                         disabled = "btn btn-primary";
                     }
-                    // let tenQuyen = "";
+                    let tenQuyen = "";
                     // quyens.forEach(quyen => {
                     //     if (quyen.MaQuyen == data.MaQuyen) {
                     //         tenQuyen = quyen.TenQuyen;

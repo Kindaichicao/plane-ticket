@@ -61,4 +61,15 @@ class AirlineController extends Controller
         }
         $this->View->renderJSON($response);
     }
+    public function advancedSearch()
+    {
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $search = Request::get('search');
+        $search2 = Request::get('search2');
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
+        $data = AirlineModel::getAdvancedPagination($search, $search2,$page, $rowsPerPage);
+        $this->View->renderJSON($data);
+    }    
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Model;
-
 use App\Core\Cookie;
 use App\Core\DatabaseFactory;
 use PDO;
@@ -31,7 +30,7 @@ class AirlineModel{
         return null;
     }
 
-        public static function getList($page = 1, $rowsPerPage = 10){
+     public static function getList($page = 1, $rowsPerPage = 10){
             $limit = $rowsPerPage;
             $offset = $rowsPerPage * ($page - 1);
     
@@ -62,5 +61,66 @@ class AirlineModel{
             ];
             return $response;
         }
+
+
+
+    public static function getAdvancedPagination($search, $search2, $page = 1, $rowsPerPage = 10){
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = 'SELECT * FROM hang_hang_khong';
+
+        if ($search2 == '1') {
+            $raw .= ' WHERE (ma_hang_hang_khong LIKE :search )  AND trang_thai = 1';
+        } 
+        if ($search2 == '2') {
+            $raw .= ' WHERE (ten LIKE :search )  AND trang_thai = 1';
+        } 
+        if ($search2 == '3') {
+            $raw .= ' WHERE (loai_hang LIKE :search )  AND trang_thai = 1';
+        } 
+        if ($search2 == '4') {
+            $raw .= ' WHERE (ngay_ban LIKE :search )  AND trang_thai = 1';
+        } 
+        $search = '%' . $search . '%';
+
+        $raw .= ' ORDER BY ma_hang_hang_khong ASC LIMIT :limit OFFSET :offset';
+        $query = $database->prepare($raw);
+
+        $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $query->bindValue(':search', $search, PDO::PARAM_STR);
+        $query->execute();
+        $data = $query->fetchAll();
+
+
+        $count = 'SELECT COUNT(ma_hang_hang_khong) FROM hang_hang_khong';
+        if ($search2 == '1') {
+            $count .= ' WHERE (ma_hang_hang_khong LIKE :search )  AND trang_thai = 1';
+        } 
+        if ($search2 == '2') {
+            $count .= ' WHERE (ten LIKE :search )  AND trang_thai = 1';
+        } 
+        if ($search2 == '3') {
+            $count .= ' WHERE (loai_hang LIKE :search )  AND trang_thai = 1';
+        } 
+        if ($search2 == '4') {
+            $count .= ' WHERE (ngay_ban LIKE :search )  AND trang_thai = 1';
+        } 
+        $countQuery = $database->prepare($count);
+        $countQuery->bindValue(':search', $search, PDO::PARAM_STR);
+        $countQuery->execute();
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
+
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+        ];
+        return $response;
+    }    
+
     
 }

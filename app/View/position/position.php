@@ -145,28 +145,35 @@ View::$activeItem = 'position';
                     </div>
                 </div>
                 <!--MODAL SUA-->
-                <!-- <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Sửa Tài Khoản</h4>
+                                <h4 class="modal-title">Sửa Chức vụ</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
                             <form name="repair-user-form" action="/" method="POST">
                                 <div class="modal-body">
-                                    <label>Tên Đăng Nhập: </label>
-                                    <div class="form-group">
-                                        <input type="text" id="re-email" name="email" class="form-control" disabled>
-                                    </div>
-                                    <label for="re-fullname">Họ tên: </label>
-                                    <div class="form-group">
-                                        <input type="text" id="re-fullname" name="fullname" placeholder="Họ tên" class="form-control">
-                                    </div>
-                                    <label for="cars-quyen-sua">Quyền: </label>
-                                    <select class="form-group " name="maquyen" id="cars-quyen-sua">
-                                    </select>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Mã chức vụ:</label>
+                                            <input type="text" class="form-control" id="re-machucvu" name="machucvu" readonly>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Tên chức vụ:</label>
+                                            <input type="text" class="form-control" id="re-tenchucvu" name="tenchucvu">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label>Chi Tiết:</label>
+                                        <ul id="re-chucnang-list" class="list-unstyled mb-0">
+
+                                        </ul>
+                                    </li>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -181,9 +188,9 @@ View::$activeItem = 'position';
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal Thong bao -->
-                <!-- <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -207,7 +214,7 @@ View::$activeItem = 'position';
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal View -->
                 <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -303,8 +310,12 @@ View::$activeItem = 'position';
             $("form[name='add-user-form']").validate({
                 rules: {                   
                     machucvu: {
-                        required: true,                       
-                    },
+                        required: true,   
+                        remote: {
+                            url: "http://localhost/Software-Technology/position/checkValidMaChucVu",
+                            type: "POST",
+                        }                    
+                    },                  
                     tenchucvu: {
                         required: true,
                     },
@@ -582,11 +593,8 @@ View::$activeItem = 'position';
         }
 
         function viewRow(params) {
-            $.post(`http://localhost/Software-Technology/position/getChucNang`, function(response) {
-                chucnangs = response.data;
-                chucnangs.forEach(function(cn) {
-                        $('#view-' + cn.ma_chuc_nang).prop('checked', false);                        
-                });
+            chucnangs.forEach(function(cn) {
+                    $('#view-' + cn.ma_chuc_nang).prop('checked', false);                        
             }); 
             let data = {
                 macv: params
@@ -601,105 +609,99 @@ View::$activeItem = 'position';
                 }
             });
             $("#view-user-modal").modal('toggle');
+        }        
+
+        function repairRow(params) {
+            chucnangs.forEach(function(cn) {
+                $('#re-' + cn.ma_chuc_nang).prop('checked', false);                        
+            }); 
+            let data = {
+                macv: params
+            };
+            $.post(`http://localhost/Software-Technology/position/getPosition`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#re-machucvu").val(response.ma_chuc_vu);
+                    $("#re-tenchucvu").val(response.ten_chuc_vu);   
+                    response.chitiet.forEach(function(cn) {
+                        $('#re-' + cn.ma_chuc_nang).prop('checked', true);                        
+                    });                 
+                }
+            });
+            $("#repair-user-modal").modal('toggle');
+            //Sua form
+            $("form[name='repair-user-form']").validate({
+                rules: {                                
+                    tenchucvu: {
+                        required: true,
+                    },
+                },
+                messages: {                    
+                    tenchucvu: {
+                        required: "Vui lòng nhập tên chức vụ",
+                    },                    
+                },
+                submitHandler: function(form, event) {                    
+                    event.preventDefault();
+                    $("#myModalLabel110").text("Quản Lý chức vụ");
+                    $("#question-model").text("Bạn có chắc chắn muốn sửa chức vụ này không");
+                    $("#question-user-modal").modal('toggle');                    
+                    $('#thuchien').off('click')
+                    $("#thuchien").click(function() {
+                        // lấy dữ liệu từ form
+
+                        const tam = Object.fromEntries(new FormData(form).entries());
+                        tam['machucvu'] = $('#re-machucvu').val();
+                        chucnangs.forEach(cn => {
+                            if ($('#re-' + cn.ma_chuc_nang).prop("checked")) {
+                                tam[cn.ma_chuc_nang] = 1;
+                            }
+                        });
+                        let chitiet = [];
+                        Object.keys(tam).forEach(key => {
+                            if(key == 'machucvu' || key == 'tenchucvu'){
+                                return;
+                            }
+                            let temp = {
+                                ma_chuc_vu: tam['machucvu'],
+                                ma_chuc_nang: key,                                
+                            }
+                            chitiet.push(temp)
+                        })
+                        let data = {
+                            machucvu :tam['machucvu'],
+                            tenchucvu :tam['tenchucvu'],
+                            chitiets : JSON.stringify(chitiet)
+                        }
+                        $.post(`http://localhost/Software-Technology/position/update`, data, function(response) {
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSChucVuAjax();
+                                Toastify({
+                                    text: "Sửa Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Sửa Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
+
+                            // Đóng modal
+                            $("#repair-user-modal").modal('toggle')
+                        });
+                    });
+                }
+            })
         }
-
-        // function resetPass(params) {
-        //     let data = {
-        //         email: params
-        //     };
-        //     $.post(`http://localhost/Software-Technology/user/resetPassword`, data, function(response) {
-        //         if (response.thanhcong) {
-
-        //             Toastify({
-        //                 text: "Khôi Phục Thành Công",
-        //                 duration: 1000,
-        //                 close: true,
-        //                 gravity: "top",
-        //                 position: "center",
-        //                 backgroundColor: "#4fbe87",
-        //             }).showToast();
-        //             $("#reset" + params).removeClass("btn-primary");
-        //             $("#reset" + params).addClass("disabled icon icon-left btn-secondary");
-        //         } else {
-        //             Toastify({
-        //                 text: "Khôi Phục Thất Bại",
-        //                 duration: 1000,
-        //                 close: true,
-        //                 gravity: "top",
-        //                 position: "center",
-        //                 backgroundColor: "#FF6A6A",
-        //             }).showToast();
-        //         }
-        //     });
-        // }
-
-        // function repairRow(params) {
-        //     let data = {
-        //         email: params
-        //     };
-
-        //     $.post(`http://localhost/Software-Technology/user/viewUser`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $('#re-email').val(response.TenDangNhap);
-        //             $('#cars-quyen-sua').val(response.MaQuyen).prop('selected', true);
-        //             $('#re-fullname').val(response.FullName);
-        //         }
-        //     });
-        //     $("#repair-user-modal").modal('toggle');
-        //     //Sua form
-        //     $("form[name='repair-user-form']").validate({
-        //         rules: {
-        //             fullname: {
-        //                 required: true,
-        //                 validateName: true,
-        //             }
-        //         },
-        //         messages: {
-        //             fullname: {
-        //                 required: "Vui lòng nhập họ tên",
-        //             }
-        //         },
-        //         submitHandler: function(form, event) {
-        //             event.preventDefault();
-        //             $("#myModalLabel110").text("Quản Lý Tài Khoản");
-        //             $("#question-model").text("Bạn có chắc chắn muốn sửa tài khoản này không");
-        //             $("#question-user-modal").modal('toggle');
-        //             $('#thuchien').off('click')
-        //             $("#thuchien").click(function() {
-        //                 // lấy dữ liệu từ form
-
-        //                 const data = Object.fromEntries(new FormData(form).entries());
-        //                 data['email'] = $('#re-email').val();
-        //                 $.post(`http://localhost/Software-Technology/user/repairUser`, data, function(response) {
-        //                     if (response.thanhcong) {
-        //                         currentPage = 1;
-        //                         layDSUserAjax();
-        //                         Toastify({
-        //                             text: "Sửa Thành Công",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#4fbe87",
-        //                         }).showToast();
-        //                     } else {
-        //                         Toastify({
-        //                             text: "Sửa Thất Bại",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#FF6A6A",
-        //                         }).showToast();
-        //                     }
-
-        //                     // Đóng modal
-        //                     $("#repair-user-modal").modal('toggle')
-        //                 });
-        //             });
-        //         }
-        //     })
-        // }
 
         // function deleteRow(params) {
         //     let data = {

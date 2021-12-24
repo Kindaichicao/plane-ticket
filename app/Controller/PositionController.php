@@ -22,6 +22,20 @@ class PositionController extends Controller
         $this->View->render('position/position');
     }
 
+    public function checkValidMaChucVu()
+    {
+        Auth::checkAuthentication();
+        $macv = Request::post('machucvu');
+        $macv1 = PositionModel::checkValidMaChucVu($macv);
+
+        $response = true;
+
+        if ($macv1) {
+            $response = 'Mã chức vụ đã tồn tại trong hệ thống';
+        }
+        $this->View->renderJSON($response);
+    }
+
     public function create(){
         Auth::checkAuthentication();
         // Auth::ktraquyen("CN07");
@@ -37,7 +51,17 @@ class PositionController extends Controller
     }
 
     public function update(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $machucvu= Request::post('machucvu');
+        $tenchucvu = Request::post('tenchucvu');
+        $chitiets = Request::post('chitiets');
+        $chitiets = json_decode($chitiets);
+        $kq = PositionModel::update($machucvu, $tenchucvu,$chitiets);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function delete(){

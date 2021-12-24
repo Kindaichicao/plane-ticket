@@ -224,7 +224,13 @@ View::$activeItem = 'position';
                                             <label>Tên chức vụ:</label>
                                             <input type="text" class="form-control" id="view-tenchucvu" disabled>
                                         </div>
-                                    </li>                               
+                                    </li>             
+                                    <li class="list-group-item">
+                                        <label>Chi Tiết:</label>
+                                        <ul id="view-chucnang-list" class="list-unstyled mb-0">
+
+                                        </ul>
+                                    </li>                  
                                 </ul>
                             </div>
                             <div class="modal-footer">
@@ -255,7 +261,22 @@ View::$activeItem = 'position';
         let checkedRows = [];
         let quyens
         // on ready
-        $(function() {                       
+        $(function() {          
+            //kietm tra quyen
+            $.post(`http://localhost/Software-Technology/position/getChucNang`, function(response) {
+                chucnangs = response.data;
+                chucnangs.forEach(data => {
+                    let viewopt = '<li class="d-inline-block me-0 mb-1 w-50">\
+                                    <div class="form-check">\
+                                        <div class="custom-control custom-checkbox">\
+                                            <input type="checkbox" class="form-check-input form-check-success" name="' + data.ma_chuc_nang + '" id="view-' + data.ma_chuc_nang + '" disabled>\
+                                            <label class="form-check-label" for="customColorCheck3">' + data.ten + '</label>\
+                                        </div>\
+                                    </div>\
+                                </li>';
+                    $("#view-chucnang-list").append(viewopt);
+                });
+            });             
             layDSChucVuAjax();
             // Đặt sự kiện validate cho modal add user
             // $("form[name='add-user-form']").validate({
@@ -549,18 +570,27 @@ View::$activeItem = 'position';
         //     });
         // }
 
-        // function viewRow(params) {
-        //     let data = {
-        //         macv: params
-        //     };
-        //     $.post(`http://localhost/Software-Technology/position/getPosition`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $("#view-machucvu").val(response.ma_chuc_vu);
-        //             $("#view-tenchucvu").val(response.ten_chuc_vu);                    
-        //         }
-        //     });
-        //     $("#view-user-modal").modal('toggle');
-        // }
+        function viewRow(params) {
+            $.post(`http://localhost/Software-Technology/position/getChucNang`, function(response) {
+                chucnangs = response.data;
+                chucnangs.forEach(function(cn) {
+                        $('#view-' + cn.ma_chuc_nang).prop('checked', false);                        
+                });
+            }); 
+            let data = {
+                macv: params
+            };
+            $.post(`http://localhost/Software-Technology/position/getPosition`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#view-machucvu").val(response.ma_chuc_vu);
+                    $("#view-tenchucvu").val(response.ten_chuc_vu);   
+                    response.chitiet.forEach(function(cn) {
+                        $('#view-' + cn.ma_chuc_nang).prop('checked', true);                        
+                    });                 
+                }
+            });
+            $("#view-user-modal").modal('toggle');
+        }
 
         // function resetPass(params) {
         //     let data = {

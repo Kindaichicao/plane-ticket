@@ -100,34 +100,35 @@ View::$activeItem = 'position';
                 </div>
 
                 <!-- MODAL ADD -->
-                <!-- <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Thêm Tài Khoản</h4>
+                                <h4 class="modal-title">Thêm Chức Vụ</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <form name="add-user-form" action="/" method="POST">
-                                    <div class="modal-body">
-                                        <label for="email">Tên Đăng Nhập: </label>
+                                    <li class="list-group-item">
                                         <div class="form-group">
-                                            <input type="text" id="email" name="email" placeholder="Mã Số" class="form-control">
+                                            <label>Mã chức vụ:</label>
+                                            <input type="text" class="form-control" id="machucvu" name="machucvu">
                                         </div>
-                                        <label for="fullname">Họ tên: </label>
+                                    </li>
+                                    <li class="list-group-item">
                                         <div class="form-group">
-                                            <input type="text" id="fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                            <label>Tên chức vụ:</label>
+                                            <input type="text" class="form-control" id="tenchucvu" name="tenchucvu">
                                         </div>
-                                        <label for="password">Mật khẩu: </label>
-                                        <div class="form-group">
-                                            <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
-                                        </div>
-                                        <label for="cars-quyen">Quyền: </label>
-                                        <select class="form-group" name="maquyen" id="cars-quyen">
-                                        </select>
-                                    </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label>Chi Tiết:</label>
+                                        <ul id="chucnang-list" class="list-unstyled mb-0">
+
+                                        </ul>
+                                    </li>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -142,7 +143,7 @@ View::$activeItem = 'position';
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!--MODAL SUA-->
                 <!-- <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -261,7 +262,7 @@ View::$activeItem = 'position';
     <script>
         let currentPage = 1
         let checkedRows = [];
-        let quyens
+        let chucnangs
         // on ready
         $(function() {          
             //kietm tra quyen
@@ -276,88 +277,109 @@ View::$activeItem = 'position';
                                         </div>\
                                     </div>\
                                 </li>';
+                    let opt = '<li class="d-inline-block me-0 mb-1 w-50">\
+                                    <div class="form-check">\
+                                        <div class="custom-control custom-checkbox">\
+                                            <input type="checkbox" class="form-check-input form-check-success"  name="' + data.ma_chuc_nang + '" id="add-' + data.ma_chuc_nang + '" >\
+                                            <label class="form-check-label" for="customColorCheck3">' + data.ten + '</label>\
+                                        </div>\
+                                    </div>\
+                                </li>';
+                    let reopt = '<li class="d-inline-block me-0 mb-1 w-50">\
+                                <div class="form-check">\
+                                    <div class="custom-control custom-checkbox">\
+                                        <input type="checkbox" class="form-check-input form-check-success" name="' + data.ma_chuc_nang + '" id="re-' + data.ma_chuc_nang + '" >\
+                                        <label class="form-check-label" for="customColorCheck3">' + data.ten + '</label>\
+                                    </div>\
+                                </div>\
+                            </li>';
+                    $("#chucnang-list").append(opt);
+                    $("#re-chucnang-list").append(reopt);
                     $("#view-chucnang-list").append(viewopt);
                 });
             });             
             layDSChucVuAjax();
-            // Đặt sự kiện validate cho modal add user
-            // $("form[name='add-user-form']").validate({
-            //     rules: {
-            //         email: {
-            //             required: true,
-            //             remote: {
-            //                 url: "http://localhost/Software-Technology/user/checkValidEmail",
-            //                 type: "POST",
-            //             }
-            //         },
-            //         fullname: {
-            //             required: true,
-            //             validateName: true,
-            //         },
-            //         password: {
-            //             required: true,
-            //             minlength: 8,
-            //         },
-            //     },
-            //     messages: {
-            //         email: {
-            //             required: "Vui lòng nhập tên đăng nhập",
-            //         },
-            //         fullname: {
-            //             required: "Vui lòng nhập họ tên",
-            //         },
-            //         password: {
-            //             required: "Vui lòng nhập mật khẩu",
-            //             minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
-            //         },
-            //     },
-            //     submitHandler: function(form, event) {
-            //         event.preventDefault();
-            //         // lấy dữ liệu từ form
-            //         const data = Object.fromEntries(new FormData(form).entries());
+            //Đặt sự kiện validate cho modal add user
+            $("form[name='add-user-form']").validate({
+                rules: {                   
+                    machucvu: {
+                        required: true,                       
+                    },
+                    tenchucvu: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    machucvu: {
+                        required: "Vui lòng nhập mã chức vụ",
+                    },
+                    tenchucvu: {
+                        required: "Vui lòng nhập tên chức vụ",
+                    },                    
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    // lấy dữ liệu từ form
+                    const tam = Object.fromEntries(new FormData(form).entries());
+                    chucnangs.forEach(cn => {
+                            if ($('#add-' + cn.ma_chuc_nang).prop("checked")) {
+                                tam[cn.ma_chuc_nang] = 1;
+                            }
+                        });
+                        let chitiet = [];
+                        Object.keys(tam).forEach(key => {
+                            if(key == 'machucvu' || key == 'tenchucvu'){
+                                return;
+                            }
+                            let temp = {
+                                ma_chuc_vu: tam['machucvu'],
+                                ma_chuc_nang: key,                                
+                            }
+                            chitiet.push(temp)
+                        })
+                        let data = {
+                            machucvu :tam['machucvu'],
+                            tenchucvu :tam['tenchucvu'],
+                            chitiets : JSON.stringify(chitiet)
+                        }
+                    $.post(`http://localhost/Software-Technology/position/create`, data, function(response) {
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSChucVuAjax();
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: "Thêm Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
 
-            //         $.post(`http://localhost/Software-Technology/user/addUser`, data, function(response) {
-            //             if (response.thanhcong) {
-            //                 currentPage = 1;
-            //                 layDSUserAjax();
-            //                 Toastify({
-            //                     text: "Thêm Thành Công",
-            //                     duration: 1000,
-            //                     close: true,
-            //                     gravity: "top",
-            //                     position: "center",
-            //                     backgroundColor: "#4fbe87",
-            //                 }).showToast();
-            //             } else {
-            //                 Toastify({
-            //                     text: "Thêm Thất Bại",
-            //                     duration: 1000,
-            //                     close: true,
-            //                     gravity: "top",
-            //                     position: "center",
-            //                     backgroundColor: "#FF6A6A",
-            //                 }).showToast();
-            //             }
-
-            //             // Đóng modal
-            //             $("#add-user-modal").modal('toggle')
-            //         });
-            //         $('#email').val("");
-            //         $('#password').val("");
-            //         $('#maquyen').val("");
-            //         $('#fullname').val("");
-            //     }
-            // })
+                        // Đóng modal
+                        $("#add-user-modal").modal('toggle')
+                    });
+                    $('#machucvu').val("");
+                    $('#tenchucvu').val("");
+                }
+            })
 
         });
 
-        // $("#open-add-user-btn").click(function() {
-        //     $('#email').val("");
-        //     $('#password').val("");
-        //     $('#maquyen').val("");
-        //     $('#fullname').val("");
-        //     $("#add-user-modal").modal('toggle')
-        // });
+        $("#open-add-user-btn").click(function() {
+            $('#machucvu').val("");
+            $('#tenchucvu').val("");
+            $("#add-user-modal").modal('toggle')
+        });
 
 
         function changePage(newPage) {

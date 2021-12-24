@@ -89,6 +89,12 @@ use App\Core\View;
                         <span>Ví Airpro</span>
                     </a>
                 </li>
+                <li id="CN18" class=" sidebar-item  <?= View::$activeItem == 'ticket' ? 'active' : '' ?>">
+                    <a href="<?= View::url('ticket/ticket') ?>" class="sidebar-link">
+                        <i class="bi bi-calendar"></i>
+                        <span>Quản lý vé</span>
+                    </a>
+                </li>
                 <li id="CN12" class=" sidebar-item  <?= View::$activeItem == 'statistics' ? 'active' : '' ?>">
                     <a href="<?= View::url('statistics/statistics') ?>" class="sidebar-link">
                         <i class="bi bi-graph-up"></i>

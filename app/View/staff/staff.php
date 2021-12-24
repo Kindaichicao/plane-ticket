@@ -59,9 +59,9 @@ View::$activeItem = 'staff';
                                 </label>
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
                                     <option value="0" selected>Tất Cả </option>
-                                    <option value="1">Mã hãng hàng không </option>
-                                    <option value="2">Tên hãng hàng không</option>
-                                    <option value="3">Loại hãng</option>
+                                    <option value="1">Tên nhân viên </option>
+                                    <option value="2">CMND/CCCD</option>
+                                    <option value="3">Email</option>
                                     <!-- <option value="4">Ngày bán</option> -->
                                 </select>
                             </div>
@@ -594,20 +594,21 @@ View::$activeItem = 'staff';
                         <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_nv}">
                                 </div>
                             </td>
-                            <td>${data.ten}</td>
-                            <td>${data.mo_ta}</td>
-                            <td>${data.loai_hang}</td>
+                            <td>${data.ho_ten}</td>
+                            <td>${data.gioi_tinh}</td>
+                            <td>${data.ngay_sinh}</td>
+                            <td>${data.email}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.ma_nv}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="repairRow('${data.ma_nv}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-tools"></i>
                                 </button>
-                                <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="deleteRow('${data.ma_nv}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -617,26 +618,27 @@ View::$activeItem = 'staff';
                         <tr class="table-info">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_hang_hang_khong}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_nv}">
                                 </div>
                             </td>
-                            <td>${data.ten}</td>
-                            <td>${data.mo_ta}</td>
-                            <td>${data.loai_hang}</td>
+                            <td>${data.ho_ten}</td>
+                            <td>${data.gioi_tinh}</td>
+                            <td>${data.ngay_sinh}</td>
+                            <td>${data.email}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.ma_nv}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="repairRow('${data.ma_nv}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-tools"></i>
                                 </button>
-                                <button onclick="deleteRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="deleteRow('${data.ma_nv}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>`);
                     }
-                    checkedRows.push(data.ma_hang_hang_khong);
+                    checkedRows.push(data.ma_nv);
                     $row += 1;
                 });
 

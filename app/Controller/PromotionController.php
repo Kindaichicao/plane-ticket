@@ -83,7 +83,26 @@ class PromotionController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $makm = Request::post('makm');
+        $kq= PromotionModel::delete($makm);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
+    public function deletes(){
+        Auth::checkAuthentication();       
+        // Auth::ktraquyen("CN07");
+        $makms = Request::post('makms');
+        $makms = json_decode($makms);
+        $kq = PromotionModel::deletes($makms);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function getList(){

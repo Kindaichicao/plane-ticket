@@ -596,7 +596,7 @@ View::$activeItem = 'promotion';
                                 <button onclick="viewRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="repairRow('${data.ma_km}','${tt}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-tools"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
@@ -1083,81 +1083,80 @@ View::$activeItem = 'promotion';
             });
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         macv: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý Chức Vụ");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa chức vụ này không");
-        //     $("#question-promotion-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/promotion/delete`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     promotion: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSChucVuAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     promotion: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // }
+        function deleteRow(params) {
+            let data = {
+                makm: params
+            };
+            $("#myModalLabel110").text("Quản Lý chương trình khuyến mãi");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa chương trình này không");
+            $("#question-promotion-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/promotion/delete`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSKhuyenMaiAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        }
 
-        // $("#btn-delete-promotion").click(function() {
-        //     $("#myModalLabel110").text("Quản Lý Chức Vụ");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa những chức vụ này không");
-        //     $("#question-promotion-modal").modal('toggle');
-        //     $('#thuchien').off('click')
-        //     $("#thuchien").click(function() {
-        //         let datas = []
-        //         checkedRows.forEach(checkedRow => {
-        //             if ($('#' + checkedRow).prop("checked")) {
-        //                 datas.push(checkedRow);
-        //             }
-        //         });
-        //         console.log(datas);
-        //         let data = {
-        //             macvs: JSON.stringify(datas)
-        //         };
-        //         $.post(`http://localhost/Software-Technology/promotion/deletes`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     promotion: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSChucVuAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     promotion: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // });
+        $("#btn-delete-promotion").click(function() {
+            $("#myModalLabel110").text("Quản Lý chương trình khuyến mãi");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa những chương trình này không");
+            $("#question-promotion-modal").modal('toggle');
+            $('#thuchien').off('click')
+            $("#thuchien").click(function() {
+                let datas = []
+                checkedRows.forEach(checkedRow => {
+                    if ($('#' + checkedRow).prop("checked")) {
+                        datas.push(checkedRow);
+                    }
+                });
+                let data = {
+                    makms: JSON.stringify(datas)
+                };
+                $.post(`http://localhost/Software-Technology/promotion/deletes`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSKhuyenMaiAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        });
     </script>    
 </body>

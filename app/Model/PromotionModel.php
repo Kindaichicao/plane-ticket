@@ -78,8 +78,34 @@ class PromotionModel{
         return true;
     }
 
-    public static function delete(){
+    public static function delete($makm){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `chuong_trinh_khuyen_mai` SET trang_thai = 0  WHERE ma_km = :makm";
+        $query = $database->prepare($sql);
+        $query->execute([':makm' => $makm]);       
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function deletes($makms){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        foreach ($makms as &$key) {
+            $raw .= "'" . $key . "',";
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
+
+        $sql = "UPDATE `chuong_trinh_khuyen_mai` SET trang_thai = 0  WHERE  ma_km IN " . $raw . " AND trang_thai!=2";
+        $count  = $database->exec($sql);
         
+        if (!$count) {
+            return false;
+        }
+        return true;
     }
 
     public static function getPromotion($makm){
@@ -182,17 +208,17 @@ class PromotionModel{
         $date=date('Y-m-d');
 
         $sql1="UPDATE `chuong_trinh_khuyen_mai` SET `trang_thai`=2 
-        WHERE `ngay_bat_dau`<='$date' AND `ngay_ket_thuc`>='$date'";
+        WHERE `ngay_bat_dau`<='$date' AND `ngay_ket_thuc`>='$date' AND trang_thai!=0";
         $query1 = $database->prepare($sql1);
         $query1->execute();
 
         $sql2="UPDATE `chuong_trinh_khuyen_mai` SET `trang_thai`=1 
-        WHERE `ngay_bat_dau`>'$date'";
+        WHERE `ngay_bat_dau`>'$date' AND trang_thai!=0";
         $query2 = $database->prepare($sql2);
         $query2->execute();
 
         $sql3="UPDATE `chuong_trinh_khuyen_mai` SET `trang_thai`=3
-        WHERE `ngay_ket_thuc`<'$date'";
+        WHERE `ngay_ket_thuc`<'$date' AND trang_thai!=0";
         $query3 = $database->prepare($sql3);
         $query3->execute();
 

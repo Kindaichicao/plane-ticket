@@ -77,7 +77,7 @@ class PositionController extends Controller
 
     public function deletes(){
         Auth::checkAuthentication();       
-        Auth::ktraquyen("CN07");
+        // Auth::ktraquyen("CN07");
         $macvs = Request::post('macvs');
         $macvs = json_decode($macvs);
         $kq = PositionModel::deletes($macvs);

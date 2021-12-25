@@ -45,6 +45,32 @@ class FlightController extends Controller
     }
 
     public function getFlight(){
-        
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $macb=Request::post('macb');
+        $data = FlightModel::getFlightline($macb);
+        if($data==null){
+            $data['thanhcong']=false;
+        }
+        $this->View->renderJSON($data);
+    }
+
+    public function getsanbay(){
+        Auth::checkAuthentication();
+        $data = FlightModel::getsanbay();
+        if($data==null){
+            $data['thanhcong']=false;
+        }
+        $this->View->renderJSON($data);
+    }
+    public function searchFlight(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $search = Request::get('search');
+        $search2 = Request::get('search2');
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
+        $data = FlightModel::searchFlight($search, $search2,$page, $rowsPerPage);
+        $this->View->renderJSON($data);
     }
 }

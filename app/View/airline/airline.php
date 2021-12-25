@@ -60,7 +60,6 @@ View::$activeItem = 'airline';
                                     <option value="0" selected>Tất Cả </option>
                                     <option value="1">Mã hãng hàng không </option>
                                     <option value="2">Tên hãng hàng không</option>
-                                    <option value="3">Loại hãng</option>
                                     <!-- <option value="4">Ngày bán</option> -->
                                 </select>
                             </div>
@@ -87,7 +86,6 @@ View::$activeItem = 'airline';
                                                 <th>Chọn</th>
                                                 <th>Tên hãng hàng không</th>
                                                 <th>Mô tả</th>
-                                                <th>Loại hãng</th>
                                                 <th>Tác Vụ</th>
                                             </tr>
                                         </thead>
@@ -131,8 +129,8 @@ View::$activeItem = 'airline';
                                         <label for="loaihanghangkhong">Loại hãng: </label>
                                         <div class="form-group">
                                             <select class="form-select" name="loaihanghangkhong" id="loaihanghangkhong" >
-                                                <option value="Ký hợp đồng">Ký hợp đồng</option>
-                                                <option value="Công ty quản lý" selected>Công ty quản lý</option>
+                                                <option value="0">Ký hợp đồng</option>
+                                                <option value="1" selected>Công ty quản lý</option>
                                             </select>
                                         </div>
                                         <label for="ngaybanhanghangkhong">Ngày bán: </label>
@@ -205,8 +203,8 @@ View::$activeItem = 'airline';
                                         <label for="loaihanghangkhong1">Loại hãng: </label>
                                         <div class="form-group">
                                             <select class="form-select" name="loaihanghangkhong1" id="loaihanghangkhong1">
-                                                <option value="Ký hợp đồng">Ký hợp đồng</option>
-                                                <option value="Công ty quản lý">Công ty quản lý</option>
+                                                <option value="0">Ký hợp đồng</option>
+                                                <option value="1">Công ty quản lý</option>
                                             </select>
                                         </div>
                                         <label for="ngaybanhanghangkhong1">Ngày bán: </label>
@@ -307,8 +305,8 @@ View::$activeItem = 'airline';
                                         <div class="form-group">
                                             <label>Loại hãng:</label>
                                                 <select class="form-select" name="view-loaihanghangkhong" id="view-loaihanghangkhong" disabled>
-                                                    <option value="Ký hợp đồng">Ký hợp đồng</option>
-                                                    <option value="Công ty quản lý">Công ty quản lý</option>
+                                                    <option value="0">Ký hợp đồng</option>
+                                                    <option value="1">Công ty quản lý</option>
                                                 </select>
                                         </div>
                                     </li>
@@ -553,7 +551,6 @@ View::$activeItem = 'airline';
                             </td>
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
-                            <td>${data.loai_hang}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -576,7 +573,6 @@ View::$activeItem = 'airline';
                             </td>
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
-                            <td>${data.loai_hang}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -643,7 +639,6 @@ View::$activeItem = 'airline';
                             </td>
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
-                            <td>${data.loai_hang}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -666,7 +661,6 @@ View::$activeItem = 'airline';
                             </td>
                             <td>${data.ten}</td>
                             <td>${data.mo_ta}</td>
-                            <td>${data.loai_hang}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_hang_hang_khong}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>

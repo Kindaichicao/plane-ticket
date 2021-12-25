@@ -481,8 +481,6 @@ View::$activeItem = 'airline';
                             for (i=0;i<x.length;i++){
                                 x[i].checked=false;
                             }
-
-                       
                         $('#mahanghangkhong').val("");
                         $('#tenhanghangkhong').val("");
                         $('#motahanghangkhong').val("");
@@ -499,6 +497,10 @@ View::$activeItem = 'airline';
             $('#tenhanghangkhong').val("");
             $('#motahanghangkhong').val("");
             $('#loaihanghangkhong').val("");
+            var x=document.getElementsByClassName('sc');
+                for (i=0;i<x.length;i++){
+                    x[i].checked=false;
+                }
             $("#add-airline-modal").modal('toggle')
         });
 

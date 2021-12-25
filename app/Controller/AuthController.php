@@ -32,7 +32,7 @@ class AuthController extends Controller
             'thanhcong' => true,
         ];
         // Kiểm tra email có tồn tại không
-        $user = AccountModel::findOneByEmail($email);
+        $user = AccountModel::findOneByEmailLogin($email);
         if (!$user) {
             $result['thanhcong'] = false;
             $result['summary'] = 'Tên đăng nhập hoặc mật khẩu không chính xác';
@@ -51,9 +51,10 @@ class AuthController extends Controller
         }
 
         // Cookie::set('user_id', $user->id);
-        Cookie::set('user_fullname', $user->username);
+        Cookie::set('user_fullname', $user->ho_ten);
         Cookie::set('user_email', $user->username);
         Cookie::set('user_quyen',$user->ma_cv);
+        Cookie::set('user_matk',$user->ma_tk);
         Cookie::set('user_logged_in', true);
         // can set them nhung cái cần
         return $this->View->renderJSON($result);

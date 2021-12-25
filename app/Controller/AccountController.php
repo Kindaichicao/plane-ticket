@@ -117,9 +117,9 @@ class AccountController extends Controller
         if($kq == null){
             $response['thanhcong'] = false;
         } else{   
-            $response['TenDangNhap'] = $kq->TenDangNhap;
-            $response['FullName'] = $kq->FullName;
-            $response['MaQuyen'] = $kq->MaQuyen;
+            $response['ma_tk'] = $kq->ma_tk;
+            $response['username'] = $kq->username;
+            $response['ma_cv'] = $kq->ma_cv;
             $response['thanhcong'] = true;
         }
         $this->View->renderJSON($response);

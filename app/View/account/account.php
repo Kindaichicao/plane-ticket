@@ -66,7 +66,7 @@ View::$activeItem = 'account';
                                     <button id='btn-delete-user' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Khóa tài khoản
                                     </button>
-                                    <button id='open-add-user-btn' class="btn btn-primary">
+                                    <button id='btn-createaccount' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm tài khoản
                                     </button>
                                 </div>
@@ -265,7 +265,7 @@ View::$activeItem = 'account';
                                     <li class="list-group-item active">Thông Tin Chi Tiết</li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Họ Và Tên:</label>
+                                            <label>Mã tài khoản:</label>
                                             <input type="text" class="form-control" id="view-hoten" disabled>
                                         </div>
                                     </li>
@@ -406,10 +406,10 @@ View::$activeItem = 'account';
             $("#add-user-modal").modal('toggle')
         });
 
-        $("#btn-phancong").click(function() {
+        $("#btn-createaccount").click(function() {
             $("#phancong-modal").modal('toggle');
             currentPage = 1;
-            layDSGVMonAjax();
+            //layDSGVMonAjax();
         });
 
         function changePage(newPage) {
@@ -472,7 +472,7 @@ View::$activeItem = 'account';
                             <td>${data.username}</td>
                             <td>${tenQuyen}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.username}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
@@ -495,7 +495,7 @@ View::$activeItem = 'account';
                             <td>${data.username}</td>
                             <td>${tenQuyen}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.username}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
@@ -639,12 +639,12 @@ View::$activeItem = 'account';
             };
             $.post(`http://localhost/Software-Technology/account/viewUser`, data, function(response) {
                 if (response.thanhcong) {
-                    $("#view-hoten").val(response.FullName);
-                    $("#view-ms").val(response.TenDangNhap);
+                    $("#view-hoten").val(response.ma_tk);
+                    $("#view-ms").val(response.username);
                     let tenQuyen = "";
                     quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == response.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
+                        if (quyen.ma_chuc_vu == response.ma_cv) {
+                            tenQuyen = quyen.ten_chuc_vu;
                             return true;
                         }
                     });

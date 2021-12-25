@@ -60,7 +60,26 @@ class StaffController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $manv = Request::post('manv');
+        $kq= StaffModel::delete($manv);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
+    public function deletes(){
+        Auth::checkAuthentication();       
+        // Auth::ktraquyen("CN07");
+        $manvs = Request::post('manvs');
+        $manvs = json_decode($manvs);
+        $kq = StaffModel::deletes($manvs);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function getList(){

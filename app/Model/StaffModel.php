@@ -31,8 +31,34 @@ class StaffModel{
         return false;
     }
 
-    public static function delete(){
+    public static function delete($manv){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `nhan_vien` SET trang_thai = 0  WHERE ma_nv = :manv";
+        $query = $database->prepare($sql);
+        $query->execute([':manv' => $manv]);       
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function deletes($manvs){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        foreach ($manvs as &$key) {
+            $raw .= "'" . $key . "',";
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
+
+        $sql = "UPDATE `nhan_vien` SET trang_thai = 0  WHERE  ma_nv IN " . $raw;
+        $count  = $database->exec($sql);
         
+        if (!$count) {
+            return false;
+        }
+        return true;
     }
 
     public static function getStaff($manv){

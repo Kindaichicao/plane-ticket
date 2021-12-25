@@ -25,9 +25,24 @@ class AccountModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT * FROM tai_khoan tk, khach_hang kh WHERE tk.username = :email AND tk.ma_tk = kh.ma_tk LIMIT 1");
+        $query = $database->prepare("SELECT * FROM tai_khoan  WHERE username = :email AND ma_tk = ma_tk LIMIT 1");
         $query->execute([':email' => $email]);
 
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
+
+    public static function findHoTen($ma_cv,$ma_tk){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        if($ma_cv == 'CV001'){
+            $sql = "SELECT ho_ten FROM `khach_hang` WHERE ma_tk = '".$ma_tk."'";
+        } else{
+            $sql = "SELECT ho_ten FROM `nhan_vien` WHERE ma_tk = '".$ma_tk."'";
+        }
+        $query = $database->prepare($sql);
+        $query->execute();
         if ($row = $query->fetch()) {
             return $row;
         }
@@ -129,10 +144,19 @@ class AccountModel
     public static function delete($email)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "UPDATE `user` SET TrangThai = 0  WHERE TenDangNhap = :email";
-        $query = $database->prepare($sql);
+        $sql1 = "SELECT trang_thai FROM `tai_khoan` WHERE username = :email LIMIT 1";
+        
+        $query = $database->prepare($sql1);
         $query->execute([':email' => $email]);
-        $count = $query->rowCount();
+        $tt = $query->fetch();
+        if($tt->trang_thai == 1){
+            $sql2 = "UPDATE `tai_khoan` SET trang_thai = 0  WHERE username = :email";
+        } else {
+            $sql2 = "UPDATE `tai_khoan` SET trang_thai = 1  WHERE username = :email";
+        }
+        $query2 = $database->prepare($sql2);
+        $query2->execute([':email' => $email]);
+        $count = $query2->rowCount();
         if ($count == 1) {
             return true;
         }
@@ -149,7 +173,7 @@ class AccountModel
         $raw = substr($raw, 0, -1);
         $raw .= ")";
 
-        $sql = "UPDATE `user` SET TrangThai = 0  WHERE  TenDangNhap IN " . $raw;
+        $sql = "UPDATE `tai_khoan` SET trang_thai = 0  WHERE  username IN " . $raw;
         $count  = $database->exec($sql);
         if (!$count) {
             return false;
@@ -181,13 +205,13 @@ class AccountModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         // query chỉ lấy user thuộc page yêu cầu
-        $raw = 'SELECT * FROM tai_khoan tk, khach_hang kh';
+        $raw = 'SELECT * FROM tai_khoan tk ';
         if ($search) {
             $search = '%' . $search . '%';
-            $raw .= ' WHERE (tk.ma_tk LIKE :search OR tk.username LIKE :search OR tk.ma_cv LIKE :search OR kh.ho_ten LIKE :search 
-                        ) AND(kh.ma_tk = tk.ma_tk)';
+            $raw .= ' WHERE (tk.ma_tk LIKE :search OR tk.username LIKE :search OR tk.ma_cv LIKE :search  
+                        ) ';
         } else {
-            $raw .= ' WHERE (kh.ma_tk = tk.ma_tk)';
+            $raw .= ' WHERE 1';
         }
         $raw .= ' ORDER BY tk.username ASC LIMIT :limit OFFSET :offset'; //DESC giảm ASC tăng
 
@@ -208,13 +232,13 @@ class AccountModel
         }
 
         // đếm số lượng tất cả user để tính số trang
-        $count = 'SELECT COUNT(tk.ma_tk) FROM tai_khoan tk, khach_hang kh, nhan_vien nv ';
+        $count = 'SELECT COUNT(tk.ma_tk) FROM tai_khoan tk';
         if ($search) {
             $search = '%' . $search . '%';
-            $count .= ' WHERE (tk.ma_tk LIKE :search OR tk.username LIKE :search OR tk.ma_cv LIKE :search OR kh.ho_ten LIKE :search 
-            ) AND(kh.ma_tk = tk.ma_tk)';
+            $count .= ' WHERE (tk.ma_tk LIKE :search OR tk.username LIKE :search OR tk.ma_cv LIKE :search OR 
+            )';
         } else {
-            $count .= ' WHERE (kh.ma_tk = tk.ma_tk)';
+            $count .= ' WHERE 1';
         }
 
         $countQuery = $database->prepare($count);
@@ -312,52 +336,6 @@ class AccountModel
             return true;
         }
         return false;
-    }
-
-    public static function getSinhVien(){
-        $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "SELECT TenDangNhap, FullName from user WHERE TrangThai = 1 and MaQuyen= 'Q01'";
-        $query = $database->prepare($sql);
-        $query->execute();
-        $data=null;
-        $arrData = null;
-        $i=0;
-        while($data=$query->fetch(PDO::FETCH_ASSOC)){
-            $arrData[$i++] =$data;
-        }
-        $arrData['SoLuong'] = $i;
-        return $arrData;
-    }
-
-    public static function getListSinhVien($page = 1, $rowsPerPage = 20){
-        $limit = $rowsPerPage;
-        $offset = $rowsPerPage * ($page - 1);
-
-        $database = DatabaseFactory::getFactory()->getConnection();
-
-        $sql = "SELECT TenDangNhap, FullName from user WHERE TrangThai = 1 and MaQuyen= 'Q01'  
-                ORDER BY TenDangNhap ASC LIMIT :limit OFFSET :offset";
-        
-        $query = $database->prepare($sql);
-
-        $query->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
-
-        $query->execute();
-        $data = $query->fetchAll();
-
-        $count = 'SELECT COUNT(TenDangNhap) FROM user WHERE TrangThai = 1 and MaQuyen= "Q01"';
-
-        $countQuery = $database->query($count);
-        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
-
-        $response = [
-            'page' => $page,
-            'rowsPerPage' => $rowsPerPage,
-            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
-            'data' => $data,
-        ];
-        return $response;   
     }
 
     public static function test()

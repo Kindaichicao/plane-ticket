@@ -83,7 +83,7 @@ class AccountController extends Controller
         $this->View->renderJSON($response);
     }
 
-    public function deleteUser()
+    public function delete()
     {
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN01");
@@ -95,7 +95,7 @@ class AccountController extends Controller
         $this->View->renderJSON($response);
     }
 
-    public function deleteUsers(){
+    public function deletes(){
         Auth::checkAuthentication();  
         //Auth::ktraquyen("CN01");     
         $emails = Request::post('emails');

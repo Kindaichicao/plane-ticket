@@ -66,7 +66,7 @@ View::$activeItem = 'account';
                                     <button id='btn-delete-user' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Khóa tài khoản
                                     </button>
-                                    <button id='open-add-user-btn' class="btn btn-primary">
+                                    <button id='btn-createaccount' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm tài khoản
                                     </button>
                                 </div>
@@ -265,7 +265,7 @@ View::$activeItem = 'account';
                                     <li class="list-group-item active">Thông Tin Chi Tiết</li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Họ Và Tên:</label>
+                                            <label>Mã tài khoản:</label>
                                             <input type="text" class="form-control" id="view-hoten" disabled>
                                         </div>
                                     </li>
@@ -406,10 +406,10 @@ View::$activeItem = 'account';
             $("#add-user-modal").modal('toggle')
         });
 
-        $("#btn-phancong").click(function() {
+        $("#btn-createaccount").click(function() {
             $("#phancong-modal").modal('toggle');
             currentPage = 1;
-            layDSGVMonAjax();
+            //layDSGVMonAjax();
         });
 
         function changePage(newPage) {
@@ -417,21 +417,19 @@ View::$activeItem = 'account';
             layDSUserAjax();
         }
 
-        function changePageSearchNangCao(newPage, search, search2) {
+        function changePageSearch(newPage, search) {
             currentPage = newPage;
-            layDSUserSearchNangCao(search, search2);
+            layDSUserSearch(search);
         }
 
         $('#cars-search').change(function() {
-            let search = $('#cars-search option').filter(':selected').val();
             currentPage = 1;
-            layDSUserSearchNangCao($('#serch-user-text').val(), search);
+            layDSUserSearch($('#serch-user-text').val());
         });
 
         $("#search-user-form").keyup(debounce(function() {
-            let search = $('#cars-search option').filter(':selected').val();
             currentPage = 1;
-            layDSUserSearchNangCao($('#serch-user-text').val(), search);
+            layDSUserSearch($('#serch-user-text').val());
         },200));
 
         function layDSUserAjax() {
@@ -472,7 +470,7 @@ View::$activeItem = 'account';
                             <td>${data.username}</td>
                             <td>${tenQuyen}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.username}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
@@ -495,7 +493,7 @@ View::$activeItem = 'account';
                             <td>${data.username}</td>
                             <td>${tenQuyen}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.username}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
@@ -531,8 +529,8 @@ View::$activeItem = 'account';
             });
         }
 
-        function layDSUserSearchNangCao(search, search2) {
-            $.get(`http://localhost/Software-Technology/user/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
+        function layDSUserSearch(search) {
+            $.get(`http://localhost/Software-Technology/account/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}`, function(response) {
                 // Không được gán biến response này ra ngoài function,
                 // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
                 // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
@@ -546,67 +544,62 @@ View::$activeItem = 'account';
                 $row = 0;
                 response.data.forEach(data => {
                     let disabled = "disabled btn icon icon-left btn-secondary";
-                    if (data.YeuCau == 1) {
-                        disabled = "btn btn-primary";
-                    }
                     let tenQuyen = "";
                     quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == data.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
+                        if (quyen.ma_chuc_vu == data.ma_cv) {
+                            tenQuyen = quyen.ten_chuc_vu;
                             return true;
                         }
                     });
                     if ($row % 2 == 0) {
+                        let bibi = "bi bi-lock";
+                        if (data.trang_thai == 0){
+                            bibi = "bi bi-unlock";
+                        }
 
                         table1.append(`
                         <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_tk}">
                                 </div>
                             </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
+                            <td>${data.username}</td>
                             <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
                             <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.username}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
+                                <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="${bibi}"></i>
                                 </button>
                             </td>
                         </tr>`);
                     } else {
+                        let bibi = "bi bi-lock";
+                        if (data.trang_thai == 0){
+                            bibi = "bi bi-unlock";
+                        }
                         table1.append(`
-                        <tr class="table-info">
+                        <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_tk}">
                                 </div>
                             </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
+                            <td>${data.username}</td>
                             <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
                             <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.username}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
+                                <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="${bibi}"></i>
                                 </button>
                             </td>
                         </tr>`);
                     }
-                    checkedRows.push(data.TenDangNhap);
+                    checkedRows.push(data.username);
                     $row += 1;
                 });
 
@@ -618,12 +611,12 @@ View::$activeItem = 'account';
                         if (i == currentPage) {
                             pagination.append(`
                         <li class="page-item active">
-                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                            <button class="page-link" onClick='changePageSearch(${i},${search})'>${i}</button>
                         </li>`)
                         } else {
                             pagination.append(`
                         <li class="page-item">
-                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                            <button class="page-link" onClick='changePageSearch(${i},${search})'>${i}</button>
                         </li>`)
                         }
 
@@ -639,12 +632,12 @@ View::$activeItem = 'account';
             };
             $.post(`http://localhost/Software-Technology/account/viewUser`, data, function(response) {
                 if (response.thanhcong) {
-                    $("#view-hoten").val(response.FullName);
-                    $("#view-ms").val(response.TenDangNhap);
+                    $("#view-hoten").val(response.ma_tk);
+                    $("#view-ms").val(response.username);
                     let tenQuyen = "";
                     quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == response.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
+                        if (quyen.ma_chuc_vu == response.ma_cv) {
+                            tenQuyen = quyen.ten_chuc_vu;
                             return true;
                         }
                     });

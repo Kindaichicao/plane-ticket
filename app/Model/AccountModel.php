@@ -257,52 +257,37 @@ class AccountModel
         return $response;
     }
 
-    public static function getAdvancedPagination($search, $search2, $page = 1, $rowsPerPage = 20)
+    public static function getAdvancedPagination($search,  $page = 1, $rowsPerPage = 10)
     {
         $limit = $rowsPerPage;
         $offset = $rowsPerPage * ($page - 1);
 
         $database = DatabaseFactory::getFactory()->getConnection();
-        $raw = 'SELECT * FROM user';
+        $raw = 'SELECT * FROM tai_khoan';
 
-        if ($search2 == '1') {
-            $raw .= ' WHERE (FullName LIKE :search OR TenDangNhap LIKE :search ) AND (YeuCau = 1)
-         AND TrangThai = 1';
-        } else {
-            $raw .= ' WHERE (FullName LIKE :search OR TenDangNhap LIKE :search ) AND (MaQuyen LIKE :search2 OR YeuCau LIKE :search2)
-         AND TrangThai = 1';
-        }
+        $raw .= ' WHERE (username LIKE :search OR ma_tk LIKE :search)';
 
         $search = '%' . $search . '%';
-        $search2 = '%' . $search2 . '%';
 
-        $raw .= ' ORDER BY TenDangNhap ASC LIMIT :limit OFFSET :offset';
+        $raw .= ' ORDER BY ma_tk ASC LIMIT :limit OFFSET :offset';
         $query = $database->prepare($raw);
 
         $query->bindValue(':limit', $limit, PDO::PARAM_INT);
         $query->bindValue(':offset', $offset, PDO::PARAM_INT);
         $query->bindValue(':search', $search, PDO::PARAM_STR);
-        $query->bindValue(':search2', $search2, PDO::PARAM_STR);
         $query->execute();
         $data = $query->fetchAll();
         // Xóa password trước khi trả về
 
         foreach ($data as $user) {
-            unset($user->Hashed_Password);
+            unset($user->hash_password);
         }
 
-        $count = 'SELECT COUNT(TenDangNhap) FROM user';
-        if ($search2 == 1) {
-            $count .= ' WHERE (FullName LIKE :search OR TenDangNhap LIKE :search ) AND (YeuCau = :search2)
-            AND TrangThai = 1';
-        } else {
-            $count .= ' WHERE (FullName LIKE :search OR TenDangNhap LIKE :search ) AND (MaQuyen LIKE :search2 OR YeuCau LIKE :search2)
-            AND TrangThai = 1';
-        }
+        $count = 'SELECT COUNT(ma_tk) FROM tai_khoan';
+            $count .= ' WHERE (username LIKE :search OR ma_tk LIKE :search)';
 
         $countQuery = $database->prepare($count);
         $countQuery->bindValue(':search', $search, PDO::PARAM_STR);
-        $countQuery->bindValue(':search2', $search2, PDO::PARAM_STR);
         $countQuery->execute();
         $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
 

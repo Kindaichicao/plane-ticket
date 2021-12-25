@@ -148,19 +148,7 @@ View::$activeItem = 'account';
                         <div class="modal-content">
 
                             <div class="modal-header bg-primary">
-                                <div class="col-sm-6">
-                                    <h6 style="color: White;">Tìm Kiếm</h6>
-                                    <div id="search-pc-form" name="search-pc-form">
-                                        <div class="form-group position-relative has-icon-right">
-                                            <input id="serch-pc-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
-                                            <div class="form-control-icon">
-                                                <i class="bi bi-search"></i>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1 offset-5" style="padding-left: 30px; padding-bottom: 38px;">
+                                <div class="col-sm-1 offset-11" style="padding-left: 30px; padding-bottom: 38px;">
                                     <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal" style="padding-top: 5px;">
                                         <i class="bx bx-check d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Đóng</span>
@@ -178,24 +166,9 @@ View::$activeItem = 'account';
                                                 <h6 style="margin-left: 50px; margin-right: 10px;"> Tạo tài khoản cho:</h6>
                                             </label>
                                             <select class="btn btn btn-primary" name="pc-cbb" id="cars-pc">
-                                                <option value="">Tất Cả</option>
-                                                <option value="gv">Giảng Viên</option>
-                                                <option value="mon">Môn Học</option>
+                                                <option value="staff">Nhân viên</option>
+                                                <option value="customer">Khách hàng</option>
                                             </select>
-                                        </div>
-                                        <div class="col-12 col-md-6 order-md-2 order-first">
-                                            <div class=" loat-start float-lg-end mb-3">
-                                                <select class="btn btn btn-success" name="gv-cbb" id="cars-gv">
-                                                    <option value="">Chọn giảng viên</option>
-                                                </select>
-                                                <select class="btn btn btn-success" name="mon-cbb" id="cars-mon">
-                                                    <option value="">Chọn môn</option>
-                                                </select>
-
-                                                <button id='add-pc-btn' class="btn btn-primary">
-                                                    <i class="bi bi-plus"></i> Thêm
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -206,9 +179,10 @@ View::$activeItem = 'account';
                                                 <table class="table mb-0 table-danger" id="table2">
                                                     <thead>
                                                         <tr>
-                                                            <th>Mã Giảng Viên</th>
-                                                            <th>Mã Môn</th>
-                                                            <th>Gỡ </th>
+                                                            <th>Mã</th>
+                                                            <th>Họ tên</th>
+                                                            <th>Email</th>
+                                                            <th>Tác vụ</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -228,7 +202,7 @@ View::$activeItem = 'account';
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Modal Thong bao -->
                 <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -292,6 +266,42 @@ View::$activeItem = 'account';
                         </div>
                     </div>
                 </div>
+                <!-- Modal thông báo pc -->
+                <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="z-index: 10000 !important;">
+                                <h4 class="modal-title">Thêm Tài Khoản</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="add-user-form" action="/" method="POST">
+                                    <div class="modal-body">
+                                        <label for="password">Mật khẩu: </label>
+                                        <div class="form-group">
+                                            <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                        </div>
+                                        <label for="cars-quyen">Chức vụ: </label>
+                                        <select class="form-group" name="maquyen" id="cars-quyen">
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Thêm</span>
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- FOOTER -->
                 <?php View::partial('footer')  ?>
@@ -325,34 +335,180 @@ View::$activeItem = 'account';
                 }
             });
             //kietm tra quyen
-            
 
+
+
+
+        });
+
+        $("#open-add-user-btn").click(function() {
+            $('#email').val("");
+            $('#password').val("");
+            $('#maquyen').val("");
+            $('#fullname').val("");
+            $("#add-user-modal").modal('toggle')
+        });
+
+        $("#btn-createaccount").click(function() {
+
+            $("#phancong-modal").modal('toggle');
+            currentPage = 1;
+            getListAjax();
+        });
+
+        $('#cars-pc').change(function() {
+            currentPage = 1;
+            getListAjax();
+        });
+
+        function getListAjax() {
+            let search = $('#cars-pc option').filter(':selected').val();
+            if (search == 'staff') {
+                url = "http://localhost/Software-Technology/staff/getList?rowsPerPage=10&page=" + currentPage;
+                $.get(`${url}`, function(response) {
+
+                    const table2 = $('#table2 > tbody');
+                    table2.empty();
+                    checkedRows = [];
+                    $row = 0;
+                    response.data.forEach(data => {
+                        if (search == 'staff') {
+                            ma = data.ma_nv;
+                        } else {
+                            ma = data.ma_kh;
+                        }
+                        if ($row % 2 == 0) {
+
+                            table2.append(`
+                        <tr class="table-light">
+                            <td>${ma}</td>
+                            <td>${data.ho_ten}</td>
+                            <td>${data.email}</td>
+                            <td>
+                                <button onclick="addTK('${ma}','${data.email}','${data.ho_ten}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-person-plus"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                        } else {
+                            table2.append(`
+                        <tr class="table-light">
+                            <td>${ma}</td>
+                            <td>${data.ho_ten}</td>
+                            <td>${data.email}</td>
+                            <td>
+                                <button onclick="addTK('${ma}','${data.email}','${data.ho_ten}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-person-plus"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                        }
+                        $row += 1;
+                    });
+
+                    const pagination = $('#pagination2');
+                    // Xóa phân trang cũ
+                    pagination.empty();
+                    if (response.totalPage > 1) {
+                        for (let i = 1; i <= response.totalPage; i++) {
+                            if (i == currentPage) {
+                                pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageGVM(${i})'>${i}</button>
+                        </li>`)
+                            } else {
+                                pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageGVM(${i})'>${i}</button>
+                        </li>`)
+                            }
+
+                        }
+                    }
+
+
+                });
+            } else {
+                url = "http://localhost/Software-Technology/customer/getList?rowsPerPage=10&page=" + currentPage;
+                $.get(`${url}`, function(response) {
+
+                    const table2 = $('#table2 > tbody');
+                    table2.empty();
+                    checkedRows = [];
+                    $row = 0;
+                    response.data.forEach(data => {
+                        if (search == 'staff') {
+                            ma = data.ma_nv;
+                        } else {
+                            ma = data.ma_kh;
+                        }
+                        if ($row % 2 == 0) {
+
+                            table2.append(`
+                            <tr class="table-light">
+                                <td>${ma}</td>
+                                <td>${data.ho_ten}</td>
+                                <td>${data.email}</td>
+                                <td>
+                                    <button onclick="addTKKH('${ma}','${data.email}','${data.ho_ten}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                        <i class="bi bi-person-plus"></i>
+                                    </button>
+                                </td>
+                            </tr>`);
+                        } else {
+                            table2.append(`
+                                <tr class="table-light">
+                                    <td>${ma}</td>
+                                    <td>${data.ho_ten}</td>
+                                    <td>${data.email}</td>
+                                    <td>
+                                        <button onclick="addTKKH('${ma}','${data.email}','${data.ho_ten}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                            <i class="bi bi-person-plus"></i>
+                                        </button>
+                                    </td>
+                                </tr>`);
+                        }
+                        $row += 1;
+                    });
+
+                    const pagination = $('#pagination2');
+                    // Xóa phân trang cũ
+                    pagination.empty();
+                    if (response.totalPage > 1) {
+                        for (let i = 1; i <= response.totalPage; i++) {
+                            if (i == currentPage) {
+                                pagination.append(`
+                                <li class="page-item active">
+                                    <button class="page-link" onClick='changePageGVM(${i})'>${i}</button>
+                                </li>`)
+                                                    } else {
+                                                        pagination.append(`
+                                <li class="page-item">
+                                    <button class="page-link" onClick='changePageGVM(${i})'>${i}</button>
+                                </li>`)
+                            }
+
+                        }
+                    }
+
+
+                });
+            }
+
+        }
+
+        function addTK(ma, mail, hoten) {
+            $("#phancong-modal").modal('toggle');
+            $("#add-user-modal").modal('toggle');
             // Đặt sự kiện validate cho modal add user
             $("form[name='add-user-form']").validate({
                 rules: {
-                    email: {
-                        required: true,
-                        remote: {
-                            url: "http://localhost/Software-Technology/user/checkValidEmail",
-                            type: "POST",
-                        }
-                    },
-                    fullname: {
-                        required: true,
-                        validateName: true,
-                    },
                     password: {
                         required: true,
                         minlength: 8,
                     },
                 },
                 messages: {
-                    email: {
-                        required: "Vui lòng nhập tên đăng nhập",
-                    },
-                    fullname: {
-                        required: "Vui lòng nhập họ tên",
-                    },
                     password: {
                         required: "Vui lòng nhập mật khẩu",
                         minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
@@ -362,8 +518,11 @@ View::$activeItem = 'account';
                     event.preventDefault();
                     // lấy dữ liệu từ form
                     const data = Object.fromEntries(new FormData(form).entries());
+                    data['email'] = mail;
+                    data['fullname'] = hoten;
+                    data['ma'] = ma;
 
-                    $.post(`http://localhost/Software-Technology/user/addUser`, data, function(response) {
+                    $.post(`http://localhost/Software-Technology/account/create`, data, function(response) {
                         if (response.thanhcong) {
                             currentPage = 1;
                             layDSUserAjax();
@@ -395,27 +554,71 @@ View::$activeItem = 'account';
                     $('#fullname').val("");
                 }
             })
-
-        });
-
-        $("#open-add-user-btn").click(function() {
-            $('#email').val("");
-            $('#password').val("");
-            $('#maquyen').val("");
-            $('#fullname').val("");
-            $("#add-user-modal").modal('toggle')
-        });
-
-        $("#btn-createaccount").click(function() {
+        }
+        function addTKKH(ma, mail, hoten) {
             $("#phancong-modal").modal('toggle');
-            currentPage = 1;
-            //layDSGVMonAjax();
-        });
+            $("#add-user-modal").modal('toggle');
+            // Đặt sự kiện validate cho modal add user
+            $("form[name='add-user-form']").validate({
+                rules: {
+                    password: {
+                        required: true,
+                        minlength: 8,
+                    },
+                },
+                messages: {
+                    password: {
+                        required: "Vui lòng nhập mật khẩu",
+                        minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    // lấy dữ liệu từ form
+                    const data = Object.fromEntries(new FormData(form).entries());
+                    data['email'] = email;
+                    data['fullname'] = hoten;
+                    data['ma'] = ma;
+
+                    $.post(`http://localhost/Software-Technology/account/create2`, data, function(response) {
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSUserAjax();
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: "Thêm Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+
+                        // Đóng modal
+                        $("#add-user-modal").modal('toggle')
+                    });
+                    $('#email').val("");
+                    $('#password').val("");
+                    $('#maquyen').val("");
+                    $('#fullname').val("");
+                }
+            })
+        }
 
         function changePage(newPage) {
             currentPage = newPage;
             layDSUserAjax();
         }
+
 
         function changePageSearch(newPage, search) {
             currentPage = newPage;
@@ -430,7 +633,7 @@ View::$activeItem = 'account';
         $("#search-user-form").keyup(debounce(function() {
             currentPage = 1;
             layDSUserSearch($('#serch-user-text').val());
-        },200));
+        }, 200));
 
         function layDSUserAjax() {
             $.get(`http://localhost/Software-Technology/account/getAccount?rowsPerPage=10&page=${currentPage}`, function(response) {
@@ -456,7 +659,7 @@ View::$activeItem = 'account';
                     });
                     if ($row % 2 == 0) {
                         let bibi = "bi bi-lock";
-                        if (data.trang_thai == 0){
+                        if (data.trang_thai == 0) {
                             bibi = "bi bi-unlock";
                         }
 
@@ -480,7 +683,7 @@ View::$activeItem = 'account';
                         </tr>`);
                     } else {
                         let bibi = "bi bi-lock";
-                        if (data.trang_thai == 0){
+                        if (data.trang_thai == 0) {
                             bibi = "bi bi-unlock";
                         }
                         table1.append(`
@@ -553,7 +756,7 @@ View::$activeItem = 'account';
                     });
                     if ($row % 2 == 0) {
                         let bibi = "bi bi-lock";
-                        if (data.trang_thai == 0){
+                        if (data.trang_thai == 0) {
                             bibi = "bi bi-unlock";
                         }
 
@@ -577,7 +780,7 @@ View::$activeItem = 'account';
                         </tr>`);
                     } else {
                         let bibi = "bi bi-lock";
-                        if (data.trang_thai == 0){
+                        if (data.trang_thai == 0) {
                             bibi = "bi bi-unlock";
                         }
                         table1.append(`

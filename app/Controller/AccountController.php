@@ -39,9 +39,23 @@ class AccountController extends Controller
         //Auth::ktraquyen("CN01");
         $email = Request::post('email');
         $password = Request::post('password');
-        $fullname = Request::post('fullname');
+        $ma = Request::post('ma');
         $maquyen = Request::post('maquyen');
-        $kq = AccountModel::create($email, $password, $fullname, $maquyen);
+        $kq = AccountModel::create($email, $password, $maquyen,$ma );
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+    public function create2()
+    {
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN01");
+        $email = Request::post('email');
+        $password = Request::post('password');
+        $ma = Request::post('ma');
+        $maquyen = Request::post('maquyen');
+        $kq = AccountModel::create2($email, $password, $maquyen,$ma);
         $response = [
             'thanhcong' => $kq
         ];

@@ -49,7 +49,7 @@ class AccountModel
         return null;
     }
 
-    public static function create($email, $password, $fullname, $macv)
+    public static function create($email, $password, $macv,$ma)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -68,8 +68,36 @@ class AccountModel
         $ma_tk = $result->ma_tk;
 
 
-        $sql2 = "INSERT INTO nhan_vien(ma_tk)
-        VALUES ( :matk)";
+        $sql2 = "UPDATE nhan_vien SET ma_tk = 
+         :matk WHERE ma_nv = '".$ma."'";
+        $query3 = $database->prepare($sql2);
+        $query3->execute([ ':matk' => $ma_tk]);
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+    public static function create2($email, $password, $macv,$ma)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        // Mã hóa password bằng thuật toán bcrypt
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+        $sql = "INSERT INTO tai_khoan(username, hash_password,ma_cv, trang_thai)
+                VALUES ( :email, :hashed_password,:macv, 1)";
+        $query = $database->prepare($sql);
+        $query->execute([ ':macv' => $macv,':email' => $email, ':hashed_password' => $hashed_password]);
+        $count = $query->rowCount();
+
+        $query2 = $database->prepare("SELECT ma_tk FROM tai_khoan WHERE username = :email LIMIT 1");
+        $query2->execute([':email' => $email]);
+        $result = $query2->fetch();
+        $ma_tk = $result->ma_tk;
+
+
+        $sql2 = "UPDATE khach_hang SET ma_tk = 
+        :matk WHERE ma_kh = '".$ma."'";
         $query3 = $database->prepare($sql2);
         $query3->execute([ ':matk' => $ma_tk]);
         if ($count == 1) {

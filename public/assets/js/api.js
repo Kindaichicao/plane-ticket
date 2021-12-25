@@ -16,47 +16,47 @@ let monHoc = [
   { maMon: "841109", ktpm: 0.08, httt: 0.1, mtt: 0.03 },
   { maMon: "841044", ktpm: 0.12, httt: 0.08, mtt: 0.05 },
 ];
-$("document").ready(function () {
-    $('#logout').click(function(){
-        localStorage.removeItem("danhSachMaMon");
-        localStorage.removeItem("danhSachDiem");
-    });
-  $.post(`http://localhost/Software-Technology/user/getID`, function (response) {
-    if (response.quyen == "Q01") {
-        if (localStorage.getItem("danhSachMaMon") == null || localStorage.getItem("danhSachDiem") == null ) {
-            let chuathi = [];
-            let url =
-            "https://sah-api-chw3b6ptpq-as.a.run.app/v1/users/" +
-            response.id +
-            "/scores2";
+// $("document").ready(function () {
+//     $('#logout').click(function(){
+//         localStorage.removeItem("danhSachMaMon");
+//         localStorage.removeItem("danhSachDiem");
+//     });
+//   $.post(`http://localhost/Software-Technology/user/getID`, function (response) {
+//     if (response.quyen == "Q01") {
+//         if (localStorage.getItem("danhSachMaMon") == null || localStorage.getItem("danhSachDiem") == null ) {
+//             let chuathi = [];
+//             let url =
+//             "https://sah-api-chw3b6ptpq-as.a.run.app/v1/users/" +
+//             response.id +
+//             "/scores2";
 
-            let cottong;
-            $.get(url, (data) => {
-                data_column = Object.keys(data);
-                tong = data;
-                console.log(tong);
-                data_column.forEach((element) => {
-                    cottong = tong[element]["diemTheoMon"];
-                    cottong.forEach((ct) => {
-                    if (ct["diemHe10"]) {
-                        let diem = { maMon: ct["maMonHoc"], diem: ct["diemHe10"] };
-                        bangdiem.push(diem);
-                    } else {
-                        chuathi.push(ct["maMonHoc"]);
-                    }
-                    });
-                });
-                tinhToan();
-                let bangDiem = [{ktpm:ktpm},{httt:httt},{mmt:mmt},{cnt:cnt}]
-                localStorage.removeItem("danhMaMon");
-                localStorage.setItem("danhSachMaMon", JSON.stringify(chuathi));
-                localStorage.removeItem("danhSachDiem");
-                localStorage.setItem("danhSachDiem", JSON.stringify(bangDiem));
-            }); 
-        } 
-        }
-    });
-});
+//             let cottong;
+//             $.get(url, (data) => {
+//                 data_column = Object.keys(data);
+//                 tong = data;
+//                 console.log(tong);
+//                 data_column.forEach((element) => {
+//                     cottong = tong[element]["diemTheoMon"];
+//                     cottong.forEach((ct) => {
+//                     if (ct["diemHe10"]) {
+//                         let diem = { maMon: ct["maMonHoc"], diem: ct["diemHe10"] };
+//                         bangdiem.push(diem);
+//                     } else {
+//                         chuathi.push(ct["maMonHoc"]);
+//                     }
+//                     });
+//                 });
+//                 tinhToan();
+//                 let bangDiem = [{ktpm:ktpm},{httt:httt},{mmt:mmt},{cnt:cnt}]
+//                 localStorage.removeItem("danhMaMon");
+//                 localStorage.setItem("danhSachMaMon", JSON.stringify(chuathi));
+//                 localStorage.removeItem("danhSachDiem");
+//                 localStorage.setItem("danhSachDiem", JSON.stringify(bangDiem));
+//             }); 
+//         } 
+//         }
+//     });
+// });
 
 function tinhToan() {
   let d1 = 0,

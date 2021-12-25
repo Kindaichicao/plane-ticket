@@ -1,7 +1,7 @@
 
 $("document").ready(function () {
   $.post(
-    `http://localhost/Software-Technology/quyen/getChiTietQuyen`,
+    `http://localhost/Software-Technology/position/getPosition`,
     function (response) {
       if (response.thanhcong) {
         let quyens = response.data;

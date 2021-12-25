@@ -154,46 +154,112 @@ View::$activeItem = 'promotion';
                     </div>
                 </div>
                 <!--MODAL SUA-->
-                <!-- <div class="modal fade text-left" id="repair-promotion-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Sửa Chương Trình Khuyến Mãi</h4>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <i data-feather="x"></i>
-                                </button>
-                            </div>
+                <div class="modal fade" id="repair-promotion-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div style="width:700px" class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content" style="width:700px;overflow:visible">                        
+                            <div class="modal-body" style="width:700px">
                             <form name="repair-promotion-form" action="/" method="POST">
-                                <div class="modal-body">
+                                <ul class="list-group">
+                                <li class="list-group-item active">Cập nhật chương trình khuyến mãi</li>
+                                    
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Mã chương trình:</label>
-                                            <input type="text" class="form-control" id="re-ma" name="machucvu" readonly>
+                                            <input type="text" class="form-control" id="re-makm" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Tên chức vụ:</label>
-                                            <input type="text" class="form-control" id="re-tenchucvu" name="tenchucvu">
+                                            <label>Tên chương trình:</label>
+                                            <input type="text" class="form-control" id="re-tenkm" name="tenkm">
+                                        </div>
+                                    </li>             
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Ngày bắt đầu:</label>
+                                            <input type="date" class="form-control" id="re-ngaybdkm" name="ngaybdkm" >
                                         </div>
                                     </li>
                                     <li class="list-group-item">
-                                        <label>Chi Tiết:</label>
-                                        <table class="table mb-0 table-danger" id="table1">
-                                        <thead>
-                                            <tr>
-                                                <th>Tên chương trình</th>
-                                                <th>Ngày bắt đầu</th>
-                                                <th>Ngày kết thúc</th>
-                                                <th>Tình trạng</th>
-                                                <th>Tác Vụ</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                        <div class="form-group">
+                                            <label>Ngày kết thúc:</label>
+                                            <input type="date" class="form-control" id="re-ngayktkm" name="ngayktkm" >
+                                        </div>
                                     </li>
-                                </div>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Nội dung:</label>
+                                            <textarea rows="3" class="form-control" id="re-noidungkm" name="noidungkm" ></textarea>
+                                        </div>
+                                    </li>   
+                                    <form name="repair-promotiondetails-form" action="/" method="POST">
+                                        <li class="list-group-item">
+                                            <label>Thêm Chi Tiết:</label>
+                                            <li class="list-group-item">
+                                                <div class="form-group">
+                                                    <label>Hạng dịch vụ:</label>                                                
+                                                    <select class="form-select" id="re-hangdv" name="hangdv">
+                                                        <option value="-1">Chọn hạng dịch vụ</option>
+                                                    </select>
+                                                </div>
+                                            </li>  
+                                            <li class="list-group-item">
+                                                <div class="form-group">
+                                                    <label>Chuyến bay:</label>                                                
+                                                    <select class="form-select" id="re-chuyenbay" name="chuyenbay">
+                                                        <option value="-1">Chọn chuyến bay</option>
+                                                        <option value="0">Tất cả</option>
+                                                    </select>
+                                                </div>
+                                            </li> 
+                                            <li class="list-group-item">
+                                                <div class="form-group">
+                                                    <label>Hãng hàng không:</label>
+                                                    <select class="form-select" id="re-hanghk" name="hanghk">
+                                                        <option value="-1">Chọn hãng hàng không</option>
+                                                    </select>
+                                                </div>
+                                            </li> 
+                                            <li class="list-group-item">
+                                                <div class="form-group">
+                                                    <label>Hạng khách hàng:</label>                                   
+                                                    <select class="form-select" id="re-hangkh" name="hangkh">
+                                                        <option value="-1">Chọn hạng khách hàng</option>
+                                                        <option value="0">Tất cả</option>
+                                                    </select>
+                                                </div>
+                                            </li>   
+                                            <li class="list-group-item">
+                                                <div class="form-group">
+                                                    <label>% khuyến mãi:</label>
+                                                    <input type="number" class="form-control" id="re-ptkm" name="ptkm" >
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <div class="form-group">                                                
+                                                    <input type="button" class="form-control btn btn-primary ml-1" id="re-btthemct" value="Thêm chi tiết" >
+                                                </div>
+                                            </li>                                        
+                                        </li> 
+                                      
+                                    <li class="list-group-item">
+                                        <label>Chi Tiết:</label>
+                                            <table class="table mb-0 table-danger" id="table3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hạng DV</th>
+                                                    <th>Chuyến bay</th>
+                                                    <th>Hãng</th>
+                                                    <th>Hạng KH</th>
+                                                    <th>%KM</th>
+                                                    <th>Tác vụ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                    </table>
+                                    </li>              
+                                </ul>                                
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                         <i class="bx bx-x d-block d-sm-none"></i>
@@ -205,9 +271,11 @@ View::$activeItem = 'promotion';
                                     </button>
                                 </div>
                             </form>
+                            </div>
+                        
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal Thong bao -->
                 <div class="modal fade text-left" id="question-promotion-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -320,6 +388,34 @@ View::$activeItem = 'promotion';
         $(function() {          
             //kietm tra quyen                    
             layDSKhuyenMaiAjax();
+            $.post(`http://localhost/Software-Technology/promotion/getHangDV`,function(response){
+                let dv=response.data;
+                dv.forEach(data => {
+                    let reopt='<option value="'+data.ma_hang_dich_vu+'">'+data.ten_hang+'</option>';
+                    $("#re-hangdv").append(reopt);
+                })
+            });
+            $.post(`http://localhost/Software-Technology/promotion/getChuyenBay`,function(response){
+                let dv=response.data;
+                dv.forEach(data => {
+                    let reopt='<option value="'+data.ma_chuyen_bay+'">'+data.ma_chuyen_bay+'</option>';
+                    $("#re-chuyenbay").append(reopt);
+                })
+            });
+            $.post(`http://localhost/Software-Technology/promotion/getHangHK`,function(response){
+                let dv=response.data;
+                dv.forEach(data => {
+                    let reopt='<option value="'+data.ma_hang_hang_khong+'">'+data.ten+'</option>';
+                    $("#re-hanghk").append(reopt);
+                })
+            });
+            $.post(`http://localhost/Software-Technology/promotion/getHangKH`,function(response){
+                let dv=response.data;
+                dv.forEach(data => {
+                    let reopt='<option value="'+data.ma_hang_kh+'">'+data.ten_hang+'</option>';
+                    $("#re-hangkh").append(reopt);
+                })
+            });
             //Đặt sự kiện validate cho modal add promotion
             // $("form[name='add-promotion-form']").validate({
             //     rules: {                   
@@ -662,8 +758,7 @@ View::$activeItem = 'promotion';
                             <td>${data.ma_hang_kh}</td> 
                             <td>${data.khuyen_mai}</td>                           
                         </tr>`);
-                    }
-                    checkedRows.push(data.ma_km);
+                    }                   
                     $row += 1;
                 });
 
@@ -693,97 +788,295 @@ View::$activeItem = 'promotion';
             $("#view-promotion-modal").modal('toggle');
         }        
 
-        // function repairRow(params) {
-        //     chucnangs.forEach(function(cn) {
-        //         $('#re-' + cn.ma_chuc_nang).prop('checked', false);                        
-        //     }); 
-        //     let data = {
-        //         macv: params
-        //     };
-        //     $.post(`http://localhost/Software-Technology/promotion/getpromotion`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $("#re-machucvu").val(response.ma_chuc_vu);
-        //             $("#re-tenchucvu").val(response.ten_chuc_vu);   
-        //             response.chitiet.forEach(function(cn) {
-        //                 $('#re-' + cn.ma_chuc_nang).prop('checked', true);                        
-        //             });                 
-        //         }
-        //     });
-        //     $("#repair-promotion-modal").modal('toggle');
-        //     //Sua form
-        //     $("form[name='repair-promotion-form']").validate({
-        //         rules: {                                
-        //             tenchucvu: {
-        //                 required: true,
-        //             },
-        //         },
-        //         messages: {                    
-        //             tenchucvu: {
-        //                 required: "Vui lòng nhập tên chức vụ",
-        //             },                    
-        //         },
-        //         submitHandler: function(form, event) {                    
-        //             event.preventDefault();
-        //             $("#myModalLabel110").text("Quản Lý chức vụ");
-        //             $("#question-model").text("Bạn có chắc chắn muốn sửa chức vụ này không");
-        //             $("#question-promotion-modal").modal('toggle');                    
-        //             $('#thuchien').off('click')
-        //             $("#thuchien").click(function() {
-        //                 // lấy dữ liệu từ form
+        function repairRow(params) {
+            let data = {
+                makm: params
+            };
+            $.post(`http://localhost/Software-Technology/promotion/getPromotion`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#re-makm").val(response.ma_km);
+                    $("#re-tenkm").val(response.ten);   
+                    $("#re-ngaybdkm").val(response.ngay_bat_dau); 
+                    $("#re-ngayktkm").val(response.ngay_ket_thuc); 
+                    $("#re-noidungkm").val(response.noi_dung);                      
+                    $("#re-hangdv").val(-1);
+                    $("#re-chuyenbay").val(-1);
+                    $("#re-hanghk").val(-1);
+                    $("#re-hangkh").val(-1);
+                    $("#re-ptkm").val("");
+                    $.post(`http://localhost/Software-Technology/promotion/getPromotionDetail`,data, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table3 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
 
-        //                 const tam = Object.fromEntries(new FormData(form).entries());
-        //                 tam['machucvu'] = $('#re-machucvu').val();
-        //                 chucnangs.forEach(cn => {
-        //                     if ($('#re-' + cn.ma_chuc_nang).prop("checked")) {
-        //                         tam[cn.ma_chuc_nang] = 1;
-        //                     }
-        //                 });
-        //                 let chitiet = [];
-        //                 Object.keys(tam).forEach(key => {
-        //                     if(key == 'machucvu' || key == 'tenchucvu'){
-        //                         return;
-        //                     }
-        //                     let temp = {
-        //                         ma_chuc_vu: tam['machucvu'],
-        //                         ma_chuc_nang: key,                                
-        //                     }
-        //                     chitiet.push(temp)
-        //                 })
-        //                 let data = {
-        //                     machucvu :tam['machucvu'],
-        //                     tenchucvu :tam['tenchucvu'],
-        //                     chitiets : JSON.stringify(chitiet)
-        //                 }
-        //                 $.post(`http://localhost/Software-Technology/promotion/update`, data, function(response) {
-        //                     if (response.thanhcong) {
-        //                         currentPage = 1;
-        //                         layDSChucVuAjax();
-        //                         Toastify({
-        //                             text: "Sửa Thành Công",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             promotion: "center",
-        //                             backgroundColor: "#4fbe87",
-        //                         }).showToast();
-        //                     } else {
-        //                         Toastify({
-        //                             text: "Sửa Thất Bại",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             promotion: "center",
-        //                             backgroundColor: "#FF6A6A",
-        //                         }).showToast();
-        //                     }
+                response.chitiet.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";                                     
+                    if ($row % 2 == 0) {
 
-        //                     // Đóng modal
-        //                     $("#repair-promotion-modal").modal('toggle')
-        //                 });
-        //             });
-        //         }
-        //     })
-        // }
+                        table1.append(`
+                        <tr class="table-light">                            
+                            <td>${data.ma_hang_dich_vu}</td>
+                            <td>${data.ma_chuyen_bay}</td>  
+                            <td>${data.ma_hang}</td>
+                            <td>${data.ma_hang_kh}</td> 
+                            <td>${data.khuyen_mai}</td> 
+                            <td>                                
+                                <button onclick="deleteRowDetail('${data.ma_km}','${data.ma_hang_dich_vu}','${data.ma_chuyen_bay}','${data.ma_hang}','${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>                                                    
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">                           
+                            <td>${data.ma_hang_dich_vu}</td>
+                            <td>${data.ma_chuyen_bay}</td>  
+                            <td>${data.ma_hang}</td>
+                            <td>${data.ma_hang_kh}</td> 
+                            <td>${data.khuyen_mai}</td>      
+                            <td>                                
+                                <button onclick="deleteRowDetail('${data.ma_km}','${data.ma_hang_dich_vu}','${data.ma_chuyen_bay}','${data.ma_hang}','${data.ma_hang_kh}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>                     
+                        </tr>`);
+                    }                   
+                    $row += 1;
+                });
+
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                        }
+
+                    }
+                }
+
+            });             
+                }
+            });
+            $("#repair-promotion-modal").modal('toggle');
+            //Sua form
+            $("form[name='repair-promotion-form']").validate({
+                rules: {                                
+                    tenkm: {
+                        required: true,
+                    },
+                    ngaybdkm: {
+                        required: true,
+                    },
+                    ngayktkm: {
+                        required: true,
+                    },
+                    noidungkm: {
+                        required: true,
+                    },
+                },
+                messages: {                    
+                    tenkm: {
+                        required: "Vui lòng nhập tên chương trình",
+                    },  
+                    ngaybdkm: {
+                        required: "Vui lòng chọn ngày bắt đầu",
+                    },  
+                    ngayktkm: {
+                        required: "Vui lòng nhập chọn ngày kết thúc",
+                    },  
+                    noidungkm: {
+                        required: "Vui lòng nhập nội dung chương trình",
+                    },                    
+                },
+                submitHandler: function(form, event) {     
+                    var bd=$("#re-ngaybdkm").val(); 
+                    var kt=$("#re-ngayktkm").val();  
+                    var d = new Date();
+                    var hientai=(d.getFullYear())+(d.getMonth()+1)+(d.getDate());
+                    if (bd<=hientai){
+                        alert("Ngày bắt đầu phải lớn hơn ngày hiện tại");
+                        $("#re-ngaybdkm").focus();
+                    }
+                    else{
+                        if (kt<bd){
+                            alert("Ngày kết thúc lớn hơn ngày bắt đầu");
+                            $("#re-ngayktkm").focus();
+                        } 
+                        else{                                                     
+                            event.preventDefault();
+                            $("#myModalLabel110").text("Quản Lý chương trình khuyến mãi");
+                            $("#question-model").text("Bạn có chắc chắn muốn sửa chương trình này không");
+                            $("#question-promotion-modal").modal('toggle');                    
+                            $('#thuchien').off('click')
+                            $("#thuchien").click(function() {
+                                // lấy dữ liệu từ form
+
+                                const data = Object.fromEntries(new FormData(form).entries());
+                                data['makm'] = $('#re-makm').val();
+                                
+                                $.post(`http://localhost/Software-Technology/promotion/update`, data, function(response) {
+                                    if (response.thanhcong) {
+                                        currentPage = 1;
+                                        layDSKhuyenMaiAjax();
+                                        Toastify({
+                                            text: "Sửa Thành Công",
+                                            duration: 1000,
+                                            close: true,
+                                            gravity: "top",
+                                            promotion: "center",
+                                            backgroundColor: "#4fbe87",
+                                        }).showToast();
+                                    } else {
+                                        Toastify({
+                                            text: "Sửa Thất Bại",
+                                            duration: 1000,
+                                            close: true,
+                                            gravity: "top",
+                                            promotion: "center",
+                                            backgroundColor: "#FF6A6A",
+                                        }).showToast();
+                                    }
+
+                                    // Đóng modal
+                                    $("#repair-promotion-modal").modal('toggle')
+                                });
+                            });
+                        }
+                    }         
+                    
+                }
+            })
+        }
+
+        $("#re-btthemct").click(function(){
+            var hangdv=$("#re-hangdv").val();
+            var chuyenbay=$("#re-chuyenbay").val();
+            var hanghk=$("#re-hanghk").val();
+            var hangkh=$("#re-hangkh").val();
+            var ptkm=$("#re-ptkm").val();
+            if (hangdv==-1){
+                alert("Chưa chọn hạng dịch vụ");
+                $("#re-hangdv").focus();
+                return false;
+            }
+            if (chuyenbay==-1){
+                alert("Chưa chọn chuyến bay");
+                $("#re-chuyenbay").focus();
+                return false;
+            }
+            if (hanghk==-1){
+                alert("Chưa chọn hãng hàng không");
+                $("#re-hanghk").focus();
+                return false;
+            }
+            if (hangkh==-1){
+                alert("Chưa chọn hạng khách hàng");
+                $("#re-hangkh").focus();
+                return false;
+            }
+            if (ptkm=="" || ptkm<=0){
+                alert("Chưa nhập phần trăm khuyến mãi");
+                $("#re-ptkm").focus();
+                return false;
+            }
+            if (hangkh==0){
+                if (chuyenbay==0){
+                    alert("Chưa chọn chuyến bay");
+                    $("#re-chuyenbay").focus();
+                    return false;
+                }
+            }
+            if (chuyenbay==0){
+                hangkh=0;
+            }
+            
+            let data = {
+                mahangdv:hangdv,
+                machuyenbay:chuyenbay,
+                mahanghk:hanghk,
+                mahangkh:hangkh,
+                ptkm1:ptkm
+            };
+            data['makm']=$("#re-makm").val();
+            $.post(`http://localhost/Software-Technology/promotion/addDetail`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Thêm chi tiết Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();   
+                        $("#repair-promotion-modal").modal('toggle');                                             
+                    } else {
+                        Toastify({
+                            text: "Chi tiết khuyến mãi đã tồn tại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+        });
+
+        function deleteRowDetail(makm1,mahangdv1,machuyenbay1,mahanghk1,mahangkh1) {
+            let data = {
+                makm:makm1,
+                mahangdv:mahangdv1,
+                machuyenbay:machuyenbay1,
+                mahanghk:mahanghk1,
+                mahangkh:mahangkh1,
+            };
+            $("#myModalLabel110").text("Quản Lý Chương Trình Khuyến Mãi");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa chi tiết này không");
+            $("#question-promotion-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/promotion/deleteDetail`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa chi tiết Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        $("#repair-promotion-modal").modal('toggle');
+                    } else {
+                        Toastify({
+                            text: "Xóa chi tiết Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            promotion: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        }
 
         // function deleteRow(params) {
         //     let data = {
@@ -818,8 +1111,8 @@ View::$activeItem = 'promotion';
         //             }
         //         });
         //     });
-
         // }
+
         // $("#btn-delete-promotion").click(function() {
         //     $("#myModalLabel110").text("Quản Lý Chức Vụ");
         //     $("#question-model").text("Bạn có chắc chắn muốn xóa những chức vụ này không");

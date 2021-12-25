@@ -82,7 +82,6 @@ View::$activeItem = 'account';
                                             <tr>
                                                 <th>Chọn</th>
                                                 <th>Tên Đăng Nhập</th>
-                                                <th>Họ Tên</th>
                                                 <th>Chức vụ</th>
                                                 <th>Tác Vụ</th>
                                             </tr>
@@ -100,7 +99,7 @@ View::$activeItem = 'account';
                 </div>
 
                 <!-- MODAL ADD -->
-                <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <!-- <div class="modal fade text-left" id="add-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -140,6 +139,92 @@ View::$activeItem = 'account';
                                 </button>
                             </div>
                             </form>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="modal fade text-left" id="phancong-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+
+                            <div class="modal-header bg-primary">
+                                <div class="col-sm-6">
+                                    <h6 style="color: White;">Tìm Kiếm</h6>
+                                    <div id="search-pc-form" name="search-pc-form">
+                                        <div class="form-group position-relative has-icon-right">
+                                            <input id="serch-pc-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                            <div class="form-control-icon">
+                                                <i class="bi bi-search"></i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 offset-5" style="padding-left: 30px; padding-bottom: 38px;">
+                                    <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal" style="padding-top: 5px;">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Đóng</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="page-title">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 order-md-1 order-last">
+                                            <label>
+                                                <h5>Bảng Người Dùng</h5>
+                                            </label>
+                                            <label>
+                                                <h6 style="margin-left: 50px; margin-right: 10px;"> Tạo tài khoản cho:</h6>
+                                            </label>
+                                            <select class="btn btn btn-primary" name="pc-cbb" id="cars-pc">
+                                                <option value="">Tất Cả</option>
+                                                <option value="gv">Giảng Viên</option>
+                                                <option value="mon">Môn Học</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 order-md-2 order-first">
+                                            <div class=" loat-start float-lg-end mb-3">
+                                                <select class="btn btn btn-success" name="gv-cbb" id="cars-gv">
+                                                    <option value="">Chọn giảng viên</option>
+                                                </select>
+                                                <select class="btn btn btn-success" name="mon-cbb" id="cars-mon">
+                                                    <option value="">Chọn môn</option>
+                                                </select>
+
+                                                <button id='add-pc-btn' class="btn btn-primary">
+                                                    <i class="bi bi-plus"></i> Thêm
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <section class="section">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table mb-0 table-danger" id="table2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Mã Giảng Viên</th>
+                                                            <th>Mã Môn</th>
+                                                            <th>Gỡ </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                <nav class="mt-5">
+                                                    <ul id="pagination2" class="pagination justify-content-center">
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                </section>
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -321,6 +406,11 @@ View::$activeItem = 'account';
             $("#add-user-modal").modal('toggle')
         });
 
+        $("#btn-phancong").click(function() {
+            $("#phancong-modal").modal('toggle');
+            currentPage = 1;
+            layDSGVMonAjax();
+        });
 
         function changePage(newPage) {
             currentPage = newPage;
@@ -380,13 +470,12 @@ View::$activeItem = 'account';
                                 </div>
                             </td>
                             <td>${data.username}</td>
-                            <td>${data.ho_ten}</td>
                             <td>${tenQuyen}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="deleteRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="${bibi}"></i>
                                 </button>
                             </td>
@@ -404,19 +493,18 @@ View::$activeItem = 'account';
                                 </div>
                             </td>
                             <td>${data.username}</td>
-                            <td>${data.ho_ten}</td>
                             <td>${tenQuyen}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="deleteRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="deleteRow('${data.username}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="${bibi}"></i>
                                 </button>
                             </td>
                         </tr>`);
                     }
-                    checkedRows.push(data.TenDangNhap);
+                    checkedRows.push(data.username);
                     $row += 1;
                 });
 
@@ -549,7 +637,7 @@ View::$activeItem = 'account';
             let data = {
                 email: params
             };
-            $.post(`http://localhost/Software-Technology/user/viewUser`, data, function(response) {
+            $.post(`http://localhost/Software-Technology/account/viewUser`, data, function(response) {
                 if (response.thanhcong) {
                     $("#view-hoten").val(response.FullName);
                     $("#view-ms").val(response.TenDangNhap);
@@ -669,14 +757,14 @@ View::$activeItem = 'account';
                 email: params
             };
             $("#myModalLabel110").text("Quản Lý Tài Khoản");
-            $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
+            $("#question-model").text("Bạn có chắc chắn muốn khóa tài khoản này không");
             $("#question-user-modal").modal('toggle');
             $('#thuchien').off('click');
             $("#thuchien").click(function() {
-                $.post(`http://localhost/Software-Technology/user/deleteUser`, data, function(response) {
+                $.post(`http://localhost/Software-Technology/account/delete`, data, function(response) {
                     if (response.thanhcong) {
                         Toastify({
-                            text: "Xóa Thành Công",
+                            text: "Khóa Thành Công",
                             duration: 1000,
                             close: true,
                             gravity: "top",
@@ -687,7 +775,7 @@ View::$activeItem = 'account';
                         layDSUserAjax();
                     } else {
                         Toastify({
-                            text: "Xóa Thất Bại",
+                            text: "Khóa Thất Bại",
                             duration: 1000,
                             close: true,
                             gravity: "top",
@@ -701,7 +789,7 @@ View::$activeItem = 'account';
         }
         $("#btn-delete-user").click(function() {
             $("#myModalLabel110").text("Quản Lý Tài Khoản");
-            $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
+            $("#question-model").text("Bạn có chắc chắn muốn khóa những tài khoản này không");
             $("#question-user-modal").modal('toggle');
             $('#thuchien').off('click')
             $("#thuchien").click(function() {
@@ -714,10 +802,10 @@ View::$activeItem = 'account';
                 let data = {
                     emails: JSON.stringify(datas)
                 };
-                $.post(`http://localhost/Software-Technology/user/deleteUsers`, data, function(response) {
+                $.post(`http://localhost/Software-Technology/account/deletes`, data, function(response) {
                     if (response.thanhcong) {
                         Toastify({
-                            text: "Xóa Thành Công",
+                            text: "Khóa Thành Công",
                             duration: 1000,
                             close: true,
                             gravity: "top",
@@ -728,7 +816,7 @@ View::$activeItem = 'account';
                         layDSUserAjax();
                     } else {
                         Toastify({
-                            text: "Xóa Thất Bại",
+                            text: "Khóa Thất Bại",
                             duration: 1000,
                             close: true,
                             gravity: "top",

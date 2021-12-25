@@ -749,7 +749,6 @@ View::$activeItem = 'position';
                         datas.push(checkedRow);
                     }
                 });
-                console.log(datas);
                 let data = {
                     macvs: JSON.stringify(datas)
                 };

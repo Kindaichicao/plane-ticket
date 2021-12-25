@@ -484,10 +484,10 @@ View::$activeItem = 'customer';
         });
 
 
-        // function changePage(newPage) {
-        //     currentPage = newPage;
-        //     layDSUserAjax();
-        // }
+        function changePage(newPage) {
+            currentPage = newPage;
+            layDSCustomerAjax();
+        }
 
         function changePageSearchNangCao(newPage, search, search2) {
             currentPage = newPage;

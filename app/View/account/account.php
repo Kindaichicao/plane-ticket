@@ -64,7 +64,7 @@ View::$activeItem = 'account';
 
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='btn-delete-user' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa tài khoản
+                                        <i class="bi bi-trash-fill"></i> Khóa tài khoản
                                     </button>
                                     <button id='open-add-user-btn' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm tài khoản
@@ -83,8 +83,7 @@ View::$activeItem = 'account';
                                                 <th>Chọn</th>
                                                 <th>Tên Đăng Nhập</th>
                                                 <th>Họ Tên</th>
-                                                <th>Quyền</th>
-                                                <th>Quên Mật Khẩu</th>
+                                                <th>Chức vụ</th>
                                                 <th>Tác Vụ</th>
                                             </tr>
                                         </thead>
@@ -125,7 +124,7 @@ View::$activeItem = 'account';
                                         <div class="form-group">
                                             <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
                                         </div>
-                                        <label for="cars-quyen">Quyền: </label>
+                                        <label for="cars-quyen">Chức vụ: </label>
                                         <select class="form-group" name="maquyen" id="cars-quyen">
                                         </select>
                                     </div>
@@ -144,44 +143,7 @@ View::$activeItem = 'account';
                         </div>
                     </div>
                 </div>
-                <!--MODAL SUA-->
-                <div class="modal fade text-left" id="repair-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Sửa Tài Khoản</h4>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <i data-feather="x"></i>
-                                </button>
-                            </div>
-                            <form name="repair-user-form" action="/" method="POST">
-                                <div class="modal-body">
-                                    <label>Tên Đăng Nhập: </label>
-                                    <div class="form-group">
-                                        <input type="text" id="re-email" name="email" class="form-control" disabled>
-                                    </div>
-                                    <label for="re-fullname">Họ tên: </label>
-                                    <div class="form-group">
-                                        <input type="text" id="re-fullname" name="fullname" placeholder="Họ tên" class="form-control">
-                                    </div>
-                                    <label for="cars-quyen-sua">Quyền: </label>
-                                    <select class="form-group " name="maquyen" id="cars-quyen-sua">
-                                    </select>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Đóng</span>
-                                    </button>
-                                    <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Sửa</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                
                 <!-- Modal Thong bao -->
                 <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -230,7 +192,7 @@ View::$activeItem = 'account';
                                     </li>
                                     <li class="list-group-item">
                                         <div class="form-group">
-                                            <label>Mã Quyền:</label>
+                                            <label>Mã chức vụ:</label>
                                             <input type="text" class="form-control" id="view-quyen" disabled>
                                         </div>
                                     </li>
@@ -267,14 +229,12 @@ View::$activeItem = 'account';
         let quyens
         // on ready
         $(function() {
-            $.post(`http://localhost/Software-Technology/quyen/getQuyens`, function(response) {
+            $.post(`http://localhost/Software-Technology/position/getPositions`, function(response) {
                 if (response.thanhcong) {
                     quyens = response.data;
                     quyens.forEach(data => {
-                        let opt = '<option value="' + data.MaQuyen + '">' + data.TenQuyen + '</option>';
+                        let opt = '<option value="' + data.ma_chuc_vu + '">' + data.ten_chuc_vu + '</option>';
                         $("#cars-quyen").append(opt);
-                        $("#cars-search").append(opt);
-                        $("#cars-quyen-sua").append(opt);
                     });
                     layDSUserAjax();
                 }
@@ -385,7 +345,7 @@ View::$activeItem = 'account';
         },200));
 
         function layDSUserAjax() {
-            $.get(`http://localhost/Software-Technology/user/getUser?rowsPerPage=10&page=${currentPage}`, function(response) {
+            $.get(`http://localhost/Software-Technology/account/getAccount?rowsPerPage=10&page=${currentPage}`, function(response) {
                 // Không được gán biến response này ra ngoài function,
                 // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
                 // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
@@ -399,62 +359,59 @@ View::$activeItem = 'account';
                 $row = 0;
                 response.data.forEach(data => {
                     let disabled = "disabled btn icon icon-left btn-secondary";
-                    if (data.YeuCau == 1) {
-                        disabled = "btn btn-primary";
-                    }
                     let tenQuyen = "";
                     quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == data.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
+                        if (quyen.ma_chuc_vu == data.ma_cv) {
+                            tenQuyen = quyen.ten_chuc_vu;
                             return true;
                         }
                     });
                     if ($row % 2 == 0) {
+                        let bibi = "bi bi-lock";
+                        if (data.trang_thai == 0){
+                            bibi = "bi bi-unlock";
+                        }
 
                         table1.append(`
                         <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_tk}">
                                 </div>
                             </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
+                            <td>${data.username}</td>
+                            <td>${data.ho_ten}</td>
                             <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
                             <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
+                                <button onclick="deleteRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="${bibi}"></i>
                                 </button>
                             </td>
                         </tr>`);
                     } else {
+                        let bibi = "bi bi-lock";
+                        if (data.trang_thai == 0){
+                            bibi = "bi bi-unlock";
+                        }
                         table1.append(`
-                        <tr class="table-info">
+                        <tr class="table-light">
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_tk}">
                                 </div>
                             </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
+                            <td>${data.username}</td>
+                            <td>${data.ho_ten}</td>
                             <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
                             <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="viewRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
+                                <button onclick="deleteRow('${data.ma_tk}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="${bibi}"></i>
                                 </button>
                             </td>
                         </tr>`);

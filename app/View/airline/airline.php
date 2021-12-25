@@ -129,8 +129,8 @@ View::$activeItem = 'airline';
                                         <label for="loaihanghangkhong">Loại hãng: </label>
                                         <div class="form-group">
                                             <select class="form-select" name="loaihanghangkhong" id="loaihanghangkhong" >
-                                                <option value="0">Ký hợp đồng</option>
-                                                <option value="1" selected>Công ty quản lý</option>
+                                                <option value="1">Ký hợp đồng</option>
+                                                <option value="0" selected>Công ty quản lý</option>
                                             </select>
                                         </div>
                                         <label for="ngaybanhanghangkhong">Ngày bán: </label>
@@ -203,8 +203,8 @@ View::$activeItem = 'airline';
                                         <label for="loaihanghangkhong1">Loại hãng: </label>
                                         <div class="form-group">
                                             <select class="form-select" name="loaihanghangkhong1" id="loaihanghangkhong1">
-                                                <option value="0">Ký hợp đồng</option>
-                                                <option value="1">Công ty quản lý</option>
+                                                <option value="1">Ký hợp đồng</option>
+                                                <option value="0">Công ty quản lý</option>
                                             </select>
                                         </div>
                                         <label for="ngaybanhanghangkhong1">Ngày bán: </label>
@@ -305,8 +305,8 @@ View::$activeItem = 'airline';
                                         <div class="form-group">
                                             <label>Loại hãng:</label>
                                                 <select class="form-select" name="view-loaihanghangkhong" id="view-loaihanghangkhong" disabled>
-                                                    <option value="0">Ký hợp đồng</option>
-                                                    <option value="1">Công ty quản lý</option>
+                                                    <option value="1">Ký hợp đồng</option>
+                                                    <option value="0">Công ty quản lý</option>
                                                 </select>
                                         </div>
                                     </li>

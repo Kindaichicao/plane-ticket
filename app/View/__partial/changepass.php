@@ -102,3 +102,4 @@ use App\Core\Cookie;
             </form>
         </div>
     </div>
+</div>

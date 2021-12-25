@@ -7,8 +7,19 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class PromotionModel{
-    public static function create(){
+    public static function create($tenkm,$ngaybdkm,$ngayktkm,$noidungkm){
+        $database = DatabaseFactory::getFactory()->getConnection();
 
+        $sql = "INSERT INTO `chuong_trinh_khuyen_mai`(`ten`, `noi_dung`, `ngay_bat_dau`, 
+        `ngay_ket_thuc`, `trang_thai`) VALUES ('$tenkm','$noidungkm',
+        '$ngaybdkm','$ngayktkm','1')";
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
     }
 
     public static function update($makm, $tenkm,$ngaybdkm,$ngayktkm,$noidungkm){
@@ -167,10 +178,28 @@ class PromotionModel{
     }
 
     public static function getList($page = 1, $rowsPerPage = 10){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $date=date('Y-m-d');
+
+        $sql1="UPDATE `chuong_trinh_khuyen_mai` SET `trang_thai`=2 
+        WHERE `ngay_bat_dau`<='$date' AND `ngay_ket_thuc`>='$date'";
+        $query1 = $database->prepare($sql1);
+        $query1->execute();
+
+        $sql2="UPDATE `chuong_trinh_khuyen_mai` SET `trang_thai`=1 
+        WHERE `ngay_bat_dau`>'$date'";
+        $query2 = $database->prepare($sql2);
+        $query2->execute();
+
+        $sql3="UPDATE `chuong_trinh_khuyen_mai` SET `trang_thai`=3
+        WHERE `ngay_ket_thuc`<'$date'";
+        $query3 = $database->prepare($sql3);
+        $query3->execute();
+
         $limit = $rowsPerPage;
         $offset = $rowsPerPage * ($page - 1);
 
-        $database = DatabaseFactory::getFactory()->getConnection();
+        
 
         $sql = "SELECT * from chuong_trinh_khuyen_mai WHERE trang_thai != 0 LIMIT :limit OFFSET :offset"; // limit 0,5
         

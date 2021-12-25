@@ -109,6 +109,25 @@ class PositionModel{
         return null;
     }
 
+    public static function getPositions(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM chuc_vu  WHERE trang_thai = 1");
+        $query->execute();
+
+        $data = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$data,
+        ];
+        return $response;
+
+    }
+
     public static function getPositionDetails($macv){
         $database = DatabaseFactory::getFactory()->getConnection();
 

@@ -28,7 +28,7 @@ class AccountController extends Controller
         //Auth::ktraquyen("CN01");
         $search = Request::get('search');
         $page = Request::get('page', 1);
-        $rowsPerPage = Request::get('rowsPerPage', 20);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
         $data = AccountModel::getAllPagination($search, $page, $rowsPerPage);
         $this->View->renderJSON($data);
     }

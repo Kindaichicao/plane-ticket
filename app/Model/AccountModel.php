@@ -172,7 +172,7 @@ class AccountModel
 
     }
 
-    public static function getAllPagination($search = null, $page = 1, $rowsPerPage = 20)
+    public static function getAllPagination($search = null, $page = 1, $rowsPerPage = 10)
     {
         // tính limit và offset dựa trên số trang và số lương dòng trên mỗi trang
         $limit = $rowsPerPage;
@@ -181,14 +181,15 @@ class AccountModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         // query chỉ lấy user thuộc page yêu cầu
-        $raw = 'SELECT * FROM user';
+        $raw = 'SELECT * FROM tai_khoan tk, khach_hang kh';
         if ($search) {
             $search = '%' . $search . '%';
-            $raw .= ' WHERE (FullName LIKE :search OR TenDangNhap LIKE :search OR MaQuyen LIKE :search OR YeuCau LIKE :search) AND TrangThai = 1';
+            $raw .= ' WHERE (tk.ma_tk LIKE :search OR tk.username LIKE :search OR tk.ma_cv LIKE :search OR kh.ho_ten LIKE :search 
+                        ) AND(kh.ma_tk = tk.ma_tk)';
         } else {
-            $raw .= ' WHERE TrangThai = 1';
+            $raw .= ' WHERE (kh.ma_tk = tk.ma_tk)';
         }
-        $raw .= ' ORDER BY TenDangNhap ASC LIMIT :limit OFFSET :offset'; //DESC giảm ASC tăng
+        $raw .= ' ORDER BY tk.username ASC LIMIT :limit OFFSET :offset'; //DESC giảm ASC tăng
 
         $query = $database->prepare($raw);
 
@@ -203,16 +204,17 @@ class AccountModel
         $data = $query->fetchAll();
         // Xóa password trước khi trả về
         foreach ($data as $user) {
-            unset($user->Hashed_Password);
+            unset($user->hash_password);
         }
 
         // đếm số lượng tất cả user để tính số trang
-        $count = 'SELECT COUNT(TenDangNhap) FROM user';
+        $count = 'SELECT COUNT(tk.ma_tk) FROM tai_khoan tk, khach_hang kh, nhan_vien nv ';
         if ($search) {
             $search = '%' . $search . '%';
-            $count .= ' WHERE (FullName LIKE :search OR TenDangNhap LIKE :search OR MaQuyen LIKE :search OR YeuCau LIKE :search) AND TrangThai = 1';
+            $count .= ' WHERE (tk.ma_tk LIKE :search OR tk.username LIKE :search OR tk.ma_cv LIKE :search OR kh.ho_ten LIKE :search 
+            ) AND(kh.ma_tk = tk.ma_tk)';
         } else {
-            $count .= ' WHERE TrangThai = 1';
+            $count .= ' WHERE (kh.ma_tk = tk.ma_tk)';
         }
 
         $countQuery = $database->prepare($count);

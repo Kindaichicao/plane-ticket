@@ -112,6 +112,18 @@ class PositionController extends Controller
         }
         $this->View->renderJSON($response);
     }
+    public function getPositions(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $kq = PositionModel::getPositions();
+        if($kq == null ){
+            $response['thanhcong'] = false;
+        } else{   
+            $response['data'] = $kq['data'];
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
+    }
     public function getChucNang(){
         Auth::checkAuthentication();
         // Auth::ktraquyen("CN07");

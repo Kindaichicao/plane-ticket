@@ -118,7 +118,7 @@ $(function() {
                     // lấy dữ liệu từ form
 
                     const data = Object.fromEntries(new FormData(form).entries());
-                    data['makh'] = params;
+                    data['makh'] = $("#update-customer-modal").val();
                     $.post(`http://localhost/Software-Technology/customer/update`, data, function(response) {
                         if (response.thanhcong) {
                             currentPage = 1;

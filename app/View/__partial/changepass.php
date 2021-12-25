@@ -104,7 +104,7 @@ use App\Core\Cookie;
     </div>
 </div>
 <!-- Modal Thong bao -->
-<div class="modal fade text-left" id="question-customer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+<!-- <div class="modal fade text-left" id="question-customer-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -128,4 +128,4 @@ use App\Core\Cookie;
             </div>
         </div>
     </div>
-</div>
+</div> -->

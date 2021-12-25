@@ -88,15 +88,11 @@ View::$activeItem = 'dashboard';
                             <div class="card">
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <h4 class="card-title">Hướng dẫn làm bài thi trắc nghiệm</h4>
-                                        <img class="img-fluid w-50" src="assets/images/samples/gif1.gif">
+                                        <h4 class="card-title">Hướng tới tương lai</h4>
+                                        <img class="img-fluid w-100" src="assets/images/samples/bìa.jpg">
                                         <p class="card-text">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">1. Đợi đến khi đến thời gian làm bài.</li>
-                                                <li class="list-group-item">2. Click vào "Thi" để tiến hành làm bài thi.</li>
-                                                <li class="list-group-item">3. Ở mỗi câu hỏi, chọn đáp án đúng.</li>
-                                                <li class="list-group-item">4. Hết thời gian làm bài, hệ thống sẽ tự động thu bài. Bạn có thể nộp bài trước khi thời gian kết thúc bằng cách nhấn nút "Nộp bài".</li>
-                                            </ul>
+                                        
+Là một hãng hàng không quốc tế năng động, hiện đại và mang đậm dấu ấn bản sắc văn hóa truyền thống Việt Nam, trong suốt hơn 20 năm phát triển với tốc độ tăng trưởng ở mức hai con số, Vietnam Airlines đã và đang dẫn đầu thị trường hàng không Việt Nam - một trong những thị trường nội địa có sức tăng trưởng nhanh nhất thế giới. Là hãng hàng không hiện đại với thương hiệu được biết đến rộng rãi nhờ bản sắc văn hóa riêng biệt, TDPQ Air đang hướng tới trở thành hãng hàng không quốc tế chất lượng 5 sao dẫn đầu khu vực châu Á. 
                                         </p>
                                     </div>
                                 </div>
@@ -105,45 +101,17 @@ View::$activeItem = 'dashboard';
                         <div class="col-xl-4 col-md-4 col-sm-12">
                             <div class="card collapse-icon accordion-icon-rotate">
                                 <div class="card-header">
-                                    <h1 class="card-title pl-1">Hướng dẫn sử dụng website</h1>
+                                    <h1 class="card-title pl-1">Phương châm</h1>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
                                         <div class="accordion" id="cardAccordion">
-                                            <div class="card">
-                                                <div id="headingOne" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" role="button">
-                                                    <span class="collapsed collapse-title"> 1. Giảng viên/sinh viên đăng nhập vào hệ thống với thông tin đăng nhập gồm "Tên đăng nhập" là mã viên chức/mã sinh viên và mật khẩu (password) theo quy định như sau:</span>
-                                                </div>
-                                                <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item">- Với giảng viên/sinh viên đã từng sử dụng hệ thống, mật khẩu vẫn được giữ như đang sử dụng.</li>
-                                                            <li class="list-group-item">- Với giảng viên/sinh viên chưa sử dụng hệ thống, mật khẩu mặc định là "12345678".</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card collapse-header">
-                                                <div id="headingTwo" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" role="button">
-                                                    <span class="collapsed collapse-title">2. Giảng viên/sinh viên đã từng sử dụng hệ thống, nếu quên mật khẩu cần thực hiện:</span>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item">- Liên hệ Phòng đào tạo để đặt lại mật khẩu về "11111111".</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div id="headingThree" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" role="button">
-                                                    <span class="collapsed collapse-title">3. Ngay sau khi đăng nhập lần đầu, giảng viên/sinhviên cần thực hiện ngay việc đổi mật khẩu mới</span>
-                                                </div>
-                                                <img class="img-fluid w-50" src="assets/images/samples/gif3.gif">
-                                            </div>
+                                        Sự hài lòng của khách hàng là thành tựu lớn nhất mà chất lượng dịch vụ mang lại
+                                        Cùng với việc đảm bảo an toàn bay là nhiệm vụ số một, TPDQ Air cũng không ngừng nâng cao chất lượng dịch vụ, đảm bảo chỉ số đúng giờ để tăng sức cạnh tranh trong hàng không.
                                         </div>
                                     </div>
                                 </div>
+                                <img class="img-fluid w-80" src="assets/images/samples/bìa3.jpg">
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-4 col-sm-12">
@@ -186,12 +154,27 @@ View::$activeItem = 'dashboard';
                                             </div>
                                             <div class="card">
                                                 <div id="headingEight" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" role="button">
-                                                    <i class="bi bi-star"></i><span class="collapsed  collapse-title"> Cao Nguyễn Phương Trang</span>
+                                                    <i class="bi bi-star"></i><span class="collapsed  collapse-title"> Lê Thị Cẩm Duyên</span>
                                                 </div>
-                                                <div id="collapseEight" class="collapse pt-1" aria-labelledby="headingEight" data-parent="#cardAccordion">
-                                                    <div class="card-body">
-                                                        <img src="assets/images/faces/phuongtrang.jpg" class="d-block w-100">
-                                                    </div>
+                                            </div>
+                                            <div class="card">
+                                                <div id="headingEight" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" role="button">
+                                                    <i class="bi bi-star"></i><span class="collapsed  collapse-title"> Nguyễn Văn Minh Đức</span>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div id="headingEight" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" role="button">
+                                                    <i class="bi bi-star"></i><span class="collapsed  collapse-title"> Nguyễn Huỳnh Thanh Duy</span>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div id="headingEight" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" role="button">
+                                                    <i class="bi bi-star"></i><span class="collapsed  collapse-title"> Tô Phương Dũng</span>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div id="headingEight" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" role="button">
+                                                    <i class="bi bi-star"></i><span class="collapsed  collapse-title"> Trần Kim Phú</span>
                                                 </div>
                                             </div>
                                         </div>

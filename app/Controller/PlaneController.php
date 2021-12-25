@@ -34,11 +34,25 @@ class PlaneController extends Controller
         
     }
 
-    public function getList(){
-        
-    }
+    /*public function getList(){
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN02");
+        $search = Request::get('search');
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 20);
+        $data = PlaneModel::getAllPagination($search, $page, $rowsPerPage);
+        $this->View->renderJSON($data);      
+    }*/
 
     public function getPlane(){
-        
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN02");
+        $search = Request::get('search');
+        $search2 = Request::get('search2');
+        $page = Request::get('page');
+        $rowsPerPage = Request::get('rowsPerPage');
+        $data = PlaneModel::getAllPagination($search, $search2, $page, $rowsPerPage);
+        $this->View->renderJSON($data);
     }
+    
 }

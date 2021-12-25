@@ -808,80 +808,80 @@ View::$activeItem = 'staff';
             })
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         mahhk: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý Hãng Hàng Không");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa hãng hàng không này không ?");
-        //     $("#question-staff-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/staff/delete`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSListAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
+        function deleteRow(params) {
+            let data = {
+                manv: params
+            };
+            $("#myModalLabel110").text("Quản Lý Nhân Viên");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa nhân viên này không ?");
+            $("#question-staff-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/staff/delete`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSListStaffAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
 
-        // }
-        // $("#btn-delete-staff").click(function() {
-        //     $("#myModalLabel110").text("Quản Lý Hãng Hàng Không");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa những hãng hàng không này không ?");
-        //     $("#question-staff-modal").modal('toggle');
-        //     $('#thuchien').off('click')
-        //     $("#thuchien").click(function() {
-        //         let datas = []
-        //         checkedRows.forEach(checkedRow => {
-        //             if ($('#' + checkedRow).prop("checked")) {
-        //                 datas.push(checkedRow);
-        //             }
-        //         });
-        //         let data = {
-        //             mahhks: JSON.stringify(datas)
-        //         };
-        //         $.post(`http://localhost/Software-Technology/staff/deletes`, data, function(response) {
-        //             if (response.thanhcong) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSListAjax();
-        //             } else {
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // });
+        }
+        $("#btn-delete-staff").click(function() {
+            $("#myModalLabel110").text("Quản Lý Nhân Viên");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa những nhân viên này không ?");
+            $("#question-staff-modal").modal('toggle');
+            $('#thuchien').off('click')
+            $("#thuchien").click(function() {
+                let datas = []
+                checkedRows.forEach(checkedRow => {
+                    if ($('#' + checkedRow).prop("checked")) {
+                        datas.push(checkedRow);
+                    }
+                });
+                let data = {
+                    manvs: JSON.stringify(datas)
+                };
+                $.post(`http://localhost/Software-Technology/staff/deletes`, data, function(response) {
+                    if (response.thanhcong) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSListStaffAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+            });
+        });
     </script>
 </body>

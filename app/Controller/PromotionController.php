@@ -23,11 +23,53 @@ class PromotionController extends Controller
     }
 
     public function create(){
-
+        
     }
 
     public function update(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $makm= Request::post('makm');
+        $tenkm = Request::post('tenkm');
+        $ngaybdkm = Request::post('ngaybdkm');
+        $ngayktkm = Request::post('ngayktkm');
+        $noidungkm = Request::post('noidungkm');
+        $kq = PromotionModel::update($makm, $tenkm,$ngaybdkm,$ngayktkm,$noidungkm);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
+    public function addDetail(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $makm= Request::post('makm');
+        $mahangdv = Request::post('mahangdv');
+        $machuyenbay = Request::post('machuyenbay');
+        $mahanghk = Request::post('mahanghk');
+        $mahangkh = Request::post('mahangkh');
+        $ptkm1 = Request::post('ptkm1');
+        $kq = PromotionModel::addDetail($makm, $mahangdv,$machuyenbay,$mahanghk,$mahangkh,$ptkm1);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
+
+    public function deleteDetail(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $makm= Request::post('makm');
+        $mahangdv = Request::post('mahangdv');
+        $machuyenbay = Request::post('machuyenbay');
+        $mahanghk = Request::post('mahanghk');
+        $mahangkh = Request::post('mahangkh');
+        $kq = PromotionModel::deleteDetail($makm, $mahangdv,$machuyenbay,$mahanghk,$mahangkh);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function delete(){
@@ -74,5 +116,29 @@ class PromotionController extends Controller
             $response['thanhcong'] = true;
         }
         $this->View->renderJSON($response);
+    }
+    public function getHangDV(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $data = PromotionModel::getHangDV();
+        $this->View->renderJSON($data);
+    }
+    public function getChuyenBay(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $data = PromotionModel::getChuyenBay();
+        $this->View->renderJSON($data);
+    }
+    public function getHangHK(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $data = PromotionModel::getHangHK();
+        $this->View->renderJSON($data);
+    }
+    public function getHangKH(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $data = PromotionModel::getHangKH();
+        $this->View->renderJSON($data);
     }
 }

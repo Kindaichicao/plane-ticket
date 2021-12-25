@@ -11,8 +11,60 @@ class PromotionModel{
 
     }
 
-    public static function update(){
+    public static function update($makm, $tenkm,$ngaybdkm,$ngayktkm,$noidungkm){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "UPDATE chuong_trinh_khuyen_mai SET ten ='$tenkm', noi_dung ='$noidungkm', 
+        ngay_bat_dau ='$ngaybdkm', ngay_ket_thuc ='$ngayktkm' WHERE ma_km = '$makm'";
+        $query = $database->prepare($sql);
+        $query->execute();
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function addDetail($makm, $mahangdv,$machuyenbay,$mahanghk,$mahangkh,$ptkm1){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql1="SELECT * FROM `chi_tiet_khuyen_mai` WHERE `ma_km`='$makm' AND `ma_hang_dich_vu`='$mahangdv' AND  
+        `ma_chuyen_bay`='$machuyenbay' AND `ma_hang`='$mahanghk' AND `ma_hang_kh`='$mahangkh'";
+        $query1 = $database->prepare($sql1);
+        $query1->execute();
+        $count1 = $query1->rowCount();
+        if ($count1 == 1) {
+            return false;
+        }
+        else{
+            $sql = "INSERT INTO `chi_tiet_khuyen_mai`(`ma_km`, `ma_hang_dich_vu`, `ma_chuyen_bay`, 
+            `ma_hang`, `ma_hang_kh`, `khuyen_mai`) VALUES ('$makm','$mahangdv',
+            '$machuyenbay','$mahanghk','$mahangkh','$ptkm1')";
+            $query = $database->prepare($sql);
+            $query->execute();
+            $count = $query->rowCount();
+            if ($count == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function deleteDetail($makm, $mahangdv,$machuyenbay,$mahanghk,$mahangkh){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "DELETE FROM `chi_tiet_khuyen_mai` WHERE `ma_km`='$makm' AND `ma_hang_dich_vu`='$mahangdv' AND  
+        `ma_chuyen_bay`='$machuyenbay' AND `ma_hang`='$mahanghk' AND `ma_hang_kh`='$mahangkh'";
+        $query = $database->prepare($sql);
+        $query->execute();    
         
+        $sql1="SELECT * FROM `chi_tiet_khuyen_mai` WHERE `ma_km`='$makm' AND `ma_hang_dich_vu`='$mahangdv' AND  
+        `ma_chuyen_bay`='$machuyenbay' AND `ma_hang`='$mahanghk' AND `ma_hang_kh`='$mahangkh'";
+        $query1 = $database->prepare($sql1);
+        $query1->execute();
+        $count1 = $query1->rowCount();
+        if ($count1 == 1) {
+            return false;
+        }           
+        return true;
     }
 
     public static function delete(){
@@ -29,6 +81,70 @@ class PromotionModel{
             return $row;
         }
         return null;
+    }
+
+    public static function getHangDV(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'SELECT * FROM `hang_dich_vu` WHERE trang_thai = 1';
+        $query = $database->query($sql);
+        $row = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$row,
+        ];
+        return $response;
+    }
+
+    public static function getChuyenBay(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'SELECT * FROM `chuyen_bay` WHERE trang_thai != 0';
+        $query = $database->query($sql);
+        $row = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$row,
+        ];
+        return $response;
+    }
+
+    public static function getHangHK(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'SELECT * FROM `hang_hang_khong` WHERE trang_thai != 0';
+        $query = $database->query($sql);
+        $row = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$row,
+        ];
+        return $response;
+    }
+
+    public static function getHangKH(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'SELECT * FROM `hang_khach_hang` WHERE trang_thai != 0';
+        $query = $database->query($sql);
+        $row = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$row,
+        ];
+        return $response;
     }
 
     public static function getPromotionDetail($makm){

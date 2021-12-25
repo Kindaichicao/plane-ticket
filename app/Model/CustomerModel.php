@@ -141,23 +141,23 @@ class CustomerModel{
         $raw1 = "";
 
         if ($search2 == '2') {
-            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.ho_ten LIKE '%$search%' AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
-            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE ho_ten LIKE '%$search%' AND trang_thai = 1";
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.ma_hang_kh = hkh.ma_hang_kh and kh.ho_ten LIKE '%$search%' AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE kh.ho_ten LIKE '%$search%' AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1";
         } else if ($search2 == '3') {
-            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.cccd LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
-            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE cccd LIKE '%$search%'  AND trang_thai = 1";
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.ma_hang_kh = hkh.ma_hang_kh and kh.cccd LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE kh.cccd LIKE '%$search%'  AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1";
         } else if ($search2 == '4') {
-            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.sdt LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
-            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE sdt LIKE '%$search%'  AND trang_thai = 1";
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.sdt LIKE '%$search%' AND kh.ma_hang_kh = hkh.ma_hang_kh  AND  kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE kh.sdt LIKE '%$search%'  AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1";
         } else if ($search2 == '5') {
-            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE hkh.ten_hang LIKE '%$search%'  AND kh.trang_thai = 1 AND kh.ma_hang_kh = hkh.ma_hang_kh ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
-            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE hkh.ten_hang LIKE '%$search%'  AND kh.trang_thai = 1 AND kh.ma_hang_kh = hkh.ma_hang_kh";
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE hkh.ten_hang LIKE '%$search%'  AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1 AND kh.ma_hang_kh = hkh.ma_hang_kh ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE hkh.ten_hang LIKE '%$search%'  AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1 AND kh.ma_hang_kh = hkh.ma_hang_kh";
         } else if ($search2 == '6') {
-            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.diem_tich_luy LIKE '%$search%'  AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
-            $raw1 .= "SELECT COUNT(ma_kh) FROM khach_hang WHERE diem_tich_luy LIKE '%$search%'  AND trang_thai = 1";
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE kh.diem_tich_luy LIKE '%$search%'  AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE kh.diem_tich_luy LIKE '%$search%'  AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1";
         } else {
-            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE (kh.ho_ten LIKE '%$search%' OR kh.cccd LIKE '%$search%' OR kh.sdt LIKE '%$search%' OR hkh.ten_hang LIKE '%$search%' OR kh.diem_tich_luy LIKE '%$search%') AND kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
-            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE (kh.ho_ten LIKE '%$search%' OR kh.cccd LIKE '%$search%' OR kh.sdt LIKE '%$search%' OR hkh.ten_hang LIKE '%$search%' OR kh.diem_tich_luy LIKE '%$search%')  AND kh.trang_thai = 1";
+            $raw .= "SELECT kh.*, hkh.ten_hang FROM khach_hang kh, hang_khach_hang hkh WHERE (kh.ho_ten LIKE '%$search%' OR kh.cccd LIKE '%$search%' OR kh.sdt LIKE '%$search%' OR hkh.ten_hang LIKE '%$search%' OR kh.diem_tich_luy LIKE '%$search%') AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1 ORDER BY kh.ma_kh ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(kh.ma_kh) FROM khach_hang kh, hang_khach_hang hkh WHERE (kh.ho_ten LIKE '%$search%' OR kh.cccd LIKE '%$search%' OR kh.sdt LIKE '%$search%' OR hkh.ten_hang LIKE '%$search%' OR kh.diem_tich_luy LIKE '%$search%')   AND kh.ma_hang_kh = hkh.ma_hang_kh and kh.trang_thai = 1";
         }
         $query = $database->prepare($raw);
         $query->execute();

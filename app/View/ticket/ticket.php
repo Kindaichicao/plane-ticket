@@ -626,6 +626,7 @@ View::$activeItem = 'ticket';
                             currentPage = 1;
                             layDSTicketAjax1();
                             layDSTicketAjax();
+                            layDSTicketAjax2()
                             Toastify({
                                 text: "Thêm Thành Công",
                                 duration: 1000,
@@ -1196,6 +1197,9 @@ View::$activeItem = 'ticket';
             //Sua form
             $("form[name='repair-ticket1-form']").validate({
                 rules: {
+                    
+
+                    
                     suamachuyenbay1: {
                         required: true,
                     },
@@ -1210,7 +1214,6 @@ View::$activeItem = 'ticket';
                         number:true,
                         min:99999,
                     },
-
                     suagiathuethuonggia: {
                         required: true,
                         number: true,

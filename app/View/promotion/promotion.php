@@ -57,9 +57,7 @@ View::$activeItem = 'promotion';
                                 </label>
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
                                     <option value="1">Tất Cả</option>
-                                    <option value="2">Tên chương trình</option>
-                                    <option value="3">Ngày khuyến mãi</option>
-                                    <option value="4">Tình trạng</option>
+                                    <option value="2">Tên chương trình</option>                                    
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
@@ -515,22 +513,22 @@ View::$activeItem = 'promotion';
             layDSKhuyenMaiAjax();
         }
 
-        // function changePageSearchNangCao(newPage, search, search2) {
-        //     currentPage = newPage;
-        //     layDSChucVuSearchNangCao(search, search2);
-        // }
+        function changePageSearchNangCao(newPage, search, search2) {
+            currentPage = newPage;
+            layDSKhuyenMaiSearchNangCao(search, search2);
+        }
 
-        // $('#cars-search').change(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSChucVuSearchNangCao($('#serch-promotion-text').val(), search);
-        // });
+        $('#cars-search').change(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSKhuyenMaiSearchNangCao($('#serch-promotion-text').val(), search);
+        });
 
-        // $("#search-promotion-form").keyup(debounce(function() {
-        //     let search = $('#cars-search').val();
-        //     currentPage = 1;
-        //     layDSChucVuSearchNangCao($('#serch-promotion-text').val(), search);
-        // },200));
+        $("#search-promotion-form").keyup(debounce(function() {
+            let search = $('#cars-search').val();
+            currentPage = 1;
+            layDSKhuyenMaiSearchNangCao($('#serch-promotion-text').val(), search);
+        },200));
 
         function layDSKhuyenMaiAjax() {
             $.get(`http://localhost/Software-Technology/promotion/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
@@ -632,93 +630,104 @@ View::$activeItem = 'promotion';
             });
         }
 
-        // function layDSChucVuSearchNangCao(search, search2) {
-        //     $.get(`http://localhost/Software-Technology/promotion/getListSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
-        //         // Không được gán biến response này ra ngoài function,
-        //         // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-        //         // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-        //         //data là danh sách usser
-        //         //page là trang hiện tại
-        //         // rowsPerpage là số dòng trên 1 trang
-        //         // totalPage là tổng số trang
-        //         const table1 = $('#table1 > tbody');
-        //         table1.empty();
-        //         checkedRows = [];
-        //         $row = 0;              
-        //         response.data.forEach(data => {
-        //             let disabled = "disabled btn icon icon-left btn-secondary";                    
-        //             if ($row % 2 == 0) {
+        function layDSKhuyenMaiSearchNangCao(search, search2) {
+            $.get(`http://localhost/Software-Technology/promotion/getListSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;              
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    var tt=data.trang_thai;
+                    if (data.trang_thai==1)
+                        data.trang_thai='Chưa tới hạn';  
+                    if (data.trang_thai==2)
+                        data.trang_thai='Đang khuyến mãi';    
+                    if (data.trang_thai==3) 
+                        data.trang_thai='Hết hạn';                      
+                    if ($row % 2 == 0) {
 
-        //                 table1.append(`
-        //                 <tr class="table-light">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuc_vu}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.ma_chuc_vu}</td>
-        //                     <td>${data.ten_chuc_vu}</td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.ma_chuc_vu}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.ma_chuc_vu}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.ma_chuc_vu}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             } else {
-        //                 table1.append(`
-        //                 <tr class="table-info">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuc_vu}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.ma_chuc_vu}</td>
-        //                     <td>${data.ten_chuc_vu}</td>
-        //                     <td>
-        //                         <button onclick="viewRow('${data.ma_chuc_vu}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.ma_chuc_vu}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.ma_chuc_vu}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             }
-        //             checkedRows.push(data.ma_chuc_vu);
-        //             $row += 1;
-        //         });
+                        table1.append(`
+                        <tr class="table-light">
+                        <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_km}">
+                                </div>
+                            </td>
+                            <td>${data.ten}</td>
+                            <td>${data.ngay_bat_dau}</td>  
+                            <td>${data.ngay_ket_thuc}</td>
+                            <td>${data.trang_thai}</td>                        
+                            <td>
+                                <button onclick="viewRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_km}','${tt}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_km}">
+                                </div>
+                            </td>
+                            <td>${data.ten}</td>
+                            <td>${data.ngay_bat_dau}</td>  
+                            <td>${data.ngay_ket_thuc}</td>
+                            <td>${data.trang_thai}</td>                        
+                            <td>
+                                <button onclick="viewRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.ma_km}','${tt}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_km}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_km);
+                    $row += 1;
+                });
 
-        //         const pagination = $('#pagination');
-        //         // Xóa phân trang cũ
-        //         pagination.empty();
-        //         if (response.totalPage > 1) {
-        //             for (let i = 1; i <= response.totalPage; i++) {
-        //                 if (i == currentPage) {
-        //                     pagination.append(`
-        //                 <li class="page-item active">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 } else {
-        //                     pagination.append(`
-        //                 <li class="page-item">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 }
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
 
-        //             }
-        //         }
+                    }
+                }
 
-        //     });
-        // }
+            });
+        }
 
         function viewRow(params) {            
             let data = {

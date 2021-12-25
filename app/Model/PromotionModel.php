@@ -252,4 +252,83 @@ class PromotionModel{
         ];
         return $response;
     }
+
+    public static function getListSearch($search,$search2,$page = 1, $rowsPerPage = 10){
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        
+        if ($search2 == '1') {
+            $raw = 'SELECT * FROM chuong_trinh_khuyen_mai WHERE (ten LIKE :search OR noi_dung LIKE :search ) AND trang_thai!=0 LIMIT :limit OFFSET :offset';
+        } else {            
+            $raw = 'SELECT * FROM chuong_trinh_khuyen_mai WHERE (ten LIKE :search ) AND trang_thai!=0 LIMIT :limit OFFSET :offset';                       
+        }
+
+        $search = '%' . $search . '%';
+
+        $query = $database->prepare($raw);
+
+        $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $query->bindValue(':search', $search, PDO::PARAM_STR);
+        $query->execute();
+        $data = $query->fetchAll();
+        
+        $count = 'SELECT COUNT(ma_km) FROM chuong_trinh_khuyen_mai';
+        if ($search2 == '1') {
+            $count .= ' WHERE (ten LIKE :search OR noi_dung LIKE :search ) AND trang_thai!=0';
+        } else {
+            $count .= ' WHERE (ten LIKE :search ) AND trang_thai!=0';         
+        }
+
+        $countQuery = $database->prepare($count);
+        $countQuery->bindValue(':search', $search, PDO::PARAM_STR);
+        $countQuery->execute();
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
+
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+        ];
+        return $response;
+    }
+    public static function getListSearchDate($tungay,$denngay,$page = 1, $rowsPerPage = 10){
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        
+
+        $raw = "SELECT * FROM chuong_trinh_khuyen_mai WHERE 
+        (ngay_bat_dau>='$tungay' AND ngay_ket_thuc<='$denngay' OR ngay_ket_thuc>='$tungay' 
+        AND ngay_ket_thuc<='$denngay' OR ngay_bat_dau>='$tungay' AND ngay_bat_dau<='$denngay') 
+        AND trang_thai!=0 LIMIT $offset,$limit";
+
+
+        $query = $database->prepare($raw);
+        
+        $query->execute();
+        $data = $query->fetchAll();
+        
+        $count = "SELECT COUNT(ma_km) FROM chuong_trinh_khuyen_mai WHERE 
+        (ngay_bat_dau>='$tungay' AND ngay_ket_thuc<='$denngay' OR ngay_ket_thuc>='$tungay' 
+        AND ngay_ket_thuc<='$denngay' OR ngay_bat_dau>='$tungay' AND ngay_bat_dau<='$denngay') 
+        AND trang_thai!=0";
+        
+
+        $countQuery = $database->prepare($count);
+        $countQuery->execute();
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN);
+
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+        ];
+        return $response;
+    }
 }

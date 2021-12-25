@@ -39,6 +39,13 @@ use App\Core\View;
                             <button class="btn-changepass"><a id='open-change-pass-btn' class="dropdown-item" ><i class="icon-mid bi bi-key me-2"></i> Đổi mật khẩu</a></button>
                         </li>
                         <li>
+                            <button class="btn-changepass <?php if(Cookie::get('user_quyen') != 'CV001'){
+                                                                echo("d-none");
+                                                            }; ?>
+                                                            "><a id='open-update-profile' value="<?= Cookie::get('user_quyen') ?>" class="dropdown-item" >
+                            <i class="icon-mid bi bi-person-circle me-2"></i> Thông tin tài khoản</a></button>
+                        </li>
+                        <li>
                             <hr class="dropdown-divider" />
                         </li>
                         <li id="logout">

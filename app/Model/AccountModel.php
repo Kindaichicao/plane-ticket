@@ -21,6 +21,18 @@ class AccountModel
         }
         return null;
     }
+    public static function findOneByEmailLogin($email)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM tai_khoan tk, khach_hang kh WHERE tk.username = :email AND tk.ma_tk = kh.ma_tk LIMIT 1");
+        $query->execute([':email' => $email]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
 
     public static function create($email, $password, $fullname, $macv)
     {

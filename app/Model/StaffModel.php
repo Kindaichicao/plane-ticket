@@ -7,8 +7,16 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class StaffModel{
-    public static function create(){
+    public static function create($tennhanvien, $gioitinhnhanvien, $ngaysinhnhanvien, $emailnhanvien, $cccdnhanvien, $sodienthoainhanvien, $diachinhanvienn){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'INSERT INTO `nhan_vien` ( `ma_tk`, `ho_ten`, `gioi_tinh`, `ngay_sinh`, `email`, `cccd`, `sdt`, `dia_chi`, `trang_thai`) VALUES ( NULL, "'.$tennhanvien.'", "'.$gioitinhnhanvien.'", "'.$ngaysinhnhanvien.'", "'.$emailnhanvien.'", "'. $cccdnhanvien.'", "'.$sodienthoainhanvien.'", "'.$diachinhanvienn.'", 1)';
+        $query = $database->query($sql);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
 
+        return false;
     }
 
     public static function update(){

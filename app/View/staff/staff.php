@@ -106,11 +106,11 @@ View::$activeItem = 'staff';
                 </div>
 
               <!-- MODAL ADD -->
-                <!-- <div class="modal fade text-left" id="add-staff-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="add-staff-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Thêm Hãng Hàng Không</h4>
+                                <h4 class="modal-title">Thêm nhân viên</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
@@ -118,29 +118,37 @@ View::$activeItem = 'staff';
                             <div class="modal-body">
                                 <form name="add-staff-form" action="/" method="POST">
                                     <div class="modal-body">
-                                        <label for="mahanghangkhong">Mã hãng hàng không: </label>
+                                        <label for="tennhanvien">Tên nhân viên: </label>
                                         <div class="form-group">
-                                            <input type="text" id="mahanghangkhong" name="mahanghangkhong" placeholder="Mã Hãng" class="form-control">
+                                            <input type="text" id="tennhanvien" name="tennhanvien" placeholder="Họ tên nhân viên" class="form-control">
                                         </div>
-                                        <label for="tenhanghangkhong">Tên hãng hàng không: </label>
+                                        <label for="gioitinhnhanvien">Giới tính: </label>
                                         <div class="form-group">
-                                            <input type="text" id="tenhanghangkhong" name="tenhanghangkhong" placeholder="Tên hãng" class="form-control">
-                                        </div>
-                                        <label for="motahanghangkhong">Mô tả: </label>
-                                        <div class="form-group">
-                                            <textarea type="text" id="motahanghangkhong" name="motahanghangkhong" placeholder="Mô tả" class="form-control"> </textarea>
-                                        </div>
-                                        <label for="loaihanghangkhong">Loại hãng: </label>
-                                        <div class="form-group">
-                                            <select class="form-select" name="loaihanghangkhong" id="loaihanghangkhong" >
-                                                <option value="Ký hợp đồng">Ký hợp đồng</option>
-                                                <option value="Công ty quản lý" selected>Công ty quản lý</option>
+                                            <select class="form-select" name="gioitinhnhanvien" id="gioitinhnhanvien" >
+                                                <option value="Nữ">Nữ</option>
+                                                <option value="Nam" selected>Nam</option>
                                             </select>
                                         </div>
-                                        <label for="ngaybanhanghangkhong">Ngày bán: </label>
-                                        <ul id="view-thu-list" class="list-unstyled mb-0">
-
-                                        </ul>
+                                        <label for="ngaysinhnhanvien">Ngày sinh: </label>
+                                        <div class="form-group">
+                                            <input type="date" id="ngaysinhnhanvien" name="ngaysinhnhanvien"  class="form-control">
+                                        </div>
+                                        <label for="emailnhanvien">Email: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="emailnhanvien" name="emailnhanvien" placeholder="Email" class="form-control">
+                                        </div>
+                                        <label for="cccdnhanvien">CMND/CCCD: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="cccdnhanvien" name="cccdnhanvien" placeholder="CMND/CCCD" class="form-control">
+                                        </div>
+                                        <label for="sodienthoainhanvien">Số điện thoại: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="sodienthoainhanvien" name="sodienthoainhanvien" placeholder="Số điện thoại" class="form-control">
+                                        </div>
+                                        <label for="diachinhanvienn">Địa chỉ: </label>
+                                        <div class="form-group">
+                                             <input type="text" id="diachinhanvienn" name="diachinhanvienn" placeholder="Địa chỉ" class="form-control">
+                                        </div>
                                     </div>
                             </div>
                             <div class="modal-footer">
@@ -156,7 +164,7 @@ View::$activeItem = 'staff';
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!--MODAL SUA-->
                 <!-- <div class="modal fade text-left" id="repair-staff-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -296,7 +304,7 @@ View::$activeItem = 'staff';
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Địa chỉ:</label>
-                                            <input type="text" class="form-control" id="view-diachinhanvien" disabled>
+                                            <textarea type="text" class="form-control" id="view-diachinhanvien" disabled></textarea>
                                         </div>
                                     </li>
                                 </ul>
@@ -350,111 +358,98 @@ View::$activeItem = 'staff';
             
 
             // Đặt sự kiện validate cho modal add staff
-            // $("form[name='add-staff-form']").validate({
-            //     rules: {
-            //         mahanghangkhong: {
-            //             required: true,
-            //               remote: {
-            //                 url: "http://localhost/Software-Technology/staff/checkValidMaHangHangKhong",
-            //                 type: "POST",
-            //             }
-            //         },
-            //         tenhanghangkhong: {
-            //             required: true,
-            //         },
-            //         motahanghangkhong: {
-            //             required: true,
-            //         },
-            //         loaihanghangkhong: {
-            //             required: true,
-            //         },
-            //     },
-            //     messages: {
-            //         mahanghangkhong: {
-            //             required: "Vui lòng nhập mã hãng hàng không",
-            //         },
-            //         tenhanghangkhong: {
-            //             required: "Vui lòng nhập tên hãng hàng không",
-            //         },
-            //         motahanghangkhong: {
-            //             required: "Vui lòng nhập mô tả hãng hàng không",
-            //         },
-            //         loaihanghangkhong: {
-            //             required: "Vui lòng nhập loại hãng hàng không",
-            //         },
-            //     },
-            //     submitHandler: function(form, event) {
-            //         var s="";
-            //         var x=document.getElementsByClassName('sc');
-            //         var sl=0,d=0;
-            //         for (i=0;i<x.length;i++){
-            //             if (x[i].checked==true){
-            //                 s+="1";
-            //                 sl++;
-            //             }
-            //             else {
-            //                 s+="0";
-            //                 d++;
-            //             }
-            //         }
-            //         if(d==x.length){
-            //             alert("Chưa chọn ngày bán");
-            //         }
-            //         else{
-                       
-            //             event.preventDefault();
-            //             // lấy dữ liệu từ form
-            //             const data = Object.fromEntries(new FormData(form).entries());
-            //             data['ngay_ban']=s;
-            //             $.post(`http://localhost/Software-Technology/staff/addstaff`, data, function(response) {
-            //                 if (response.thanhcong) {
-            //                     currentPage = 1;
-            //                     layDSListAjax();
-            //                     Toastify({
-            //                         text: "Thêm Thành Công",
-            //                         duration: 1000,
-            //                         close: true,
-            //                         gravity: "top",
-            //                         position: "center",
-            //                         backgroundColor: "#4fbe87",
-            //                     }).showToast();
-            //                 } else {
-            //                     Toastify({
-            //                         text: "Thêm Thất Bại",
-            //                         duration: 1000,
-            //                         close: true,
-            //                         gravity: "top",
-            //                         position: "center",
-            //                         backgroundColor: "#FF6A6A",
-            //                     }).showToast();
-            //                 }
+            $("form[name='add-staff-form']").validate({
+                rules: {
+                    tennhanvien: {
+                        required: true,
+                        validateName: true,
+                    },
+                    diachinhanvienn: {
+                        required: true,
+                    },
+                    ngaysinhnhanvien: {
+                        required: true,
+                    },
+                    emailnhanvien: {
+                        required: true,
+                        email:true,
+                    },
+                    cccdnhanvien: {
+                        required: true,
+                        number:true,
+                    },
+                    sodienthoainhanvien: {
+                        required: true,
+                        number:true,
+                    },
+
+                },
+                messages: {
+                    tennhanvien: {
+                        required: "Vui lòng nhập tên nhân viên",
+                    },
+                    diachinhanvienn: {
+                        required: "Vui lòng nhập địa chỉ nhân viên",
+                    },
+                    ngaysinhnhanvien: {
+                        required: "Vui lòng chọn ngày sinh nhân viên",
+                    },
+                    emailnhanvien: {
+                        required: "Vui lòng nhập email nhân viên",
+                    },
+                    cccdnhanvien: {
+                        required: "Vui lòng nhập CMND/CCCD nhân viên",
+                    },
+                    sodienthoainhanvien: {
+                        required: "Vui lòng nhập số điện thoại nhân viên",
+                    },
+
+                },
+                submitHandler: function(form, event) {         
+                       event.preventDefault();
+                        // lấy dữ liệu từ form
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        $.post(`http://localhost/Software-Technology/staff/create`, data, function(response) {
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSListStaffAjax();
+                                Toastify({
+                                    text: "Thêm Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Thêm Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
 
                             // Đóng modal
                             $("#add-staff-modal").modal('toggle')
                             
-            //             });
-            //             var x=document.getElementsByClassName('sc');
-            //                 for (i=0;i<x.length;i++){
-            //                     x[i].checked=false;
-            //                 }
-
+                        });
                        
-            //             $('#mahanghangkhong').val("");
-            //             $('#tenhanghangkhong').val("");
-            //             $('#motahanghangkhong').val("");
-            //             $('#loaihanghangkhong').val("");;
-            //         }
+                       
+                    }
 
-            //     }
-            // })
+            })
 
         });
 
         $("#open-add-staff-btn").click(function() {
-            $('#mahanghangkhong').val("");
-            $('#tenhanghangkhong').val("");
-            $('#motahanghangkhong').val("");
-            $('#loaihanghangkhong').val("");
+            $('#tennhanvien').val("");
+            $('#ngaysinhnhanvien').val("");
+            $('#emailnhanvien').val("");
+            $('#cccdnhanvien').val("");
+            $('#sodienthoainhanvien').val("");
             $("#add-staff-modal").modal('toggle')
         });
 

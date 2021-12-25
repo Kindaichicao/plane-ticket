@@ -23,7 +23,21 @@ class StaffController extends Controller
     }
 
     public function create(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN04");
+        $tennhanvien = Request::post('tennhanvien');
+        $gioitinhnhanvien = Request::post('gioitinhnhanvien');
+        $ngaysinhnhanvien = Request::post('ngaysinhnhanvien');
+        $emailnhanvien = Request::post('emailnhanvien');
+        $cccdnhanvien = Request::post('cccdnhanvien');
+        $sodienthoainhanvien = Request::post('sodienthoainhanvien');
+        $diachinhanvienn = Request::post('diachinhanvienn');
 
+        $kq = StaffModel::create($tennhanvien, $gioitinhnhanvien, $ngaysinhnhanvien, $emailnhanvien, $cccdnhanvien, $sodienthoainhanvien, $diachinhanvienn);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function update(){

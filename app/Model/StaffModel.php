@@ -19,8 +19,16 @@ class StaffModel{
         return false;
     }
 
-    public static function update(){
-        
+    public static function update($manhanvien, $tennhanvien, $gioitinhnhanvien, $ngaysinhnhanvien, $emailnhanvien, $cccdnhanvien, $sodienthoainhanvien, $diachinhanvienn){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE `nhan_vien` SET `ho_ten`= :tennhanvien,`gioi_tinh`= :gioitinhnhanvien,`ngay_sinh`= :ngaysinhnhanvien,`email`= :emailnhanvien,`cccd`= :cccdnhanvien,`sdt`= :sodienthoainhanvien,`dia_chi`= :diachinhanvienn WHERE ma_nv = :manhanvien";
+        $query = $database->prepare($sql);
+        $query->execute([':manhanvien' => $manhanvien,':tennhanvien' => $tennhanvien,':gioitinhnhanvien' => $gioitinhnhanvien,':ngaysinhnhanvien' => $ngaysinhnhanvien,':emailnhanvien' => $emailnhanvien,':cccdnhanvien' => $cccdnhanvien,':sodienthoainhanvien' => $sodienthoainhanvien,':diachinhanvienn' => $diachinhanvienn]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
     }
 
     public static function delete(){
@@ -125,5 +133,15 @@ class StaffModel{
             'data' => $data,
         ];
         return $response;
-    }    
+    }   
+    public static function gettaikhoan(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sqlsb = "SELECT * FROM tai_khoan WHERE trang_thai=1";
+        $querysb = $database->prepare($sqlsb);
+        $querysb->execute();
+        $sanbay = $querysb->fetchAll();
+        $response['sanbay']=$sanbay;
+        $response['thanhcong'] = true;
+        return $response;
+    } 
 }

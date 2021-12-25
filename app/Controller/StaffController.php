@@ -41,7 +41,22 @@ class StaffController extends Controller
     }
 
     public function update(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $manhanvien = Request::post('manhanvien1');
+        // $mataikhoan = Request::post('mataikhoan1');
+        $tennhanvien = Request::post('tennhanvien1');
+        $gioitinhnhanvien = Request::post('gioitinhnhanvien1');
+        $ngaysinhnhanvien = Request::post('ngaysinhnhanvien1');
+        $emailnhanvien = Request::post('emailnhanvien1');
+        $cccdnhanvien = Request::post('cccdnhanvien1');
+        $sodienthoainhanvien = Request::post('sodienthoainhanvien1');
+        $diachinhanvienn = Request::post('diachinhanvienn1');
+        $kq = StaffModel::update($manhanvien, $tennhanvien, $gioitinhnhanvien, $ngaysinhnhanvien, $emailnhanvien, $cccdnhanvien, $sodienthoainhanvien, $diachinhanvienn);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function delete(){
@@ -68,7 +83,12 @@ class StaffController extends Controller
             $response['thanhcong'] = false;
         } else{   
             $response['ma_nv'] = $kq1->ma_nv;
+            if($kq1->ma_tk==null){
+                $response['ma_tk']="NULL";
+            }
+            else {
             $response['ma_tk'] = $kq1->ma_tk;
+            }
             $response['ho_ten'] = $kq1->ho_ten;
             $response['gioi_tinh'] = $kq1->gioi_tinh;
             $response['ngay_sinh'] = $kq1->ngay_sinh;
@@ -91,4 +111,12 @@ class StaffController extends Controller
         $data = StaffModel::getAdvancedPagination($search, $search2,$page, $rowsPerPage);
         $this->View->renderJSON($data);
     }  
+    public function gettaikhoan(){
+        Auth::checkAuthentication();
+        $data = StaffModel::gettaikhoan();
+        if($data==null){
+            $data['thanhcong']=false;
+        }
+        $this->View->renderJSON($data);
+    }
 }

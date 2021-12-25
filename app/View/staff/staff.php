@@ -166,57 +166,75 @@ View::$activeItem = 'staff';
                     </div>
                 </div>
                 <!--MODAL SUA-->
-                <!-- <div class="modal fade text-left" id="repair-staff-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade text-left" id="repair-staff-modal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Sửa Hãng Hàng Không</h4>
+                                <h4 class="modal-title">Sửa nhân viên</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
+                            <div class="modal-body">
                             <form name="repair-staff-form" action="/" method="POST">
                                 <div class="modal-body">
-                                <label for="mahanghangkhong1">Mã hãng hàng không: </label>
+                                         <label for="manhanvien1">Mã nhân viên: </label>
                                         <div class="form-group">
-                                            <input type="text" readonly id="mahanghangkhong1" name="mahanghangkhong1" placeholder="Mã Hãng" class="form-control">
+                                            <input type="text" readonly id="manhanvien1" name="manhanvien1" placeholder="Mã nhân viên" class="form-control" disabled>
                                         </div>
-                                        <label for="tenhanghangkhong1">Tên hãng hàng không: </label>
+                                        <label for="mataikhoan1">Mã tài khoản nhân viên: </label>
                                         <div class="form-group">
-                                            <input type="text" id="tenhanghangkhong1" name="tenhanghangkhong1" placeholder="Tên hãng" class="form-control">
+                                            <input type="text" id="mataikhoan1" name="mataikhoan1" placeholder="Mã nhân viên" class="form-control" disabled>
                                         </div>
-                                        <label for="motahanghangkhong1">Mô tả: </label>
+                                        <label for="tennhanvien1">Tên nhân viên: </label>
                                         <div class="form-group">
-                                            <textarea type="text" id="motahanghangkhong1" name="motahanghangkhong1" placeholder="Mô tả" class="form-control"> </textarea>
+                                            <input type="text" id="tennhanvien1" name="tennhanvien1" placeholder="Họ tên nhân viên" class="form-control">
                                         </div>
-                                        <label for="loaihanghangkhong1">Loại hãng: </label>
+                                        <label for="gioitinhnhanvien1">Giới tính: </label>
                                         <div class="form-group">
-                                            <select class="form-select" name="loaihanghangkhong1" id="loaihanghangkhong1">
-                                                <option value="Ký hợp đồng">Ký hợp đồng</option>
-                                                <option value="Công ty quản lý">Công ty quản lý</option>
+                                            <select class="form-select" name="gioitinhnhanvien1" id="gioitinhnhanvien1" >
+                                                <option value="Nữ">Nữ</option>
+                                                <option value="Nam" selected>Nam</option>
                                             </select>
                                         </div>
-                                        <label for="ngaybanhanghangkhong1">Ngày bán: </label>
-                                        <ul id="view-thu-list" class="list-unstyled mb-0">
-
-                                        </ul>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Đóng</span>
-                                    </button>
-                                    <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Sửa</span>
-                                    </button>
+                                        <label for="ngaysinhnhanvien1">Ngày sinh: </label>
+                                        <div class="form-group">
+                                            <input type="date" id="ngaysinhnhanvien1" name="ngaysinhnhanvien1"  class="form-control">
+                                        </div>
+                                        <label for="emailnhanvien1">Email: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="emailnhanvien1" name="emailnhanvien1" placeholder="Email" class="form-control">
+                                        </div>
+                                        <label for="cccdnhanvien1">CMND/CCCD: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="cccdnhanvien1" name="cccdnhanvien1" placeholder="CMND/CCCD" class="form-control">
+                                        </div>
+                                        <label for="sodienthoainhanvien1">Số điện thoại: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="sodienthoainhanvien1" name="sodienthoainhanvien1" placeholder="Số điện thoại" class="form-control">
+                                        </div>
+                                        <label for="diachinhanvienn1">Địa chỉ: </label>
+                                        <div class="form-group">
+                                             <input type="text" id="diachinhanvienn1" name="diachinhanvienn1" placeholder="Địa chỉ" class="form-control">
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Đóng</span>
+                                        </button>
+                                        <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
+                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Sửa</span>
+                                        </button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal Thong bao -->
-                <!-- <div class="modal fade text-left" id="question-staff-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-staff-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -240,7 +258,7 @@ View::$activeItem = 'staff';
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal View -->
                 <div class="modal fade" id="view-staff-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -665,7 +683,6 @@ View::$activeItem = 'staff';
                 manv: params    
             };
             $.post('http://localhost/Software-Technology/staff/getStaff', data, function(response) {
-                console.log(response.thanhcong);
                 if (response.thanhcong) {
                     $("#view-manhanvien").val(response.ma_nv); 
                     $("#view-mataikhoannhanvien").val(response.ma_tk);   
@@ -682,116 +699,114 @@ View::$activeItem = 'staff';
         }
 
 
-        // function repairRow(params) {
-        //     let data = {
-        //         mahhk: params
-        //     };
+        function repairRow(params) {
+            let data = {
+                manv: params
+            };
 
-        //     $.post(`http://localhost/Software-Technology/staff/getstaff`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             var x=document.getElementsByClassName('sc2');
-        //                     for (i=0;i<x.length;i++){
-        //                         x[i].checked=false;
-        //                     }
-        //             $('#mahanghangkhong1').val(response.ma_hang_hang_khong);
-        //             $('#tenhanghangkhong1').val(response.ten);
-        //             $('#motahanghangkhong1').val(response.mo_ta);
-        //             $('#loaihanghangkhong1').val(response.loai_hang);
-        //             var db = response.ngay_ban;
-        //             var x=document.getElementsByClassName('sc2');
-        //                     for (i=0;i<x.length;i++){
-        //                        if(db[i]=='1'){
-        //                            x[i].checked=true;
-        //                        }
-        //                     } 
-        //         }
-        //     });
-        //     $("#repair-staff-modal").modal('toggle');
-        //     //Sua form
-        //     $("form[name='repair-staff-form']").validate({
-        //         rules: {
+            $.post(`http://localhost/Software-Technology/staff/getStaff`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#manhanvien1").val(response.ma_nv); 
+                    $("#mataikhoan1").val(response.ma_tk);   
+                    $("#tennhanvien1").val(response.ho_ten);
+                    $("#gioitinhnhanvien1").val(response.gioi_tinh);
+                    $("#ngaysinhnhanvien1").val(response.ngay_sinh);
+                    $("#emailnhanvien1").val(response.email);   
+                    $("#cccdnhanvien1").val(response.cccd);
+                    $("#sodienthoainhanvien1").val(response.sdt);
+                    $("#diachinhanvienn1").val(response.dia_chi); 
+                }
+            });
+            $("#repair-staff-modal").modal('toggle');
+            //Sua form
+            $("form[name='repair-staff-form']").validate({
+                rules: {
+                    tennhanvien1: {
+                        required: true,
+                        validateName: true,
+                    },
+                    diachinhanvienn1: {
+                        required: true,
+                    },
+                    ngaysinhnhanvien1: {
+                        required: true,
+                    },
+                    emailnhanvien1: {
+                        required: true,
+                        email:true,
+                    },
+                    cccdnhanvien1: {
+                        required: true,
+                        number:true,
+                    },
+                    sodienthoainhanvien1: {
+                        required: true,
+                        number:true,
+                    },
 
-        //             tenhanghangkhong1: {
-        //                 required: true,
-        //             },
-        //             motahanghangkhong1: {
-        //                 required: true,
-        //             },
-        //             loaihanghangkhong1: {
-        //                 required: true,
-        //             },
-        //         },
-        //         messages: {
-        //             tenhanghangkhong1: {
-        //                 required: "Vui lòng nhập tên hãng hàng không",
-        //             },
-        //             motahanghangkhong1: {
-        //                 required: "Vui lòng nhập mô tả hãng hàng không",
-        //             },
-        //             loaihanghangkhong1: {
-        //                 required: "Vui lòng nhập loại hãng hàng không",
-        //             },
-        //         },
-        //         submitHandler: function(form, event) {
-        //             var s="";
-        //             var x=document.getElementsByClassName('sc2');
-        //             var sl=0,d=0;
-        //             for (i=0;i<x.length;i++){
-        //                 if (x[i].checked==true){
-        //                     s+="1";
-        //                     sl++;
-        //                 }
-        //                 else {
-        //                     s+="0";
-        //                     d++;
-        //                 }
-        //             }
-        //             if(d==x.length){
-        //                 alert("Chưa chọn ngày bán");
-        //             }
-        //             else{
-        //             event.preventDefault();
-        //             $("#myModalLabel110").text("Quản lý hãng hàng không");
-        //             $("#question-model").text("Bạn có chắc chắn muốn sửa hãng hàng không này không");
-        //             $("#question-staff-modal").modal('toggle');
-        //             $('#thuchien').off('click')
-        //             $("#thuchien").click(function() {
-        //                 // lấy dữ liệu từ form
+                },
+                messages: {
+                    tennhanvien1: {
+                        required: "Vui lòng nhập tên nhân viên",
+                    },
+                    diachinhanvienn1: {
+                        required: "Vui lòng nhập địa chỉ nhân viên",
+                    },
+                    ngaysinhnhanvien1: {
+                        required: "Vui lòng chọn ngày sinh nhân viên",
+                    },
+                    emailnhanvien1: {
+                        required: "Vui lòng nhập email nhân viên",
+                    },
+                    cccdnhanvien1: {
+                        required: "Vui lòng nhập CMND/CCCD nhân viên",
+                    },
+                    sodienthoainhanvien1: {
+                        required: "Vui lòng nhập số điện thoại nhân viên",
+                    },
 
-        //                 const data = Object.fromEntries(new FormData(form).entries());
-        //                 data['ngay_ban1']=s;
-        //                 data['mahanghangkhong1'] = $('#mahanghangkhong1').val();
-        //                 $.post(`http://localhost/Software-Technology/staff/update`, data, function(response) {
-        //                     if (response.thanhcong) {
-        //                         currentPage = 1;
-        //                         layDSListAjax();
-        //                         Toastify({
-        //                             text: "Sửa Thành Công",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#4fbe87",
-        //                         }).showToast();
-        //                     } else {
-        //                         Toastify({
-        //                             text: "Sửa Thất Bại",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#FF6A6A",
-        //                         }).showToast();
-        //                     }
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $("#myModalLabel110").text("Quản lý nhân viên");
+                    $("#question-model").text("Bạn có chắc chắn muốn sửa nhân viên này không");
+                    $("#question-staff-modal").modal('toggle');
+                    $('#thuchien').off('click')
+                    $("#thuchien").click(function() {
+                        // lấy dữ liệu từ form
 
-        //                     // Đóng modal
-        //                     $("#repair-staff-modal").modal('toggle')
-        //                 });
-        //             });
-        //         }
-        //         }
-        //     })
-        // }
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        data['manhanvien1'] = $('#manhanvien1').val();
+                        $.post(`http://localhost/Software-Technology/staff/update`, data, function(response) {
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSListStaffAjax();
+                                Toastify({
+                                    text: "Sửa Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Sửa Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
+
+                            // Đóng modal
+                            $("#repair-staff-modal").modal('toggle')
+                        });
+                    });
+                }
+            })
+        }
 
         // function deleteRow(params) {
         //     let data = {

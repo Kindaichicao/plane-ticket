@@ -23,7 +23,17 @@ class PromotionController extends Controller
     }
 
     public function create(){
-        
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN07");
+        $tenkm = Request::post('tenkm');
+        $ngaybdkm = Request::post('ngaybdkm');
+        $ngayktkm = Request::post('ngayktkm');
+        $noidungkm = Request::post('noidungkm');
+        $kq = PromotionModel::create($tenkm,$ngaybdkm,$ngayktkm,$noidungkm);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function update(){

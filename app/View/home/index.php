@@ -43,31 +43,31 @@ View::$activeItem = 'dashboard';
                                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
-                                                <img src="assets/images/samples/sgu3.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/slider0.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu1.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/slider1.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu2.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/Slider2.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu4.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/Slider3.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu5.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/Slider4.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu6.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/slider5.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu7.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/slider6.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu8.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/slider7.jpg" class="d-block w-100">
                                             </div>
                                             <div class="carousel-item">
-                                                <img src="assets/images/samples/sgu9.jpg" class="d-block w-100">
+                                                <img src="assets/images/samples/slider9.jpg" class="d-block w-100">
                                             </div>
                                             <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
                                                 data-bs-slide="prev">

@@ -37,7 +37,7 @@ View::$activeItem = 'rank';
                 <div class="page-heading">
                     <div class="col-sm-6">
                         <h6>Tìm Kiếm</h6>
-                        <div id="search-user-form" name="search-user-form">
+                        <div id="search-rank-form" name="search-rank-form">
                             <div class="form-group position-relative has-icon-right">
                                 <input id="serch-rank-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
@@ -182,7 +182,7 @@ View::$activeItem = 'rank';
                     </div>
                 </div>
                 <!-- Modal Thong bao -->
-                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-rank-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -362,7 +362,7 @@ View::$activeItem = 'rank';
             layDSRankSearchNangCao($('#serch-rank-text').val(), search);
         });
 
-        $("#search-user-form").keyup(debounce(function() {
+        $("#search-rank-form").keyup(debounce(function() {
             let search = $('#cars-search option').filter(':selected').val();
             currentPage = 1;
             //alert($('#serch-rank-text').val());
@@ -645,7 +645,7 @@ View::$activeItem = 'rank';
                     event.preventDefault();
                     $("#myModalLabel110").text("Quản Lý hạng khách hàng");
                     $("#question-model").text("Bạn có chắc chắn muốn sửa hạng khách hàng này không?");
-                    $("#question-user-modal").modal('toggle');
+                    $("#question-rank-modal").modal('toggle');
                     $('#thuchien').off('click');
                     $("#thuchien").click(function() {
                         // lấy dữ liệu từ form
@@ -689,7 +689,7 @@ View::$activeItem = 'rank';
             };
             $("#myModalLabel110").text("Quản Lý hạng khách hàng");
             $("#question-model").text("Bạn có chắc chắn muốn xóa  hạng khách hàng này không?");
-            $("#question-user-modal").modal('toggle');
+            $("#question-rank-modal").modal('toggle');
             $('#thuchien').off('click');
             $("#thuchien").click(function() {
                 $.post(`http://localhost/Software-Technology/rank/delete`, data, function(response) {
@@ -730,7 +730,7 @@ View::$activeItem = 'rank';
         $("#btn-delete-rank").click(function() {
             $("#myModalLabel110").text("Quản Lý Tài Khoản");
             $("#question-model").text("Bạn có chắc chắn muốn xóa những hạng khách hàng này không");
-            $("#question-user-modal").modal('toggle');
+            $("#question-rank-modal").modal('toggle');
             $('#thuchien').off('click')
             $("#thuchien").click(function() {
                 let datas = []

@@ -58,10 +58,11 @@ View::$activeItem = 'ticket';
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
                                     <option value="1">Tất Cả</option>
                                     <option value="2">Mã chuyến bay</option>
-                                    <option value="3">Tên hãng</option>
-                                    <option value="4">Nơi đi</option>
-                                    <option value="5">Nơi đến</option>
-                                    <option value="5">Ngày bay</option>
+                                    <option value="3">Mã vé</option>
+                                    <option value="4">Tên hãng</option>
+                                    <option value="5">Nơi đi</option>
+                                    <option value="6">Nơi đến</option>
+                                    <option value="7">Ngày bay</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
@@ -90,6 +91,7 @@ View::$activeItem = 'ticket';
                                                 <th>Nơi đi</th>
                                                 <th>Nơi đến</th>
                                                 <th>Ngày bay</th>
+                                                <th>Trạng thái</th>
                                                 <th>Tác Vụ</th>
                                             </tr>
                                         </thead>
@@ -106,52 +108,131 @@ View::$activeItem = 'ticket';
                 </div>
 
                 <!-- MODAL ADD -->
-                <!-- <div class="modal fade text-left" id="add-ticket-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal fade text-left" id="add-ticket-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Thêm vé máy bay</h4>
+                                <h4 class="modal-title">Chọn các chuyến bay để tạo vé</h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <form name="add-ticket-form" action="/" method="POST">
+                                    <div class="modal-header">
+                                        <div>
+                                            
+                                        </div>
+                                        
+                                    </div>
                                     <div class="modal-body">
-                                        <label for="fullnamekh">Họ tên: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="fullnamekh" name="fullnamekh" placeholder="Họ tên" class="form-control">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-danger" id="tb2">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã CB</th>
+                                                        <th>Tên hãng</th>
+                                                        <th>Số hiệu MB</th>
+                                                        <th>Ngày bay</th>
+                                                        <th>Nơi đi</th>
+                                                        <th>Nơi đến</th>
+                                                        <th>Giờ bay</th>
+                                                        <th>Giờ đến</th>
+                                                        <th>Trạng thái</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            <nav class="mt-5">
+                                                <ul id="pagination" class="pagination justify-content-center">
+                                                </ul>
+                                            </nav>
                                         </div>
-                                        <label for="hochieukh">Số hộ chiếu: </label>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL ADD1 -->
+                <div class="modal fade text-left" id="add-ticket1-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Tạo vé cho chuyến bay</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="add-ticket1-form" action="/" method="POST">
+                                    
+                                    <div class="modal-body">
+                                        <label for="machuyenbay1">Mã chuyến bay: </label>
                                         <div class="form-group">
-                                            <input type="text" id="hochieukh" name="hochieukh" placeholder="Số hộ chiếu" class="form-control">
+                                            <input type="text" id="machuyenbay1" readonly="readonly" name="machuyenbay1" placeholder="" class="form-control">
                                         </div>
-                                        <label for="cccdkh">Căn cước công dân: </label>
+                                        <label for="tenhang1">Tên hãng: </label>
                                         <div class="form-group">
-                                            <input type="text" id="cccdkh" name="cccdkh" placeholder="Căn cước công dân" class="form-control">
+                                            <input type="text" id="tenhang1" readonly="readonly" name="tenhang1" placeholder="" class="form-control">
                                         </div>
-                                        <label for="numberphonekh">Số điện thoại: </label>
+                                        <label for="sohieumaybay1">Số hiệu máy bay: </label>
                                         <div class="form-group">
-                                            <input type="text" id="numberphonekh" name="numberphonekh" placeholder="Số điện thoại" class="form-control">
+                                            <input type="text" id="sohieumaybay1" readonly="readonly" name="sohieumaybay1" placeholder="" class="form-control">
                                         </div>
-                                        <label for="emailkh">Email: </label>
+                                        <label for="ngaybay1">Ngày bay: </label>
                                         <div class="form-group">
-                                            <input type="email" id="emailkh" name="emailkh" placeholder="Email" class="form-control">
+                                            <input type="text" id="ngaybay1" readonly="readonly" name="ngaybay1" placeholder="" class="form-control">
                                         </div>
-                                        <label for="birthdaykh">Ngày sinh: </label>
+                                        <label for="noidi1">Nơi đi: </label>
                                         <div class="form-group">
-                                            <input type="date" id="birthdaykh" name="birthdaykh" placeholder="Ngày sinh" class="form-control">
+                                            <input type="text" id="noidi1" readonly="readonly" name="noidi1" placeholder="" class="form-control">
                                         </div>
-                                        <label for="genderkh">Giới tính: </label>
+                                        <label for="noiden1">Nơi đến: </label>
                                         <div class="form-group">
-                                        <select class="form-select" name="genderkh" id="genderkh">
-                                            <option value="Nam">Nam</option>
-                                            <option value="Nữ">Nữ</option>
-                                        </select>
+                                            <input type="text" id="noiden1" readonly="readonly" name="noiden1" placeholder="" class="form-control">
                                         </div>
-                                        <label for="addresskh">Địa chỉ: </label>
+                                        <label for="giobay1">Giờ bay: </label>
                                         <div class="form-group">
-                                            <input type="text" id="addresskh" name="addresskh" placeholder="Địa chỉ" class="form-control">
+                                            <input type="text" id="giobay1" readonly="readonly" name="giobay1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="gioden1">Giờ dến: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="gioden1" readonly="readonly" name="gioden1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="ghethuonggia" style="color:black; font-weight:bold; font-size:20px">Ghế thương gia: </label>
+                                        <div class="form-group">
+                                            <input type="hidden" id="ghethuonggia" readonly="readonly" name="ghethuonggia" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="giagocthuonggia">Giá gốc: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="giagocthuonggia" name="giagocthuonggia" placeholder="0" class="form-control">
+                                        </div>
+                                        <label for="giathuethuonggia">Giá thuế: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="giathuethuonggia" name="giathuethuonggia" placeholder="0" class="form-control">
+                                        </div>
+                                        <label for="ghethuong" style="color:black; font-weight:bold; font-size:20px">Ghế thường: </label>
+                                        <div class="form-group">
+                                            <input type="hidden" id="ghethuong" readonly="readonly" name="ghethuong" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="giagocthuong">Giá gốc: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="giagocthuong" name="giagocthuong" placeholder="0" class="form-control">
+                                        </div>
+                                        <label for="giathuethuong">Giá thuế: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="giathuethuong" name="giathuethuong" placeholder="0" class="form-control">
                                         </div>
                                     </div>
                             </div>
@@ -168,10 +249,10 @@ View::$activeItem = 'ticket';
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!--MODAL SUA-->
-                <!-- <div class="modal fade text-left" id="repair-ticket-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal fade text-left" id="repair-ticket-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Sửa Thông Tin Vé Máy Bay</h4>
@@ -180,42 +261,38 @@ View::$activeItem = 'ticket';
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form name="repair-ticket-form" action="/" method="POST">
+                            <form name="repair-ticket-form" action="/" method="POST">
+                                    <div class="modal-header">
+                                        <div>
+                                            
+                                        </div>
+                                        
+                                    </div>
                                     <div class="modal-body">
-                                        <label for="re-fullnamekh">Họ tên: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="re-fullnamekh" name="fullnamekh" placeholder="Họ tên" class="form-control">
-                                        </div>
-                                        <label for="re-hochieukh">Số hộ chiếu: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="re-hochieukh" name="hochieukh" placeholder="Số hộ chiếu" class="form-control">
-                                        </div>
-                                        <label for="re-cccdkh">Căn cước công dân: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="re-cccdkh" name="cccdkh" placeholder="Căn cước công dân" class="form-control">
-                                        </div>
-                                        <label for="re-numberphonekh">Số điện thoại: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="re-numberphonekh" name="numberphonekh" placeholder="Số điện thoại" class="form-control">
-                                        </div>
-                                        <label for="re-emailkh">Email: </label>
-                                        <div class="form-group">
-                                            <input type="email" id="re-emailkh" name="emailkh" placeholder="Email" class="form-control">
-                                        </div>
-                                        <label for="re-birthdaykh">Ngày sinh: </label>
-                                        <div class="form-group">
-                                            <input type="date" id="re-birthdaykh" name="birthdaykh" placeholder="Ngày sinh" class="form-control">
-                                        </div>
-                                        <label for="re-genderkh">Giới tính: </label>
-                                        <div class="form-group">
-                                        <select class="form-select" name="genderkh" id="re-genderkh">
-                                            <option value="Nam">Nam</option>
-                                            <option value="Nữ">Nữ</option>
-                                        </select>
-                                        </div>
-                                        <label for="re-addresskh">Địa chỉ: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="re-addresskh" name="addresskh" placeholder="Địa chỉ" class="form-control">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-danger" id="tb3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã CB</th>
+                                                        <th>Tên hãng</th>
+                                                        <th>Số hiệu MB</th>
+                                                        <th>Ngày bay</th>
+                                                        <th>Nơi đi</th>
+                                                        <th>Nơi đến</th>
+                                                        <th>Giờ bay</th>
+                                                        <th>Giờ đến</th>
+                                                        <th>Trạng thái</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            <nav class="mt-5">
+                                                <ul id="pagination" class="pagination justify-content-center">
+                                                </ul>
+                                            </nav>
                                         </div>
                                     </div>
                                 
@@ -225,17 +302,100 @@ View::$activeItem = 'ticket';
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Đóng</span>
                                     </button>
-                                    <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Sửa</span>
-                                    </button>
+                                    
                                 </div>
                                 </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
+                <!-- MODAL SUA1 -->
+                <div class="modal fade text-left" id="repair-ticket1-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Sửa vé cho chuyến bay</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="repair-ticket1-form" action="/" method="POST">
+                                    
+                                    <div class="modal-body">
+                                    <label for="re-machuyenbay1">Mã chuyến bay: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-machuyenbay1" readonly="readonly" name="suamachuyenbay1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-tenhang1">Tên hãng: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-tenhang1" readonly="readonly" name="suatenhang1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-sohieumaybay1">Số hiệu máy bay: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-sohieumaybay1" readonly="readonly" name="suasohieumaybay1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-ngaybay1">Ngày bay: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-ngaybay1" readonly="readonly" name="suangaybay1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-noidi1">Nơi đi: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-noidi1" readonly="readonly" name="suanoidi1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-noiden1">Nơi đến: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-noiden1" readonly="readonly" name="suanoiden1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-giobay1">Giờ bay: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-giobay1" readonly="readonly" name="suagiobay1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-gioden1">Giờ dến: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-gioden1" readonly="readonly" name="suagioden1" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-ghethuonggia" style="color:black; font-weight:bold; font-size:20px">Ghế thương gia: </label>
+                                        <div class="form-group">
+                                            <input type="hidden" id="re-ghethuonggia" readonly="readonly" name="suaghethuonggia" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-giagocthuonggia">Giá gốc: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-giagocthuonggia" name="suagiagocthuonggia" placeholder="0" class="form-control">
+                                        </div>
+                                        <label for="re-giathuethuonggia">Giá thuế: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-giathuethuonggia" name="suagiathuethuonggia" placeholder="0" class="form-control">
+                                        </div>
+                                        <label for="re-ghethuong" style="color:black; font-weight:bold; font-size:20px">Ghế thường: </label>
+                                        <div class="form-group">
+                                            <input type="hidden" id="re-ghethuong" readonly="readonly" name="suaghethuong" placeholder="" class="form-control">
+                                        </div>
+                                        <label for="re-giagocthuong">Giá gốc: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-giagocthuong" name="suagiagocthuong" placeholder="0" class="form-control">
+                                        </div>
+                                        <label for="re-giathuethuong">Giá thuế: </label>
+                                        <div class="form-group">
+                                            <input type="text" id="re-giathuethuong" name="suagiathuethuong" placeholder="0" class="form-control">
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Sửa</span>
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!-- Modal Thong bao -->
-                <!-- <div class="modal fade text-left" id="question-ticket-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-ticket-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -259,9 +419,9 @@ View::$activeItem = 'ticket';
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- Modal View -->
-                <div class="modal fade" id="view-ticket-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade text-left " id="view-ticket-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
 
@@ -290,6 +450,12 @@ View::$activeItem = 'ticket';
                                         <div class="form-group">
                                             <label>Tên chuyến bay:</label>
                                             <input type="text" class="form-control" id="view-chuyenbay" disabled>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-group">
+                                            <label>Ngày bay:</label>
+                                            <input type="text" class="form-control" id="view-ngaybay" disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -373,6 +539,8 @@ View::$activeItem = 'ticket';
         // on ready
         $(function() {
             layDSTicketAjax();
+            layDSTicketAjax1();
+            layDSTicketAjax2();
             // $.post(`http://localhost/Software-Technology/quyen/getQuyens`, function(response) {
             //     if (response.thanhcong) {
             //         quyens = response.data;
@@ -389,118 +557,120 @@ View::$activeItem = 'ticket';
             
 
             // Đặt sự kiện validate cho modal add user
-        //     $("form[name='add-ticket-form']").validate({
-        //         rules: {
-        //             fullnamekh: {
-        //                 required: true,
-        //                 validateName: true,
-        //             },
+            $("form[name='add-ticket1-form']").validate({
+                rules: {
+                    machuyenbay1: {
+                        required: true,
+                    },
+                    ghethuong: {
+                        required: true,
+                    },
+                    ghethuonggia: {
+                        required: true,
+                    },
+                    giagocthuonggia: {
+                        required: true,
+                        number:true,
+                        min:99999,
+                    },
 
-        //             cccdkh: {
-        //                 required: true,
-        //                 number: true,
-        //             },
-        //             numberphonekh: {
-        //                 required: true,
-        //                 number: true,
+                    giathuethuonggia: {
+                        required: true,
+                        number: true,
+                        min:999999,
+                    },
+                    giagocthuong: {
+                        required: true,
+                        number: true,
+                        min:49999,
 
-        //             },
-        //             emailkh: {
-        //                 required: true,
-        //                 email:true,
-        //             },
-        //             birthdaykh: {
-        //                 required: true,
-        //             },
-        //             genderkh: {
-        //                 required: true,
-        //             },
-        //             addresskh: {
-        //                 required: true,
-        //             },
-        //         },
-        //         messages: {
-        //             fullnamekh: {
-        //                 required: "Vui lòng nhập họ tên",
-        //             },
-        //             cccdkh: {
-        //                 required: "Vui lòng nhập căn cước công dân",
-        //                 number: "Căn cước công dân phải là số"
-        //             },
-        //             numberphonekh: {
-        //                 required: "Vui lòng nhập số điện thoại",
-        //                 number: "Số điện thoại dân phải là số"
-        //             },
-        //             emailkh: {
-        //                 required: "Vui lòng nhập email",
-        //                 email: "Vui lòng nhập đúng định dạng email"
-        //             },
-        //             birthdaykh: {
-        //                 required: "Vui lòng nhập ngày sinh",
-        //             },
-        //             addresskh: {
-        //                 required: "Vui lòng nhập địa chỉ",
-        //             },
-        //         },
-        //         submitHandler: function(form, event) {
-        //             event.preventDefault();
-        //             // lấy dữ liệu từ form
-        //             const data = Object.fromEntries(new FormData(form).entries());
+                    },
+                    giathuethuong: {
+                        required: true,
+                        number: true,
+                        min:699999,
 
-        //             $.post(`http://localhost/Software-Technology/ticket/create`, data, function(response) {
-        //                 if (response.thanhcong) {
-        //                     currentPage = 1;
-        //                     layDSTicketAjax();
-        //                     Toastify({
-        //                         text: "Thêm Thành Công",
-        //                         duration: 1000,
-        //                         close: true,
-        //                         gravity: "top",
-        //                         position: "center",
-        //                         backgroundColor: "#4fbe87",
-        //                     }).showToast();
-        //                 } else {
-        //                     Toastify({
-        //                         text: "Thêm Thất Bại",
-        //                         duration: 1000,
-        //                         close: true,
-        //                         gravity: "top",
-        //                         position: "center",
-        //                         backgroundColor: "#FF6A6A",
-        //                     }).showToast();
-        //                 }
+                    },
 
-        //                 // Đóng modal
-        //                 $("#add-ticket-modal").modal('toggle')
-        //             });
-        //             $('#fullnamekh').val("");
-        //             $('#hochieukh').val("");
-        //             $('#cccdkh').val("");
-        //             $('#numberphonekh').val("");
-        //             $('#emailkh').val("");
-        //             $('#birthdaykh').val("");
-        //             $('#addresskh').val("");
-        //         }
-        //     })
+                },
+                messages: {
+                    giagocthuonggia: {
+                        required: "Vui lòng nhập giá gốc ghế thương gia",
+                        number: "Giá gốc ghế thương gia phải là số",
+                        min: "Giá gốc ghế thương gia giá phải lớn hơn 99,999 VND",
+                    },
+                    giathuethuonggia: {
+                        required: "Vui lòng nhập giá thuế ghế thương gia",
+                        number: "Giá thuế ghế thương gia phải là số",
+                        min: "Giá thuế ghế thương gia giá phải lớn hơn 999,999 VND",
+                    },
+                    giagocthuong: {
+                        required: "Vui lòng nhập giá gốc ghế thường",
+                        number: "Giá gốc ghế thường phải là số",
+                        min: "Giá gốc ghế thường giá phải lớn hơn 49,999 VND",
+                    },
+                    giathuethuong: {
+                        required: "Vui lòng nhập giá thuế ghế thường",
+                        email: "Giá thuế ghế thường phải là số",
+                        min: "Giá thuế ghế thường giá phải lớn hơn 699,999 VND",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    // lấy dữ liệu từ form
+                    const data = Object.fromEntries(new FormData(form).entries());
+
+                    $.post(`http://localhost/Software-Technology/ticket/create`, data, function(response) {
+                        console.log(response.thanhcong);
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSTicketAjax1();
+                            layDSTicketAjax();
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: "Thêm Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+
+                        // Đóng modal
+                        $("#add-ticket1-modal").modal('toggle')
+                    });
+                    $('#giagocthuonggia').val("");
+                    $('#giathuethuonggia').val("");
+                    $('#giagocthuong').val("");
+                    $('#giathuethuong').val("");
+                }
+            })
 
         });
-
-        // $("#open-add-ticket-btn").click(function() {
-        //     $('#fullnamekh').val("");
-        //     $('#hochieukh').val("");
-        //     $('#cccdkh').val("");
-        //     $('#numberphonekh').val("");
-        //     $('#emailkh').val("");
-        //     $('#birthdaykh').val("");
-        //     $('#addresskh').val("");
-        //     $("#add-ticket-modal").modal('toggle')
-        // });
+        
+        $("#open-add-ticket-btn").click(function() {
+            
+            $("#add-ticket-modal").modal('toggle');
+        });
+        $("#open-repair-ticket-btn").click(function() {
+            
+            $("#repair-ticket-modal").modal('toggle');
+        });
 
 
-        // function changePage(newPage) {
-        //     currentPage = newPage;
-        //     layDSUserAjax();
-        // }
+        function changePage(newPage) {
+            currentPage = newPage;
+            layDSTicketAjax();
+        }
 
         // function changePageSearchNangCao(newPage, search, search2) {
         //     currentPage = newPage;
@@ -551,7 +721,14 @@ View::$activeItem = 'ticket';
                             return true;
                         }
                     });
-                    
+                    let tt = ""
+                    if(data.trang_thai==1) {
+                        tt="Chưa bán";
+                    } else if(data.trang_thai==2) {
+                        tt="Đã bán";
+                    } else if(data.trang_thai==3) {
+                        tt="Đã hết hạn";
+                    }
                     if ($row % 2 == 0) {
 
                         table1.append(`
@@ -563,6 +740,7 @@ View::$activeItem = 'ticket';
                             <td>${noidi}</td>
                             <td>${noiden}</td>
                             <td>${data.ngay_bay}</td>
+                            <td>${tt}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_ve}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -578,6 +756,7 @@ View::$activeItem = 'ticket';
                             <td>${noidi}</td>
                             <td>${noiden}</td>
                             <td>${data.ngay_bay}</td>
+                            <td>${tt}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_ve}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
@@ -611,7 +790,210 @@ View::$activeItem = 'ticket';
 
             });
         }
+        //-----------------------
+        function layDSTicketAjax1() {
+            $.get(`http://localhost/Software-Technology/ticket/getList1?rowsPerPage=10&page=${currentPage}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#tb2 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                
+                    let noidi="";
+                    let noiden="";
+                    let s = 0;
+                    response.sanbay.forEach(sanbay => {
+                        if (sanbay.ma_san_bay == data.ma_san_bay_di) {
+                            noidi = sanbay.dia_diem;
+                            s = s + 1;
+                        }
+                        if (sanbay.ma_san_bay == data.ma_san_bay_den) {
+                            noiden = sanbay.dia_diem;
+                            s = s + 1;
+                        }
+                        if(s==2) {
+                            return true;
+                        }
+                    });
+                    let tt = "";
+                    if(data.trang_thai==1) {
+                        tt="Chưa có vé";
+                    }
+                    if ($row % 2 == 0) {
 
+                        table1.append(`
+                        <tr class="table-light">
+                            
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ten}</td>
+                            <td>${data.so_hieu_may_bay}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.gio_bay}</td>
+                            <td>${data.gio_den}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="addRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-plus">Add</i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ten}</td>
+                            <td>${data.so_hieu_may_bay}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.gio_bay}</td>
+                            <td>${data.gio_den}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="addRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-plus">Add</i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_kh);
+                    $row += 1;
+                });
+
+                // const pagination = $('#pagination');
+                // // Xóa phân trang cũ
+                // pagination.empty();
+                // if (response.totalPage > 1) {
+                //     for (let i = 1; i <= response.totalPage; i++) {
+                //         if (i == currentPage) {
+                //             pagination.append(`
+                //         <li class="page-item active">
+                //             <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                //         </li>`)
+                //         } else {
+                //             pagination.append(`
+                //         <li class="page-item">
+                //             <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                //         </li>`)
+                //         }
+
+                //     }
+                // }
+
+            });
+        }
+        //-----------------------
+        function layDSTicketAjax2() {
+            $.get(`http://localhost/Software-Technology/ticket/getList2?rowsPerPage=10&page=${currentPage}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#tb3 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                
+                    let noidi="";
+                    let noiden="";
+                    let s = 0;
+                    response.sanbay.forEach(sanbay => {
+                        if (sanbay.ma_san_bay == data.ma_san_bay_di) {
+                            noidi = sanbay.dia_diem;
+                            s = s + 1;
+                        }
+                        if (sanbay.ma_san_bay == data.ma_san_bay_den) {
+                            noiden = sanbay.dia_diem;
+                            s = s + 1;
+                        }
+                        if(s==2) {
+                            return true;
+                        }
+                    });
+                    let tt = "";
+                    if(data.trang_thai==2) {
+                        tt="Đã có vé";
+                    }
+                    if ($row % 2 == 0) {
+
+                        table1.append(`
+                        <tr class="table-light">
+                            
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ten}</td>
+                            <td>${data.so_hieu_may_bay}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.gio_bay}</td>
+                            <td>${data.gio_den}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-plus">Add</i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ten}</td>
+                            <td>${data.so_hieu_may_bay}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.gio_bay}</td>
+                            <td>${data.gio_den}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-plus">Add</i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_kh);
+                    $row += 1;
+                });
+
+                // const pagination = $('#pagination');
+                // // Xóa phân trang cũ
+                // pagination.empty();
+                // if (response.totalPage > 1) {
+                //     for (let i = 1; i <= response.totalPage; i++) {
+                //         if (i == currentPage) {
+                //             pagination.append(`
+                //         <li class="page-item active">
+                //             <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                //         </li>`)
+                //         } else {
+                //             pagination.append(`
+                //         <li class="page-item">
+                //             <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                //         </li>`)
+                //         }
+
+                //     }
+                // }
+
+            });
+        }
         // function layDSTicketSearchNangCao(search, search2) {
         //     $.get(`http://localhost/Software-Technology/ticket/getListSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
         //         // Không được gán biến response này ra ngoài function,
@@ -708,26 +1090,53 @@ View::$activeItem = 'ticket';
         //     });
         // }
 
-        // function viewRow(params) {
-        //     let data = {
-        //         makh: params
-        //     };
-        //     $.post(`http://localhost/Software-Technology/ticket/viewTicket`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $("#view-hotenkh").val(response.FullName);
-        //             $("#view-tenhangkh").val(response.tenhang);
-        //             $("#view-hochieukh").val(response.hochieu);
-        //             $("#view-cccdkh").val(response.cccd);
-        //             $("#view-sdtkh").val(response.sdt);
-        //             $("#view-emailkh").val(response.email);
-        //             $("#view-datekh").val(response.date);
-        //             $("#view-genderkh").val(response.gender);
-        //             $("#view-addresskh").val(response.address);
-        //             $("#view-tichluykh").val(response.diemtichluy);
-        //         }
-        //     });
-        //     $("#view-ticket-modal").modal('toggle');
-        // }
+        function viewRow(params) {
+            let data = {
+                mav: params
+            };
+            
+            $.post(`http://localhost/Software-Technology/ticket/viewTicket`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#view-ve").val(response.ve);
+                    $("#view-hangkhong").val(response.hangkhong);
+                    $("#view-hieumaybay").val(response.maybay);
+                    $("#view-chuyenbay").val(response.chuyenbay);
+                    $("#view-ngaybay").val(response.ngaybay);
+                    $("#view-noidi").val(response.noidi);
+                    $("#view-noiden").val(response.noiden);
+                    $("#view-giodi").val(response.giodi);
+                    $("#view-gioden").val(response.gioden);
+                    $("#view-hangdichvu").val(response.hangdichvu);
+                    $("#view-soghe").val(response.soghe);
+                    $("#view-giagoc").val(response.giagoc);
+                    $("#view-tienthue").val(response.tienthue);
+                }
+            });
+            $("#view-ticket-modal").modal('toggle');
+        }
+
+        function addRow(params) {
+            let data = {
+                macb: params
+            };
+            console.log(params);
+            $.post(`http://localhost/Software-Technology/ticket/viewTicket1`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#machuyenbay1").val(response.chuyenbay);
+                    $("#tenhang1").val(response.tenhang);
+                    $("#sohieumaybay1").val(response.sohieumaybay);
+                    $("#ngaybay1").val(response.ngaybay);
+                    $("#noidi1").val(response.noidi);
+                    $("#noiden1").val(response.noiden);
+                    $("#giobay1").val(response.giodi);
+                    $("#gioden1").val(response.gioden);
+                    $("#ghethuong").val(response.ghethuong);
+                    $("#ghethuonggia").val(response.ghethuonggia);
+                }
+            });
+            $("#add-ticket1-modal").modal('toggle');
+        }
+
 
         // function resetPass(params) {
         //     let data = {
@@ -759,119 +1168,132 @@ View::$activeItem = 'ticket';
         //     });
         // }
 
-        // function repairRow(params) {
-        //     let data = {
-        //         makh: params
-        //     };
+        function repairRow(params) {
+            let data = {
+                macb: params
+            };
 
-        //     $.post(`http://localhost/Software-Technology/ticket/viewTicket`, data, function(response) {
-        //         if (response.thanhcong) {
-        //             $('#re-fullnamekh').val(response.FullName);
-        //             $('#re-hochieukh').val(response.hochieu);
-        //             $('#re-cccdkh').val(response.cccd);
-        //             $('#re-numberphonekh').val(response.sdt);
-        //             $('#re-emailkh').val(response.email);
-        //             $('#re-birthdaykh').val(response.date);
-        //             $('#re-genderkh').val(response.gender).prop('selected', true);;
-        //             $('#re-addresskh').val(response.address);
-        //         }
-        //     });
-        //     $("#repair-ticket-modal").modal('toggle');
-        //     //Sua form
-        //     $("form[name='repair-ticket-form']").validate({
-        //         rules: {
-        //             fullnamekh: {
-        //                 required: true,
-        //                 validateName: true,
-        //             },
+            $.post(`http://localhost/Software-Technology/ticket/viewTicket2`, data, function(response) {
+                if (response.thanhcong) {
+                    $("#re-machuyenbay1").val(response.chuyenbay);
+                    $("#re-tenhang1").val(response.tenhang);
+                    $("#re-sohieumaybay1").val(response.sohieumaybay);
+                    $("#re-ngaybay1").val(response.ngaybay);
+                    $("#re-noidi1").val(response.noidi);
+                    $("#re-noiden1").val(response.noiden);
+                    $("#re-giobay1").val(response.giodi);
+                    $("#re-gioden1").val(response.gioden);
+                    $("#re-ghethuong").val(response.ghethuong);
+                    $("#re-ghethuonggia").val(response.ghethuonggia);
+                    $("#re-giagocthuong").val(response.giagocthuong);
+                    $("#re-giathuethuong").val(response.giathuethuong);
+                    $("#re-giagocthuonggia").val(response.giagocthuonggia);
+                    $("#re-giathuethuonggia").val(response.giathuethuonggia);
+                }
+            });
+            
+            $("#repair-ticket1-modal").modal('toggle');
+            //Sua form
+            $("form[name='repair-ticket1-form']").validate({
+                rules: {
+                    suamachuyenbay1: {
+                        required: true,
+                    },
+                    suaghethuong: {
+                        required: true,
+                    },
+                    suaghethuonggia: {
+                        required: true,
+                    },
+                    suagiagocthuonggia: {
+                        required: true,
+                        number:true,
+                        min:99999,
+                    },
 
-        //             cccdkh: {
-        //                 required: true,
-        //                 number: true,
-        //             },
-        //             numberphonekh: {
-        //                 required: true,
-        //                 number: true,
+                    suagiathuethuonggia: {
+                        required: true,
+                        number: true,
+                        min:999999,
+                    },
+                    suagiagocthuong: {
+                        required: true,
+                        number: true,
+                        min:49999,
 
-        //             },
-        //             emailkh: {
-        //                 required: true,
-        //                 email:true,
-        //             },
-        //             birthdaykh: {
-        //                 required: true,
-        //             },
-        //             genderkh: {
-        //                 required: true,
-        //             },
-        //             addresskh: {
-        //                 required: true,
-        //             },
-        //         },
-        //         messages: {
-        //             fullnamekh: {
-        //                 required: "Vui lòng nhập họ tên",
-        //             },
-        //             cccdkh: {
-        //                 required: "Vui lòng nhập căn cước công dân",
-        //                 number: "Căn cước công dân phải là số"
-        //             },
-        //             numberphonekh: {
-        //                 required: "Vui lòng nhập số điện thoại",
-        //                 number: "Số điện thoại dân phải là số"
-        //             },
-        //             emailkh: {
-        //                 required: "Vui lòng nhập email",
-        //                 email: "Vui lòng nhập đúng định dạng email"
-        //             },
-        //             birthdaykh: {
-        //                 required: "Vui lòng nhập ngày sinh",
-        //             },
-        //             addresskh: {
-        //                 required: "Vui lòng nhập địa chỉ",
-        //             },
-        //         },
-        //         submitHandler: function(form, event) {
-        //             event.preventDefault();
-        //             $("#myModalLabel110").text("Quản Lý Vé Máy Bay");
-        //             $("#question-model").text("Bạn có chắc chắn muốn sửa vé máy bay này không");
-        //             $("#question-ticket-modal").modal('toggle');
-        //             $('#thuchien').off('click')
-        //             $("#thuchien").click(function() {
-        //                 // lấy dữ liệu từ form
+                    },
+                    suagiathuethuong: {
+                        required: true,
+                        number: true,
+                        min:699999,
 
-        //                 const data = Object.fromEntries(new FormData(form).entries());
-        //                 data['makh'] = params;
-        //                 $.post(`http://localhost/Software-Technology/ticket/update`, data, function(response) {
-        //                     if (response.thanhcong) {
-        //                         currentPage = 1;
-        //                         layDSTicketAjax();
-        //                         Toastify({
-        //                             text: "Sửa Thành Công",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#4fbe87",
-        //                         }).showToast();
-        //                     } else {
-        //                         Toastify({
-        //                             text: "Sửa Thất Bại",
-        //                             duration: 1000,
-        //                             close: true,
-        //                             gravity: "top",
-        //                             position: "center",
-        //                             backgroundColor: "#FF6A6A",
-        //                         }).showToast();
-        //                     }
+                    },
 
-        //                     // Đóng modal
-        //                     $("#repair-ticket-modal").modal('toggle')
-        //                 });
-        //             });
-        //         }
-        //     })
-        // }
+                },
+                messages: {
+                    suagiagocthuonggia: {
+                        required: "Vui lòng nhập giá gốc ghế thương gia",
+                        number: "Giá gốc ghế thương gia phải là số",
+                        min: "Giá gốc ghế thương gia giá phải lớn hơn 99,999 VND",
+                    },
+                    suagiathuethuonggia: {
+                        required: "Vui lòng nhập giá thuế ghế thương gia",
+                        number: "Giá thuế ghế thương gia phải là số",
+                        min: "Giá thuế ghế thương gia giá phải lớn hơn 999,999 VND",
+                    },
+                    suagiagocthuong: {
+                        required: "Vui lòng nhập giá gốc ghế thường",
+                        number: "Giá gốc ghế thường phải là số",
+                        min: "Giá gốc ghế thường giá phải lớn hơn 49,999 VND",
+                    },
+                    suagiathuethuong: {
+                        required: "Vui lòng nhập giá thuế ghế thường",
+                        email: "Giá thuế ghế thường phải là số",
+                        min: "Giá thuế ghế thường giá phải lớn hơn 699,999 VND",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $("#myModalLabel110").text("Quản Lý Vé Máy Bay");
+                    $("#question-model").text("Bạn có chắc chắn muốn sửa giá vé cho chuyến bay này không");
+                    $("#question-ticket-modal").modal('toggle');
+                    $('#thuchien').off('click')
+                    $("#thuchien").click(function() {
+                        // lấy dữ liệu từ form
+                        
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        
+                        $.post(`http://localhost/Software-Technology/ticket/update`, data, function(response) {
+                            if (response.thanhcong) {
+                                currentPage = 1;
+                                layDSTicketAjax();
+                                layDSTicketAjax2();
+                                Toastify({
+                                    text: "Sửa Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Sửa Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
+
+                            // Đóng modal
+                            $("#repair-ticket1-modal").modal('toggle')
+                        });
+                    });
+                }
+            })
+        }
 
         // function deleteRow(params) {
         //     let data = {

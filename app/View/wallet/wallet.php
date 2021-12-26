@@ -54,14 +54,14 @@ View::$activeItem = 'wallet';
                         <div class="row khung2">
                             <div class="col-md-12 col-sm-12">
                                 <span><i class="bi bi-trophy" style="color:#ee7404"></i></span>
-                                <span>Hạng:</span>                                
+                                <span>Hạng:</span>
                                 <span id="rank"></span>
                             </div>
                         </div>
                         <div class="row khung2">
                             <div class="col-md-12 col-sm-12">
                                 <span><i class="bi bi-star-fill" style="color:#e3ee04"></i></span>
-                                <span>Còn </span>                                
+                                <span>Còn </span>
                                 <span class="diem" id="diemNew">17400</span>
                                 <span> để lên hạng</span>
                                 <span id="rankNew"> vàng</span>
@@ -77,11 +77,11 @@ View::$activeItem = 'wallet';
                     </div>
                 </div>
                 <div class="row khung3">
-                    <div class="col-md-12 col-sm-12">
-                        <button class="btn btn-lg btn-outline-primary">
+                    <div class="col-md-12 col-sm-12" id="lk">
+                        <button id="open-connect" class="btn btn-lg btn-outline-primary">
                             <span><i class="bi bi-credit-card-2-front-fill" style="color: red"></i></span>
-                            <span>Liên kết ngân hàng</span>    
-                        </button>                                                                                            
+                            <span>Liên kết ngân hàng</span>
+                        </button>
                     </div>
                 </div>
                 <div id="vi_thanh_toan" class="row khung1 d-none">
@@ -96,22 +96,94 @@ View::$activeItem = 'wallet';
                             </div>
                         </div>
                         <div class="row khung2">
-                            <div class="col-md-12 col-sm-12">
+                            <div id="nap" class="col-md-12 col-sm-12" style="cursor: pointer;">
                                 <span><i class="bi bi-credit-card" style="color: #f28678"></i></span>
-                                <span>Nạp thêm</span>                                
+                                <span>Nạp thêm</span>
                                 <span class="icondiem"><i class="bi bi-plus-square-fill" style="color: #f28678"></i></span>
                             </div>
                         </div>
                         <div class="row khung2">
-                            <div class="col-md-12 col-sm-12">
+                            <div id="rut" class="col-md-12 col-sm-12" style="cursor: pointer;">
                                 <span><i class="bi bi-caret-down-square" style="color: #eaa135"></i></span>
-                                <span>Rút tiền về thẻ</span>                                                                
+                                <span>Rút tiền về thẻ</span>
                                 <span class="icondiem1"><i class="bi bi-dash-square-fill" style="color: #eaa135"></i></span>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-md-4 col-sm-4"></div>
+                </div>
+                <div class="modal fade text-left" id="repair-rank-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" >
+                                <h4 class="modal-title">liên kết ngân hàng</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <form name="repair-rank-form" action="/" method="POST">
+                                <div class="modal-body">
+                                    <label>Tài khoản ngân hàng </label>
+                                    <div class="form-group">
+                                        <input type="text" id="re-mahang" name="matknh" class="form-control" placeholder=" tài khaorn ngân gàng">
+                                    </div>
+                                    <label for="re-fullname">Tên ngân hàng hàng: </label>
+                                    <div class="form-group">
+                                        <input type="text" id="re-tenhang" name="tennh" placeholder=" nhập tên ngân hàng" class="form-control">
+                                    </div>
+                                    <label for="re-fullname">Mật khẩu: </label>
+                                    <div class="form-group">
+                                        <input type="password" id="re-mucdiem" name="pass" placeholder="nhập mật khẩu" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Đóng</span>
+                                    </button>
+                                    <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Liên kết</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade text-left" id="nap-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" >
+                                <h4 class="modal-title">Nạp tiền</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <form name="nap-form" action="/" method="POST">
+                                <div class="modal-body">
+                                    <label for="re-fullname">Số tiền muốn nạp: </label>
+                                    <div class="form-group">
+                                        <input type="text" id="re-tenhang" name="tien" placeholder=" nhập tên ngân hàng" class="form-control">
+                                    </div>
+                                    <label for="re-fullname">Mật khẩu: </label>
+                                    <div class="form-group">
+                                        <input type="password" id="re-mucdiem" name="pass" placeholder="nhập mật khẩu" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Đóng</span>
+                                    </button>
+                                    <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Liên kết</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,7 +198,7 @@ View::$activeItem = 'wallet';
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script>
-         $(function() {
+        $(function() {
             $.post(`http://localhost/Software-Technology/wallet/readPoint`, function(response) {
                 if (response) {
                     $('#diem').text(response.diem);
@@ -138,8 +210,124 @@ View::$activeItem = 'wallet';
             $.post(`http://localhost/Software-Technology/wallet/checkConnection`, function(response) {
                 if (response.thanhcong) {
                     $('#vi_thanh_toan').removeClass('d-none');
+                    $('#lk').addClass('d-none');
                 }
             });
-         })
+            $('#nap').click(function(){
+                $("#nap-modal").modal('toggle');
+                $("form[name='repair-rank-form']").validate({
+                    ules: {
+                        tien: {
+                            required: true,
+                        },
+                        pass: {
+                            required: true,
+                        },
+                    },
+                    messages: {
+                        tien: {
+                            required: "Vui lòng nhập số tài khoản",
+                        },
+                        pass: {
+                            required: "Vui lòng mật khẩu",
+                        }
+                    },
+                    submitHandler: function(form, event) {
+                        event.preventDefault();
+                            // lấy dữ liệu từ form
+
+                            const data = Object.fromEntries(new FormData(form).entries());
+                            $.post(`http://localhost/Software-Technology/wallet/topUp`, data, function(response) {
+                                console.log(response);
+                                if (response.thanhcong) {
+                                    currentPage = 1;
+                                    Toastify({
+                                        text: "Nạp Thành Công",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#4fbe87",
+                                    }).showToast();
+                                    location.reload();
+                                } else {
+                                    Toastify({
+                                        text: "Nạp Thất Bại",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#FF6A6A",
+                                    }).showToast();
+                                }
+
+                                // Đóng modal
+                                $("#repair-rank-modal").modal('toggle')
+                        });
+                    }
+                })
+            });
+            $('#open-connect').click(function() {
+                $("#repair-rank-modal").modal('toggle');
+                //Sua form
+                $("form[name='repair-rank-form']").validate({
+                    rules: {
+                        matknh: {
+                            required: true,
+                        },
+                        tennh: {
+                            required: true,
+                        },
+                        pass: {
+                            required: true,
+                        },
+                    },
+                    messages: {
+                        matknh: {
+                            required: "Vui lòng nhập số tài khoản",
+                        },
+                        tennh: {
+                            required: "Vui lòng nhập tên ngân hàng",
+                        },
+                        pass: {
+                            required: "Vui lòng mật khẩu",
+                        }
+                    },
+                    submitHandler: function(form, event) {
+                        event.preventDefault();
+                            // lấy dữ liệu từ form
+
+                            const data = Object.fromEntries(new FormData(form).entries());
+                            $.post(`http://localhost/Software-Technology/wallet/bankConnection`, data, function(response) {
+                                
+                                if (response.thanhcong) {
+                                    currentPage = 1;
+                                    Toastify({
+                                        text: "Liên kết Thành Công",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#4fbe87",
+                                    }).showToast();
+                                    location.reload();
+                                } else {
+                                    Toastify({
+                                        text: "Liên kết Thất Bại",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#FF6A6A",
+                                    }).showToast();
+                                }
+
+                                // Đóng modal
+                                $("#repair-rank-modal").modal('toggle')
+                        });
+                    }
+                })
+            })
+        })
     </script>
 </body>

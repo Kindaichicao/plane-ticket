@@ -100,6 +100,17 @@ View::$activeItem = 'sale';
                                                 <option value="hdv2">Phổ thông</option selected>
                                             </select>
                                         </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Hãng hàng không: </label>
+                                            <select class="form-select form-group" id="hanghk" name="hanghk">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Mức giá: </label>
+                                            <p> 0 VNĐ</p>
+                                            <input value="0" type="range" id="gia" name="gia" min="0" max="1000">
+                                            <p id="giatien" name="giatien">0 VNĐ</p>
+                                        </div>
                                         <div class="col-3 offset-9">
                                             <button type="button" class="btn btn-success ml-1" data-bs-dismiss="modal">
                                                 <i class="bx bx-check d-block d-sm-none"></i>
@@ -144,6 +155,10 @@ View::$activeItem = 'sale';
                 } else{
                     $('#ngayve').addClass("d-none");
                 }
+            });
+            $('#gia').change(function(){
+                giatien = ('#gia').val()*10000 + " VNĐ";
+                $('#giatien').text(giatien);
             });
             //kietm tra quyen
             $("form[name='timchuyenbay']").validate({

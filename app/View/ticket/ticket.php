@@ -538,6 +538,7 @@ View::$activeItem = 'ticket';
         let hangkhs
         // on ready
         $(function() {
+            
             layDSTicketAjax();
             layDSTicketAjax1();
             layDSTicketAjax2();
@@ -667,28 +668,28 @@ View::$activeItem = 'ticket';
             $("#repair-ticket-modal").modal('toggle');
         });
 
-
+        
         function changePage(newPage) {
             currentPage = newPage;
             layDSTicketAjax();
         }
 
-        // function changePageSearchNangCao(newPage, search, search2) {
-        //     currentPage = newPage;
-        //     layDSTicketSearchNangCao(search, search2);
-        // }
+        function changePageSearchNangCao(newPage, search, search2) {
+            currentPage = newPage;
+            layDSTicketSearchNangCao(search, search2);
+        }
 
-        // $('#cars-search').change(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSTicketSearchNangCao($('#serch-ticket-text').val(), search);
-        // });
+        $('#cars-search').change(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSTicketSearchNangCao($('#serch-ticket-text').val(), search);
+        });
 
-        // $("#search-ticket-form").keyup(debounce(function() {
-        //     let search = $('#cars-search option').filter(':selected').val();
-        //     currentPage = 1;
-        //     layDSTicketSearchNangCao($('#serch-ticket-text').val(), search);
-        // },200));
+        $("#search-ticket-form").keyup(debounce(function() {
+            let search = $('#cars-search option').filter(':selected').val();
+            currentPage = 1;
+            layDSTicketSearchNangCao($('#serch-ticket-text').val(), search);
+        },200));
 
         function layDSTicketAjax() {
             $.get(`http://localhost/Software-Technology/ticket/getList?rowsPerPage=10&page=${currentPage}`, function(response) {

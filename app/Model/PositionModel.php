@@ -128,6 +128,20 @@ class PositionModel{
 
     }
 
+    public static function ktraQuyen($macn){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $maquyen = Cookie::get('user_quyen');
+        $sql = 'SELECT * FROM chi_tiet_quyen WHERE ma_chuc_vu = "'.$maquyen.'" AND ma_chuc_nang = "'.$macn.'"';
+        $query = $database->query($sql);
+        $data = $query->fetch();
+        echo($data);
+        if(!$data){
+            return false;
+        }
+        return true;
+    }
+    
+
     public static function getPositionDetails($macv){
         $database = DatabaseFactory::getFactory()->getConnection();
 

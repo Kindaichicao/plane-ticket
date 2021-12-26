@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 24, 2021 lúc 07:37 PM
+-- Thời gian đã tạo: Th12 26, 2021 lúc 05:53 PM
 -- Phiên bản máy phục vụ: 10.4.21-MariaDB
--- Phiên bản PHP: 8.0.12
+-- Phiên bản PHP: 8.0.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,6 +60,40 @@ CREATE TABLE `chi_tiet_quyen` (
   `ma_chuc_nang` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `chi_tiet_quyen`
+--
+
+INSERT INTO `chi_tiet_quyen` (`ma_chuc_vu`, `ma_chuc_nang`) VALUES
+('CV000', 'CN01'),
+('CV000', 'CN02'),
+('CV000', 'CN03'),
+('CV000', 'CN04'),
+('CV000', 'CN05'),
+('CV000', 'CN06'),
+('CV000', 'CN07'),
+('CV000', 'CN08'),
+('CV000', 'CN09'),
+('CV000', 'CN10'),
+('CV000', 'CN12'),
+('CV000', 'CN13'),
+('CV000', 'CN18'),
+('CV001', 'CN11'),
+('CV001', 'CN13'),
+('CV001', 'CN14'),
+('CV001', 'CN15'),
+('CV001', 'CN16'),
+('CV002', 'CN02'),
+('CV002', 'CN03'),
+('CV002', 'CN04'),
+('CV002', 'CN05'),
+('CV002', 'CN06'),
+('CV002', 'CN08'),
+('CV002', 'CN09'),
+('CV002', 'CN12'),
+('CV002', 'CN13'),
+('CV002', 'CN18');
+
 -- --------------------------------------------------------
 
 --
@@ -92,7 +126,6 @@ INSERT INTO `chuc_nang` (`ma_chuc_nang`, `ten`) VALUES
 ('CN14', 'Săn vé giá rẻ'),
 ('CN15', 'Mua vé tự động'),
 ('CN16', 'Kho vé của tôi'),
-('CN17', 'Ví của tôi'),
 ('CN18', 'Quản lý vé');
 
 -- --------------------------------------------------------
@@ -113,7 +146,8 @@ CREATE TABLE `chuc_vu` (
 
 INSERT INTO `chuc_vu` (`ma_chuc_vu`, `ten_chuc_vu`, `trang_thai`) VALUES
 ('CV000', 'Admin', 1),
-('CV001', 'Khách hàng', 1);
+('CV001', 'Khách hàng', 1),
+('CV002', 'Nhân viên', 1);
 
 -- --------------------------------------------------------
 
@@ -219,7 +253,9 @@ CREATE TABLE `hang_khach_hang` (
 INSERT INTO `hang_khach_hang` (`ma_hang_kh`, `ten_hang`, `muc_diem`, `trang_thai`) VALUES
 ('0', '0', -1, 0),
 ('H1', 'Sắt', 0, 1),
-('h2', 'vang', 100, 1);
+('h2', 'Đồng', 100, 1),
+('H3', 'Bạc', 500, 1),
+('H4', 'Vàng', 1200, 1);
 
 -- --------------------------------------------------------
 
@@ -266,11 +302,8 @@ CREATE TABLE `khach_hang` (
 --
 
 INSERT INTO `khach_hang` (`ma_kh`, `ma_tk`, `ma_hang_kh`, `so_ho_chieu`, `ho_ten`, `gioi_tinh`, `ngay_sinh`, `email`, `cccd`, `sdt`, `dia_chi`, `diem_tich_luy`, `trang_thai`) VALUES
-(0, 1, 'H1', NULL, 'Trần Thị Thu Thanh', 'Nữ', '2001-12-01', 'kindaichicao@gmail.com', '1234567892', '098987987', '12b/asd', 0, 1),
-(2, 2, 'H1', NULL, 'Nguyễn Văn Minh Đức', NULL, NULL, 'minhduc140401@gmail.com', NULL, NULL, NULL, 0, 1),
-(10, NULL, 'H1', NULL, 'Trần Thị Thu Thanh', 'Nữ', '2001-12-01', 'kindaichicao@gmail.com', '1234567892', '098987987', '12b/asd', 0, 1),
-(11, NULL, 'H1', 54785, 'Trần Thị Thu Thanh', 'Nam', '2021-12-15', 'kindaichicao@gmail.com', '1234567892', '0123456789', '12b/abc', 0, 1),
-(12, NULL, 'H1', NULL, 'asddasds', 'Nam', '2021-12-01', 'kindaichicao@gmail.com', '1234567892', '2', '12b/asd', 0, 1);
+(0, 1, 'H1', NULL, 'Trần Thị Thu Thanh', 'Nữ', '2001-12-01', 'kindaichicao@gmail.com', '1234567892', '098987987', '12b/asd', 689, 1),
+(2, 2, 'H1', NULL, 'Nguyễn Văn Minh Đức', NULL, NULL, 'minhduc140401@gmail.com', NULL, NULL, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -337,6 +370,13 @@ CREATE TABLE `nhan_vien` (
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `nhan_vien`
+--
+
+INSERT INTO `nhan_vien` (`ma_nv`, `ma_tk`, `ho_ten`, `gioi_tinh`, `ngay_sinh`, `email`, `cccd`, `sdt`, `dia_chi`, `trang_thai`) VALUES
+(1, 3, 'Lê Thị Cẩm Duyên', 'Nữ', '2001-02-14', 'camduyen20015@gmail.com', '123456789', '0987654321', '124acvb.my', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -358,8 +398,16 @@ CREATE TABLE `san_bay` (
 --
 
 INSERT INTO `san_bay` (`ma_san_bay`, `ten`, `dia_diem`, `so_luong_may_bay_toi_da`, `so_luong_may_bay_du_bi`, `loai_san_bay`, `trang_thai`) VALUES
-('sb1', 'sb1', 'sb1', 50, 10, 'sbchinh', 1),
-('sb2', 'sb2', 'sb2', 50, 10, 'sbching', 1);
+('CXR', 'Cam Ranh', 'Nha Trang', 5, 3, '1', 1),
+('DLI', 'Liên Khương', 'Đà Lạt', 5, 3, '1', 1),
+('HAN', 'Nội Bài', 'Hà Nội', 5, 3, '0', 1),
+('HPH', 'Cát Bi', 'Hải Phòng', 5, 3, '1', 1),
+('HUI', 'Sân bay Quốc Tế Phú Bài', 'Huế', 5, 3, '0', 1),
+('PQC', 'Sân bay Phú Quốc', 'Kiên Giang', 5, 3, '0', 1),
+('sb1', 'sb1', 'Cần Thơ', 50, 10, 'sbchinh', 1),
+('sb2', 'sb2', 'Hạ Long', 50, 10, 'sbching', 1),
+('SGN', 'Sân bay Tân Sơn Nhất', 'TPHCM', 5, 3, '1', 1),
+('VII', 'Sân bay Vinh', 'Nghệ An', 5, 3, '1', 1);
 
 -- --------------------------------------------------------
 
@@ -381,7 +429,8 @@ CREATE TABLE `tai_khoan` (
 
 INSERT INTO `tai_khoan` (`ma_tk`, `username`, `hash_password`, `ma_cv`, `trang_thai`) VALUES
 (1, 'kindaichicao@gmail.com', '$2y$10$BqaPZcYCmSsEo1sa/Q/OQ.yF6dV7FJKKcg2ZSONdq9G91yw7wPyq.', 'CV001', 1),
-(2, 'minhduc140401@gmail.com', '$2y$10$oZbuElAbWIMZP2dYW6/TX.LaweInFRGg1BE261zjpWfmBT.4xtTpm', 'CV001', 1);
+(2, 'minhduc140401@gmail.com', '$2y$10$oZbuElAbWIMZP2dYW6/TX.LaweInFRGg1BE261zjpWfmBT.4xtTpm', 'CV001', 1),
+(3, 'camduyen20015@gmail.com', '$2y$10$89Qt.4tNBRq5r4aNoxJqsOjdqIXPqpuY7YWyU81CBxwS4VmWN9.gC', 'CV002', 1);
 
 -- --------------------------------------------------------
 
@@ -433,6 +482,13 @@ CREATE TABLE `vi_thanh_toan` (
   `ma_kh` int(11) NOT NULL,
   `so_du` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `vi_thanh_toan`
+--
+
+INSERT INTO `vi_thanh_toan` (`ma_vi`, `ma_kh`, `so_du`) VALUES
+('', 0, '200000');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -572,6 +628,7 @@ ALTER TABLE `ve_khach_hang`
 -- Chỉ mục cho bảng `vi_thanh_toan`
 --
 ALTER TABLE `vi_thanh_toan`
+  ADD PRIMARY KEY (`ma_vi`),
   ADD KEY `ma_kh` (`ma_kh`);
 
 --
@@ -600,13 +657,13 @@ ALTER TABLE `khach_hang`
 -- AUTO_INCREMENT cho bảng `nhan_vien`
 --
 ALTER TABLE `nhan_vien`
-  MODIFY `ma_nv` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_nv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `tai_khoan`
 --
 ALTER TABLE `tai_khoan`
-  MODIFY `ma_tk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_tk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

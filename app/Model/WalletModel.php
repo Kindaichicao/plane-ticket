@@ -42,6 +42,19 @@ class WalletModel{
         return $row->diem_tich_luy;
     }
 
+    public static function checkConnection($email){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM khach_hang kh, vi_thanh_toan vi  WHERE kh.email = :email AND kh.ma_kh = vi.ma_kh LIMIT 1");
+        $query->execute([':email' => $email]);
+
+        if($query->fetch()){
+            return true;
+        } 
+        return false;
+        
+    }
+
     public static function getList(){
         $database = DatabaseFactory::getFactory()->getConnection();
 

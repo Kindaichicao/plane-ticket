@@ -14,7 +14,8 @@ View::$activeItem = 'statistics';
     <title>Web Học Tập</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="<?= View::assets('css/bootstrap.css') ?>" />
 
     <link rel="stylesheet" href="<?= View::assets('vendors/toastify/toastify.css') ?>" />
@@ -33,6 +34,68 @@ View::$activeItem = 'statistics';
             <!-- HEADER -->
             <?php View::partial('header')  ?>
             <?php View::partial('changepass')  ?>
+            <div id="main-content">
+                <div class="page-heading">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-7 order-md-1 order-last">
+                                <label>
+                                    <h3>Thống kê doanh thu</h3>
+                                </label>
+                            </div>
+                            <div class="col-12 col-md-5 order-md-2 order-first">
+                                <div class=" loat-start float-lg-end mb-3">
+                                    <select class="btn btn btn-primary" name="search-cbb" id="time"
+                                        onchange="timeAjax()">
+                                        <option value="ngay">Thống kê theo ngày</option>
+                                        <option value="thang">Thống kê theo tháng</option>
+                                        <option value="quy">Thống kê theo quý</option>
+                                        <option value="nam">Thống kê theo năm</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id='view-time'>
+                            <div class="col-12 col-md-5">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-4 col-4">
+                                        <label class="col-form-label">
+                                            <h6>Ngày bắt đầu</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <input type="date" class="form-control" id="view-ngaybd" name="ngaybd"
+                                            onchange="checkdate()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-4 col-4">
+                                        <label class="col-form-label">
+                                            <h6>Ngày kết thúc</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <input type="date" class="form-control" id="view-ngaykt" name="ngaykt"
+                                            onchange="checkdate()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+                    <section class="section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Doanh thu theo thời gian</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-profile-visit"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </div>
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>
@@ -41,7 +104,270 @@ View::$activeItem = 'statistics';
     <script src="<?= View::assets('vendors/jquery/jquery.min.js') ?>"></script>
     <script src="<?= View::assets('vendors/jquery/jquery.validate.js') ?>"></script>
     <script src="<?= View::assets('js/main.js') ?>"></script>
+    <script src="<?= View::assets('vendors/apexcharts/apexcharts.js') ?>"></script>
     <script src="<?= View::assets('js/changepass.js') ?>"></script>
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
+    <script>
+    let cates = [];
+    let datas = [];
+
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+    });
+
+    $(function() {
+        $('#view-ngaybd').val(new Date().toDateInputValue());
+        $('#view-ngaykt').val(new Date().toDateInputValue());
+        cates.push($('#view-ngaykt').val());
+        datas.push(Math.floor(Math.random() * 30) + 20);
+        run();
+    });
+
+    function checkdate() {
+        if ($('#view-ngaykt').val() > (new Date().toDateInputValue())) {
+            alert("Ngày kết thúc không được lớn hơn ngày hiện tại");
+            $('#view-ngaykt').val(new Date().toDateInputValue());
+        } else if ($('#view-ngaybd').val() > $('#view-ngaykt').val()) {
+            alert("Ngày bắt đầu không được lớn hơn ngày kết thúc");
+            $('#view-ngaybd').focus();
+            $('#view-ngaybd').val($('#view-ngaykt').val());
+        } else {
+            cates = [];
+            datas = [];
+            var temp = $('#view-ngaybd').val();
+            var num = 1;
+            while (temp <= $('#view-ngaykt').val()) {
+                cates.push(temp);
+                var d = temp.substr(8, 2);
+                var m = temp.substr(5, 2);
+                var y = temp.substr(0, 4);
+
+                if (m == "02" && d == "28") {
+                    m = "03";
+                    d = "01";
+                } else if (d == "31" && m == "12") {
+                    y = (Number(y) + 1).toString();
+                } else if (d == "31") {
+                    var x = Number(m) + 1;
+                    if (x < 10) m = "0" + x.toString();
+                    else m = x.toString();
+                } else {
+                    d = (Number(d) + 1).toString()
+                }
+                temp = y + "-" + m + "-" + d;
+                num++;
+            }
+            for (var i = 1; i <= num; i++) {
+                datas.push(Math.floor(Math.random() * 30) + 20);
+            };
+            run();
+        }
+    }
+
+    function checkmonth() {
+        if ($('#thangkt').val() > (new Date().toDateInputValue().substr(0, 7))) {
+            alert("Tháng kết thúc không được lớn hơn tháng hiện tại");
+            $('#thangkt').val(new Date().toDateInputValue().substr(0, 7));
+        }
+        if ($('#thangbd').val() > $('#thangkt').val()) {
+            alert("Tháng bắt đầu không được lớn hơn tháng kết thúc");
+            $('#thangbd').focus();
+            $('#thangbd').val($('#thangkt').val());
+        }
+    }
+
+    function checkquar() {
+        if ($('#quybd').val() > $('#quykt').val()) {
+            alert("Quý bắt đầu không được lớn hơn quý kết thúc");
+            $('#quybd').focus();
+            $('#quybd').val($('#quykt').val());
+        }
+    }
+
+    function checkyear() {
+        if ($('#yearbd').val() > $('#yearkt').val()) {
+            alert("Tháng bắt đầu không được lớn hơn tháng kết thúc");
+            $('#yearbd').focus();
+            $('#yearbd').val($('#yearkt').val());
+        }
+    }
+
+    function timeAjax() {
+        let search = $('#time option').filter(':selected').val();
+        if (search == "ngay") {
+            $('#view-time').empty();
+            $('#view-time').append(`<div class="col-12 col-md-5">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-4 col-4">
+                                        <label class="col-form-label">
+                                            <h6>Ngày bắt đầu</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <input type="date" class="form-control" id="view-ngaybd" name="ngaybd"
+                                            onchange="checkdate()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-4 col-4">
+                                        <label class="col-form-label">
+                                            <h6>Ngày kết thúc</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <input type="date" class="form-control" id="view-ngaykt" name="ngaykt"
+                                            onchange="checkdate()">
+                                    </div>
+                                </div>
+                            </div>`);
+
+        } else if (search == "thang") {
+            $('#view-time').empty();
+            $('#view-time').append(`<div class="col-12 col-md-5">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-4 col-4">
+                                        <label class="col-form-label">
+                                            <h6>Tháng bắt đầu</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <input type="month" class="form-control" id="thangbd" name="thangbd"
+                                            onchange="checkmonth()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-4 col-4">
+                                        <label class="col-form-label">
+                                            <h6>Tháng kết thúc</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-8 col-8">
+                                        <input type="month" class="form-control" id="thangkt" name="thangkt"
+                                            onchange="checkmonth()">
+                                    </div>
+                                </div>
+                            </div>`);
+
+        } else if (search == "quy") {
+            $('#view-time').empty();
+            $('#view-time').append(`<div class="col-12 col-md-4">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-5 col-6">
+                                        <label class="col-form-label">
+                                            <h6>Quý bắt đầu</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-5 col-6">
+                                    <select class="form-select" id="quybd" onchange="checkquar()">
+                                        <option value="20214">04/2021</option>
+                                        <option value="20213">03/2021</option>
+                                        <option value="20212">02/2021</option>
+                                        <option value="20211">01/2021</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-5 col-6">
+                                        <label class="col-form-label">
+                                            <h6>Quý kết thúc</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-5 col-6">
+                                    <select class="form-select" id="quykt" onchange="checkquar()">
+                                        <option value="20214">04/2021</option>
+                                        <option value="20213">03/2021</option>
+                                        <option value="20212">02/2021</option>
+                                        <option value="20211">01/2021</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>`);
+        } else if (search == "nam") {
+            $('#view-time').empty();
+            $('#view-time').append(`<div class="col-12 col-md-4">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-5 col-6">
+                                        <label class="col-form-label">
+                                            <h6>Năm bắt đầu</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-5 col-6">
+                                    <select class="form-select" id="yearbd" onchange="checkyear()">
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2018">2018</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-lg-5 col-6">
+                                        <label class="col-form-label">
+                                            <h6>Năm kết thúc</h6>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-5 col-6">
+                                    <select class="form-select" id="yearkt" onchange="checkyear()">
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2018">2018</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>`);
+        }
+        $('#view-ngaybd').val(new Date().toDateInputValue());
+        $('#view-ngaykt').val(new Date().toDateInputValue());
+        $('#thangbd').val(new Date().toDateInputValue().substr(0, 7));
+        $('#thangkt').val(new Date().toDateInputValue().substr(0, 7));
+    }
+
+    function run() {
+        $("#chart-profile-visit").empty();
+
+        var optionsProfileVisit = {
+            annotations: {
+                position: "back",
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            chart: {
+                type: "bar",
+                height: 300,
+            },
+            fill: {
+                opacity: 1,
+            },
+            plotOptions: {},
+            series: [{
+                name: "Doanh thu (tỷ đồng)",
+                data: datas,
+            }, ],
+            colors: "#435ebe",
+            xaxis: {
+                categories: cates,
+            },
+        };
+
+        var chartProfileVisit = new ApexCharts(
+            document.querySelector("#chart-profile-visit"),
+            optionsProfileVisit
+        );
+
+        chartProfileVisit.render();
+    }
+    </script>
 </body>

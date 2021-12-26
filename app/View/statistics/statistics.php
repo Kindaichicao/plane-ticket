@@ -231,6 +231,16 @@ View::$activeItem = 'statistics';
             alert("Tháng bắt đầu không được lớn hơn tháng kết thúc");
             $('#yearbd').focus();
             $('#yearbd').val($('#yearkt').val());
+        } else {
+            cates = [];
+            datas = [];
+            var temp = $('#yearbd').val();
+            while (temp <= $('#yearkt').val()) {
+                cates.push(temp);
+                datas.push(Math.floor(Math.random() * 300) + 500);
+                temp = (Number(temp) + 1).toString();
+            }
+            run();
         }
     }
 
@@ -350,7 +360,6 @@ View::$activeItem = 'statistics';
             datas.push(Math.floor(Math.random() * 300) + 500);
             run();
         } else if (search == "nam") {
-            run();
             $('#view-time').empty();
             $('#view-time').append(`<div class="col-12 col-md-4">
                                 <div class="form-group row align-items-center">
@@ -386,6 +395,11 @@ View::$activeItem = 'statistics';
                                     </div>
                                 </div>
                             </div>`);
+            cates = [];
+            datas = [];
+            cates.push($('#yearbd').val());
+            datas.push(Math.floor(Math.random() * 500) + 1000);
+            run();
         }
     }
 

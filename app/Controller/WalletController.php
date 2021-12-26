@@ -36,8 +36,9 @@ class WalletController extends Controller
     }
 
     public function topUp(){
-        $tien = Cookie::get('tien');
-        $data = WalletModel::topUp($tien);
+        $tien = Request::post('tien');
+        $tk = Cookie::get('user_email');
+        $data = WalletModel::topUp($tien,$tk);
         $response = [
             'thanhcong' => $data
         ];
@@ -55,6 +56,7 @@ class WalletController extends Controller
     public function paymentHistory(){
         
     }
+
 
     public function readPoint(){
         Auth::checkAuthentication();
@@ -82,9 +84,17 @@ class WalletController extends Controller
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN11");
         $check = WalletModel::checkConnection(Cookie::get('user_matk'));
-        $response = [
-            'thanhcong' => $check,
-        ];
+        if($check != null){
+            $response = [
+                'thanhcong' => true,
+                'data' => $check
+            ];
+        } else {
+            $response = [
+                'thanhcong' => false
+            ];
+        }
+        
         $this->View->renderJSON($response);
     }
 }

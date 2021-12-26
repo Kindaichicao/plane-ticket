@@ -25,11 +25,16 @@ class WalletModel{
         return false;
     }
 
-    public static function topUp($tien){
+    public static function topUp($tien,$tk){
 
         // sử dụng bên thứ 3 kiểm tra, ở đây mặc định khách hàng luôn nạp đúng số tiền trong thẻ
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "UPDATE `vi_thanh_toan` SET so_du = ".$tien;
+
+        $query2 = $database->prepare("SELECT * FROM khach_hang WHERE email = :matk LIMIT 1");
+        $query2->execute([':matk' => $tk]);
+        $data = $query2->fetch();
+
+        $sql = "UPDATE `vi_thanh_toan` SET so_du = so_du + ".$tien." WHERE ma_kh = ".$data->ma_kh;
         $query = $database->query($sql);
         $count = $query->rowCount();
         if ($count == 1) {

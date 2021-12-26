@@ -217,7 +217,7 @@ View::$activeItem = 'wallet';
             });
             $('#nap').click(function(){
                 $("#nap-modal").modal('toggle');
-                $("form[name='repair-rank-form']").validate({
+                $("form[name='nap-form']").validate({
                     ules: {
                         tien: {
                             required: true,
@@ -251,7 +251,9 @@ View::$activeItem = 'wallet';
                                         position: "center",
                                         backgroundColor: "#4fbe87",
                                     }).showToast();
-                                    window.location = "http://localhost/Software-Technology/wallet/wallet";
+                                    setTimeout(function() {
+                                        window.location = "http://localhost/Software-Technology/wallet/wallet";
+                                    }, 1000)
                                 } else {
                                     Toastify({
                                         text: "Nạp Thất Bại",
@@ -264,7 +266,7 @@ View::$activeItem = 'wallet';
                                 }
 
                                 // Đóng modal
-                                $("#repair-rank-modal").modal('toggle')
+                                $("#nap-modal").modal('toggle')
                         });
                     }
                 })
@@ -312,7 +314,9 @@ View::$activeItem = 'wallet';
                                         position: "center",
                                         backgroundColor: "#4fbe87",
                                     }).showToast();
-                                    location.reload();
+                                    setTimeout(function() {
+                                        window.location = "http://localhost/Software-Technology/wallet/wallet";
+                                    }, 1000)
                                 } else {
                                     Toastify({
                                         text: "Liên kết Thất Bại",

@@ -36,8 +36,9 @@ class WalletController extends Controller
     }
 
     public function topUp(){
-        $tien = Cookie::get('tien');
-        $data = WalletModel::topUp($tien);
+        $tien = Request::post('tien');
+        $tk = Cookie::get('user_email');
+        $data = WalletModel::topUp($tien,$tk);
         $response = [
             'thanhcong' => $data
         ];

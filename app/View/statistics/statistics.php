@@ -204,6 +204,25 @@ View::$activeItem = 'statistics';
             alert("Quý bắt đầu không được lớn hơn quý kết thúc");
             $('#quybd').focus();
             $('#quybd').val($('#quykt').val());
+        } else {
+            cates = [];
+            datas = [];
+            var temp = $('#quybd').val();
+            while (temp <= $('#quykt').val()) {
+                cates.push(temp);
+                datas.push(Math.floor(Math.random() * 300) + 500);
+                var m = temp.substr(5, 2);
+                var y = temp.substr(0, 4);
+                if (m == "04") {
+                    m = "01";
+                    y = (Number(y) + 1).toString();
+                } else {
+                    var x = Number(m) + 1;
+                    m = "0" + x.toString();
+                }
+                temp = y + "-" + m;
+            }
+            run();
         }
     }
 
@@ -290,7 +309,6 @@ View::$activeItem = 'statistics';
             run();
 
         } else if (search == "quy") {
-            run();
             $('#view-time').empty();
             $('#view-time').append(`<div class="col-12 col-md-4">
                                 <div class="form-group row align-items-center">
@@ -301,10 +319,10 @@ View::$activeItem = 'statistics';
                                     </div>
                                     <div class="col-lg-5 col-6">
                                     <select class="form-select" id="quybd" onchange="checkquar()">
-                                        <option value="20214">04/2021</option>
-                                        <option value="20213">03/2021</option>
-                                        <option value="20212">02/2021</option>
-                                        <option value="20211">01/2021</option>
+                                        <option value="2021-04">04/2021</option>
+                                        <option value="2021-03">03/2021</option>
+                                        <option value="2021-02">02/2021</option>
+                                        <option value="2021-01">01/2021</option>
                                     </select>
                                     </div>
                                 </div>
@@ -318,14 +336,19 @@ View::$activeItem = 'statistics';
                                     </div>
                                     <div class="col-lg-5 col-6">
                                     <select class="form-select" id="quykt" onchange="checkquar()">
-                                        <option value="20214">04/2021</option>
-                                        <option value="20213">03/2021</option>
-                                        <option value="20212">02/2021</option>
-                                        <option value="20211">01/2021</option>
+                                        <option value="2021-04">04/2021</option>
+                                        <option value="2021-03">03/2021</option>
+                                        <option value="2021-02">02/2021</option>
+                                        <option value="2021-01">01/2021</option>
                                     </select>
                                     </div>
                                 </div>
                             </div>`);
+            cates = [];
+            datas = [];
+            cates.push($('#quybd').val());
+            datas.push(Math.floor(Math.random() * 300) + 500);
+            run();
         } else if (search == "nam") {
             run();
             $('#view-time').empty();

@@ -190,4 +190,14 @@ class TicketController extends Controller
         $this->View->renderJSON($response);
         
     }
+    public function getListSearch(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $search = Request::get('search');
+        $search2 = Request::get('search2');
+        $page = Request::get('page', 1);
+        $rowsPerPage = Request::get('rowsPerPage', 10);
+        $data = TicketModel::getListSearch($search, $search2,$page, $rowsPerPage);
+        $this->View->renderJSON($data);
+    }
 }

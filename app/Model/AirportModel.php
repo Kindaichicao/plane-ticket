@@ -31,7 +31,7 @@ class AirportModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT * from hang_hang_khong WHERE trang_thai = 1 LIMIT :limit OFFSET :offset"; // limit 0,5
+        $sql = "SELECT * from san_bay WHERE trang_thai = 1 LIMIT :limit OFFSET :offset"; // limit 0,5
 
         $query = $database->prepare($sql);
 
@@ -43,7 +43,7 @@ class AirportModel
 
         // data['ten_chuc_vu']
 
-        $count = 'SELECT COUNT(ma_hang_hang_khong) FROM hang_hang_khong WHERE trang_thai = 1';
+        $count = 'SELECT COUNT(*) FROM hang_hang_khong WHERE trang_thai = 1';
 
         $countQuery = $database->query($count);
         $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN); // $totalRows=35

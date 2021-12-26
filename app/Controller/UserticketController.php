@@ -43,22 +43,6 @@ class UserticketController extends Controller
         $this->View->render('userticket/ticket');
     }
 
-    public function create(){
-
-    }
-
-    public function update(){
-        
-    }
-
-    public function delete(){
-        
-    }
-
-    public function getList(){
-        
-        
-    }
 
     public function getAirline(){
         Auth::checkAuthentication();
@@ -77,9 +61,6 @@ class UserticketController extends Controller
         
     }
 
-    public function payment(){
-        
-    }
 
     public function getAirports()
     {

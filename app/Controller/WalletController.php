@@ -65,4 +65,26 @@ class WalletController extends Controller
         ];
         $this->View->renderJSON($response);
     }
+    public function checkConnection(){
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN11");
+        $point = WalletModel::getPoint(Cookie::get('user_email'));
+        $hangs = WalletModel::getList();
+        foreach($hangs as $value){
+            if($point >= $value->muc_diem){
+                $rank = $value->ten_hang;
+            } else {
+                $rankNew = $value->ten_hang;
+                $diemNew = $value->muc_diem - $point;
+                break;
+            }
+        }
+        $response = [
+            'diem' => $point,
+            'diemmoi' => $diemNew,
+            'rank' => $rank,
+            'rankNew' => $rankNew
+        ];
+        $this->View->renderJSON($response);
+    }
 }

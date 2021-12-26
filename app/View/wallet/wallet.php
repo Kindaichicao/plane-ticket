@@ -84,7 +84,7 @@ View::$activeItem = 'wallet';
                         </button>                                                                                            
                     </div>
                 </div>
-                <div class="row khung1">
+                <div id="vi_thanh_toan" class="row khung1 d-none">
                     <div class="col-md-4 col-sm-4"></div>
                     <div class="col-md-4 col-sm-4 khungdiem">
                         <div class="row khung2">
@@ -133,6 +133,11 @@ View::$activeItem = 'wallet';
                     $('#diemNew').text(response.diemmoi);
                     $('#rank').text(response.rank);
                     $('#rankNew').text(response.rankNew);
+                }
+            });
+            $.post(`http://localhost/Software-Technology/wallet/checkConnection`, function(response) {
+                if (response.thanhcong) {
+                    $('#vi_thanh_toan').removeClass('d-none');
                 }
             });
          })

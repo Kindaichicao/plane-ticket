@@ -132,15 +132,15 @@ View::$activeItem = 'statistics';
             $('#view-ngaykt').val(new Date().toDateInputValue());
         } else if ($('#view-ngaybd').val() > $('#view-ngaykt').val()) {
             alert("Ngày bắt đầu không được lớn hơn ngày kết thúc");
-            $('#view-ngaybd').focus();
             $('#view-ngaybd').val($('#view-ngaykt').val());
+            $('#view-ngaybd').focus();
         } else {
             cates = [];
             datas = [];
             var temp = $('#view-ngaybd').val();
-            var num = 1;
             while (temp <= $('#view-ngaykt').val()) {
                 cates.push(temp);
+                datas.push(Math.floor(Math.random() * 30) + 20);
                 var d = temp.substr(8, 2);
                 var m = temp.substr(5, 2);
                 var y = temp.substr(0, 4);
@@ -149,20 +149,21 @@ View::$activeItem = 'statistics';
                     m = "03";
                     d = "01";
                 } else if (d == "31" && m == "12") {
+                    d = "01";
+                    m = "01";
                     y = (Number(y) + 1).toString();
                 } else if (d == "31") {
+                    d = "01";
                     var x = Number(m) + 1;
                     if (x < 10) m = "0" + x.toString();
                     else m = x.toString();
                 } else {
-                    d = (Number(d) + 1).toString()
+                    var x = Number(d) + 1;
+                    if (x < 10) d = "0" + x.toString();
+                    else d = x.toString();
                 }
                 temp = y + "-" + m + "-" + d;
-                num++;
             }
-            for (var i = 1; i <= num; i++) {
-                datas.push(Math.floor(Math.random() * 30) + 20);
-            };
             run();
         }
     }
@@ -171,11 +172,30 @@ View::$activeItem = 'statistics';
         if ($('#thangkt').val() > (new Date().toDateInputValue().substr(0, 7))) {
             alert("Tháng kết thúc không được lớn hơn tháng hiện tại");
             $('#thangkt').val(new Date().toDateInputValue().substr(0, 7));
-        }
-        if ($('#thangbd').val() > $('#thangkt').val()) {
+        } else if ($('#thangbd').val() > $('#thangkt').val()) {
             alert("Tháng bắt đầu không được lớn hơn tháng kết thúc");
             $('#thangbd').focus();
             $('#thangbd').val($('#thangkt').val());
+        } else {
+            cates = [];
+            datas = [];
+            var temp = $('#thangbd').val();
+            while (temp <= $('#thangkt').val()) {
+                cates.push(temp);
+                datas.push(Math.floor(Math.random() * 200) + 100);
+                var m = temp.substr(5, 2);
+                var y = temp.substr(0, 4);
+                if (m == "12") {
+                    m = "01";
+                    y = (Number(y) + 1).toString();
+                } else {
+                    var x = Number(m) + 1;
+                    if (x < 10) m = "0" + x.toString();
+                    else m = x.toString();
+                }
+                temp = y + "-" + m;
+            }
+            run();
         }
     }
 
@@ -225,6 +245,13 @@ View::$activeItem = 'statistics';
                                     </div>
                                 </div>
                             </div>`);
+            $('#view-ngaybd').val(new Date().toDateInputValue());
+            $('#view-ngaykt').val(new Date().toDateInputValue());
+            cates = [];
+            datas = [];
+            cates.push($('#view-ngaybd').val());
+            datas.push(Math.floor(Math.random() * 200) + 100);
+            run();
 
         } else if (search == "thang") {
             $('#view-time').empty();
@@ -254,8 +281,16 @@ View::$activeItem = 'statistics';
                                     </div>
                                 </div>
                             </div>`);
+            $('#thangbd').val(new Date().toDateInputValue().substr(0, 7));
+            $('#thangkt').val(new Date().toDateInputValue().substr(0, 7));
+            cates = [];
+            datas = [];
+            cates.push($('#thangbd').val());
+            datas.push(Math.floor(Math.random() * 200) + 100);
+            run();
 
         } else if (search == "quy") {
+            run();
             $('#view-time').empty();
             $('#view-time').append(`<div class="col-12 col-md-4">
                                 <div class="form-group row align-items-center">
@@ -292,6 +327,7 @@ View::$activeItem = 'statistics';
                                 </div>
                             </div>`);
         } else if (search == "nam") {
+            run();
             $('#view-time').empty();
             $('#view-time').append(`<div class="col-12 col-md-4">
                                 <div class="form-group row align-items-center">
@@ -328,10 +364,6 @@ View::$activeItem = 'statistics';
                                 </div>
                             </div>`);
         }
-        $('#view-ngaybd').val(new Date().toDateInputValue());
-        $('#view-ngaykt').val(new Date().toDateInputValue());
-        $('#thangbd').val(new Date().toDateInputValue().substr(0, 7));
-        $('#thangkt').val(new Date().toDateInputValue().substr(0, 7));
     }
 
     function run() {

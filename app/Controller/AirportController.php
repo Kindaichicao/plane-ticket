@@ -24,12 +24,12 @@ class AirportController extends Controller
 
     public function create(){
         Auth::checkAuthentication();
-        $id = Request::get('id',null);
-        $name = Request::get('name',null);
-        $dd = Request::get('dia_diem',null);
-        $sltd = Request::get('max_number',null);
-        $sldb = Request::get('resever_number',null);
-        $type = Request::get('loai',null);
+        $id = Request::get('id_');
+        $name = Request::get('name_');
+        $dd = Request::get('diadiem_');
+        $sltd = Request::get('max_number_');
+        $sldb = Request::get('resever_number_');
+        $type = Request::get('loai_');
         $data = AirportModel::create($id, $name, $dd, $sltd, $sldb, $type,1);
         $this->View->renderJSON($data);
     

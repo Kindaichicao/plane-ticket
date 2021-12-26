@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Core\Cookie;
 use App\Core\DatabaseFactory;
+use mysqli;
 use PDO;
 
 class AirportModel
@@ -11,7 +12,7 @@ class AirportModel
     public static function create($id_, $name_, $address_, $max_num_, $reve_num_, $type_, $status_)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql_ = "SELECT COUNT(*) AS 'SL' FROM san_bay WHERE ma_san_bay ='".'1'."'";
+        $sql_ = "SELECT COUNT(*) AS 'SL' FROM san_bay WHERE ma_san_bay ='".$id_."'";
         $query = $database->query($sql_);
         $num= $query ->fetch();
         if($num->SL>0){
@@ -20,16 +21,8 @@ class AirportModel
             return $data;
         }
         $sql = "INSERT INTO san_bay(ma_san_bay,ten,dia_diem,so_luong_may_bay_toi_da,so_luong_may_bay_du_bi, loai_san_bay, trang_thai) VALUES('".$id_."','".$name_."','".$address_."',".$max_num_.",".$reve_num_.",'".$type_."',".$status_.")";
-        $query = $database->query($sql);
-        $count = $query->rowCount();
-        if ($count == 1) {
-            $data['thanhcong'] = true;
-            return $data;
-        }else
-        {
-            $data['thanhcong']= false;
-            return $data;
-        }
+        $query = $database -> prepare($sql);
+        $query -> execute();
     }
 
     public static function update()
@@ -67,15 +60,12 @@ class AirportModel
         $query->bindValue(':offset', $offset, PDO::PARAM_INT);
 
         $query->execute();
-        $data = $query->fetchAll(); // = while( $r=mysqli_fetch_array())
-
-        // data['ten_chuc_vu']
+        $data = $query->fetchAll(); 
 
         $count = 'SELECT COUNT(*) FROM san_bay WHERE trang_thai = 1';
 
         $countQuery = $database->query($count);
-        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN); // $totalRows=35
-
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN); 
         $response = [
             'page' => $page,
             'rowsPerPage' => $rowsPerPage,

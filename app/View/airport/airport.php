@@ -60,10 +60,10 @@ View::$activeItem = 'airport';
                             <div class="col-12 col-md-5 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='btn-delete-airport' class="btn btn-danger shadow-none">
-                                        <i class="bi bi-trash-fill"></i> Xóa tài khoản
+                                        <i class="bi bi-trash-fill"></i> Xóa sân bay
                                     </button>
                                     <button id='btn-open-add-airport' class="btn btn-primary shadow-none" data-toggle="modal" data-target="#add-airport-modal">
-                                        <i class="bi bi-plus"></i> Thêm tài khoản
+                                        <i class="bi bi-plus"></i> Thêm sân bay
                                     </button>
                                 </div>
                             </div>
@@ -78,10 +78,7 @@ View::$activeItem = 'airport';
                                             <tr>
                                                 <th>Mã sân bay</th>
                                                 <th>Tên sân bay</th>
-                                                <th>Tỉnh/TP</th>
-                                                <th>Quận/Huyện</th>
-                                                <th>Phường/Xã</th>
-                                                <th>Đường</th>
+                                                <th>Địa điểm</th>
                                                 <th>Loại</th>
                                                 <th>Sức chứa</th>
                                                 <th>Số lượng dự bị</th>
@@ -224,9 +221,6 @@ View::$activeItem = 'airport';
                             <td>' + element['ma_san_bay'] + '</td>\
                             <td>' + element['ten'] + '</td>\
                             <td>' + element['dia_diem'] + '</td>\
-                            <td>' + element['dia_diem'] + '</td>\
-                            <td>' + element['dia_diem'] + '</td>\
-                            <td>' + element['dia_diem'] + '</td>\
                             <td>' + element['loai_san_bay'] + '</td>\
                             <td>' + element['so_luong_may_bay_toi_da'] + '</td>\
                             <td>' + element['so_luong_may_bay_du_bi'] + '</td>\
@@ -235,9 +229,6 @@ View::$activeItem = 'airport';
                     code = '<tr class="table-light">\
                             <td>' + element['ma_san_bay'] + '</td>\
                             <td>' + element['ten'] + '</td>\
-                            <td>' + element['dia_diem'] + '</td>\
-                            <td>' + element['dia_diem'] + '</td>\
-                            <td>' + element['dia_diem'] + '</td>\
                             <td>' + element['dia_diem'] + '</td>\
                             <td>' + element['loai_san_bay'] + '</td>\
                             <td>' + element['so_luong_may_bay_toi_da'] + '</td>\
@@ -320,12 +311,12 @@ View::$activeItem = 'airport';
         } else $.ajax({
             url: 'http://localhost/Software-Technology/Airport/create',
             data: {
-                'id': id,
-                'name': name,
-                'diadiem': tinh + " " + huyen + " " + xa + " " + duong,
-                'loai': loai,
-                'max_number': max_number,
-                'reserve_number': reserve_number,
+                id_ : id,
+                name_: name,
+                diadiem_: tinh,
+                loai_: loai,
+                max_number_: max_number,
+                reserve_number_: reserve_number
             }
         }).done(function(data) {
             alert(data['thanhcong']);

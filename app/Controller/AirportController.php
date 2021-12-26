@@ -53,7 +53,8 @@ class AirportController extends Controller
 
     public function getAirport(){
         Auth::checkAuthentication(); 
-        $data = AirportModel::getAirport('sb1');
+        $ma_san_bat = Request::get('ma_san_bay',null);
+        $data = AirportModel::getAirport('sb');
         $this->View->renderJSON($data['data']);
     }
     

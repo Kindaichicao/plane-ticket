@@ -18,13 +18,13 @@ class CustomerController extends Controller
     public function customer()
     {
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $this->View->render('customer/customer');
     }
 
     public function create(){
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $fullname = Request::post('fullnamekh');
         $hochieu = Request::post('hochieukh');
         $cccd = Request::post('cccdkh');
@@ -42,7 +42,7 @@ class CustomerController extends Controller
 
     public function update(){
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $makh = Request::post('makh');
         $fullname = Request::post('fullnamekh');
         $hochieu = Request::post('hochieukh');
@@ -61,7 +61,7 @@ class CustomerController extends Controller
 
     public function delete(){
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $makh = Request::post('makh');
         $kq= CustomerModel::delete($makh);
         $response = [
@@ -72,7 +72,7 @@ class CustomerController extends Controller
     
     public function deletes(){
         Auth::checkAuthentication();  
-        //Auth::ktraquyen("CN01");     
+        Auth::ktraquyen("CN04");     
         $makh = Request::post('makh');
         $makh = json_decode($makh);
         $kq = CustomerModel::deletes($makh);
@@ -84,7 +84,7 @@ class CustomerController extends Controller
 
     public function getList(){
         Auth::checkAuthentication(); // Ktra có đang đăng nhập hay chưa
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $search = Request::get('search');
         $page = Request::get('page', 1);
         $rowsPerPage = Request::get('rowsPerPage', 10);
@@ -98,7 +98,7 @@ class CustomerController extends Controller
     public function viewCustomer()
     {
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $makh = Request::post('makh');
         $kq = CustomerModel::findOneByMaKH($makh);
         $response = ['thanhcong' => false];
@@ -123,7 +123,7 @@ class CustomerController extends Controller
 
     public function getListSearch(){
         Auth::checkAuthentication();
-        // Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN04");
         $search = Request::get('search');
         $search2 = Request::get('search2');
         $page = Request::get('page', 1);

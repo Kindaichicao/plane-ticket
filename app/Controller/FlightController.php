@@ -22,7 +22,26 @@ class FlightController extends Controller
         $this->View->render('flight/flight');
     }
 
+    public function create(){
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN05");
+        $tencb= Request::post('tencb');
+        $noidi= Request::post('noidi');
+        $noiden= Request::post('noiden');
+        $hang= Request::post('hang');
+        $maybay= Request::post('themmaybay');
+        $giodi= Request::post('giodi1');
+        $gioden=Request::post('giodi2');
+        $ngaybay=Request::post('ngaybay');
+        $ngayden=Request::post('ngayden');
+        $kq = FlightModel::create($tencb,$noidi,$noiden,$hang,$maybay,$giodi,$gioden,$ngaybay,$ngayden);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
+    }
 
+    
     public function getsohieu(){
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN05");

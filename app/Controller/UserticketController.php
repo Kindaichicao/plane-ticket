@@ -36,13 +36,6 @@ class UserticketController extends Controller
         $this->View->render('userticket/sale');
     }
 
-    public function wallet()
-    {
-        Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
-        $this->View->render('userticket/wallet');
-    }
-
     public function ticket()
     {
         Auth::checkAuthentication();
@@ -63,6 +56,7 @@ class UserticketController extends Controller
     }
 
     public function getList(){
+        
         
     }
 

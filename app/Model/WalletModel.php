@@ -31,4 +31,23 @@ class WalletModel{
     public static function paymentHistory(){
         
     }
+
+    public static function getPoint($email){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT diem_tich_luy FROM khach_hang WHERE email = :email LIMIT 1");
+        $query->execute([':email' => $email]);
+
+        $row = $query->fetch(); 
+        return $row->diem_tich_luy;
+    }
+
+    public static function getList(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM hang_khach_hang rk WHERE 1  ORDER BY rk.muc_diem ASC");
+        $query->execute();
+        $data = $query->fetchAll();
+        return $data;
+    }
 }

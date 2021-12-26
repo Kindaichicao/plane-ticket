@@ -21,24 +21,48 @@ class WalletController extends Controller
         //Auth::ktraquyen("CN01");
         $this->View->render('wallet/wallet');
     }
+    
 
-    public static function bankConnection(){
+    public function bankConnection(){
 
     }
 
-    public static function topUp(){
+    public function topUp(){
         
     }
 
-    public static function withdraw(){
+    public function withdraw(){
         
     }
 
-    public static function payment(){
+    public function payment(){
         
     }
 
-    public static function paymentHistory(){
+    public function paymentHistory(){
         
+    }
+
+    public function readPoint(){
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN11");
+        $point = WalletModel::getPoint(Cookie::get('user_email'));
+        $hangs = WalletModel::getList();
+        foreach($hangs as $value){
+            if($point >= $value->muc_diem){
+                $rank = $value->ten_hang;
+            } else {
+                $rankNew = $value->ten_hang;
+                $diemNew = $value->muc_diem - $point;
+                break;
+            }
+        }
+        $response = [
+            'diem' => $point,
+            'diemmoi' => $diemNew,
+            'rank' => $rank,
+            'rankNew' => $rankNew
+        ];
+        $this->View->renderJSON($response);
     }
 }

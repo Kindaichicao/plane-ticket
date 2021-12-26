@@ -24,6 +24,12 @@ use App\Core\View;
                         <span>Trang chủ</span>
                     </a>
                 </li>
+                <li id="CN13" class=" sidebar-item  <?= View::$activeItem == 'index' ? 'active' : '' ?>">
+                    <a href="<?= View::url('userticket/index') ?>" class="sidebar-link">
+                        <i class="bi bi-cast"></i>
+                        <span>Đặt vé</span>
+                    </a>
+                </li>
                 <li id="CN01" class=" sidebar-item  <?= View::$activeItem == 'account' ? 'active' : '' ?>">
                     <a href="<?= View::url('account/account') ?>" class="sidebar-link">
                         <i class="bi bi-person-circle"></i>
@@ -102,12 +108,7 @@ use App\Core\View;
                         <span>Thống kê</span>
                     </a>
                 </li>
-                <li id="CN13" class=" sidebar-item  <?= View::$activeItem == 'index' ? 'active' : '' ?>">
-                    <a href="<?= View::url('userticket/index') ?>" class="sidebar-link">
-                        <i class="bi bi-cast"></i>
-                        <span>Đặt vé</span>
-                    </a>
-                </li>
+                
                 <li id="CN14" class=" sidebar-item  <?= View::$activeItem == 'sale' ? 'active' : '' ?>">
                     <a href="<?= View::url('userticket/sale') ?>" class="sidebar-link">
                         <i class="bi bi-lightning"></i>
@@ -124,12 +125,6 @@ use App\Core\View;
                     <a href="<?= View::url('userticket/ticket') ?>" class="sidebar-link">
                         <i class="bi bi-cash"></i>
                         <span>Kho vé của tôi</span>
-                    </a>
-                </li>
-                <li id="CN17" class=" sidebar-item  <?= View::$activeItem == 'walletuser' ? 'active' : '' ?>">
-                    <a href="<?= View::url('userticket/wallet') ?>" class="sidebar-link">
-                        <i class="bi bi-wallet"></i>
-                        <span>Ví của tôi</span>
                     </a>
                 </li>
             </ul>

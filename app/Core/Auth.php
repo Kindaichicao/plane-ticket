@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Model\QuyenModel;
+use App\Model\PositionModel;
 
 class Auth
 {
@@ -28,9 +28,9 @@ class Auth
     {
         // em dung model 
         // kiem tra user co quyen do ko
-        // if (Cookie::userIsLoggedIn() && !QuyenModel::ktraQuyen($maquyen)) {
-        //         Redirect::home();
-        // }
+        if (Cookie::userIsLoggedIn() && !PositionModel::ktraQuyen($maquyen)) {
+                Redirect::home();
+        }
         
         
     }

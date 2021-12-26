@@ -370,10 +370,6 @@ View::$activeItem = 'statistics';
                                     </div>
                                     <div class="col-lg-5 col-6">
                                     <select class="form-select" id="yearbd" onchange="checkyear()">
-                                        <option value="2021">2021</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2018">2018</option>
                                     </select>
                                     </div>
                                 </div>
@@ -387,14 +383,16 @@ View::$activeItem = 'statistics';
                                     </div>
                                     <div class="col-lg-5 col-6">
                                     <select class="form-select" id="yearkt" onchange="checkyear()">
-                                        <option value="2021">2021</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2018">2018</option>
                                     </select>
                                     </div>
                                 </div>
                             </div>`);
+            for (var i = 2021; i > 2000; i--) {
+                $('#yearbd').append(` 
+                                    <option value="${i}">${i}</option>`);
+                $('#yearkt').append(` 
+                                    <option value="${i}">${i}</option>`);
+            }
             cates = [];
             datas = [];
             cates.push($('#yearbd').val());

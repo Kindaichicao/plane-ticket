@@ -33,7 +33,88 @@ View::$activeItem = 'index';
             <!-- HEADER -->
             <?php View::partial('header')  ?>
             <?php View::partial('changepass')  ?>
+            <div class="col-md-10 offset-md-1 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Tìm chuyến bay</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-horizontal">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label>Từ : </label>
+                                            <select class="form-select form-group" id="noidi" name="noidi">
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <label>Đến : </label>
+                                            <select class="form-select form-group" id="noiden" name="noiden">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Số hành khách</label>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">Lớn</span>
+                                                        </div>
+                                                        <input name="nguoilon" type="text" class="form-control" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">Trẻ em</span>
+                                                        </div>
+                                                        <input name="treem" type="text" class="form-control" value="0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">Em bé</span>
+                                                        </div>
+                                                        <input name="embe" type="text" class="form-control" value="0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label>Ngày đi:</label>
+                                            <input type="date" name="ngaydi">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <input type="checkbox" id="khuhoi" class='form-check-input'>
+                                            <label for="checkbox1">Khứ hồi</label>
+                                            <input class="d-none" type="date" name="ngayve">
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>Hạng ghế : </label>
+                                            <select class="form-select form-group" id="hangdv" name="hangdv">
+                                                <option value="hdv1">Thương gia</option>
+                                                <option value="hdv2">Phổ thông</option selected>
+                                            </select>
+                                        </div>
+                                        <div class="col-3 offset-9">
+                                            <button type="button" class="btn btn-success ml-1" data-bs-dismiss="modal">
+                                                <i class="bx bx-check d-block d-sm-none"></i>
+                                                <span id="thuchien" class="d-none d-sm-block">Tìm chuyến bay</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>
     <script src="<?= View::assets('vendors/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
@@ -44,4 +125,23 @@ View::$activeItem = 'index';
     <script src="<?= View::assets('js/changepass.js') ?>"></script>
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
+    <script>
+        $(function() {
+            $.post(`http://localhost/Software-Technology/position/getPositions`, function(response) {
+                if (response.thanhcong) {
+                    quyens = response.data;
+                    quyens.forEach(data => {
+                        let opt = '<option value="' + data.ma_san_bay + '">' + data.ten_chuc_vu + '</option>';
+                        $("#noidi").append(opt);
+                        $("#noiden").append(opt);
+                    });
+                }
+            });
+            //kietm tra quyen
+
+
+
+
+        });
+    </script>
 </body>

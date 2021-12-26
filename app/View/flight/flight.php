@@ -62,17 +62,15 @@ View::$activeItem = 'flight';
                                 </select>
                                 <select class="btn btn btn-primary" name="search-cbb" id="cars-searchtt">
                                     <option value="0">Chọn tình trạng</option>
-                                    <option value="1">Chưa công bố</option>
-                                    <option value="2">Đã công bố</option>
-                                    <option value="3">Đẫ bay</option>
+                                    <option value="1">Chưa công bố(chưa có vé)</option>
+                                    <option value="2">Chưa công bố(có vé)</option>
+                                    <option value="3">Đã công bố</option>
+                                    <option value="4">Đã bay</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
 
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-flight' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa chuyến bay
-                                    </button>
                                     <button id='open-add-flight-btn' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm chuyến bay
                                     </button>
@@ -87,7 +85,6 @@ View::$activeItem = 'flight';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
-                                                <th>Chọn</th>
                                                 <th>Mã chuyến bay</th>
                                                 <th>Tên chuyến bay</th>
                                                 <th>Nơi đi</th>
@@ -128,60 +125,61 @@ View::$activeItem = 'flight';
                                         </div>
                                         <label for="fullname">Hãng hàng không: </label>
                                         <div class="form-group">
-                                            <select class="form-select" name="hang" id="cardthem-hang" >
+                                            <select class="form-select"  name="hang" id="cardthem-hang" >
                                             </select>
                                         </div>
                                         <label for="fullname">Nơi đi: </label>
-                                        <div class="form-group" id="themnoidi">
+                                        <div class="form-group" >
                                             <select class="form-select" name="noidi" id="cardthem-noidi" >
                                             </select>
                                         </div>
                                         <label for="fullname">Nơi đến: </label>
-                                        <div class="form-group" id="themnoiden">
+                                        <div class="form-group" >
                                             <select class="form-select" name="noiden" id="cardthem-noiden" >
                                             </select>
                                         </div>
                                         <label for="fullname">Ngày bay : </label>
                                         <div class="form-group">
-                                            <input type="date" id="themngaybay" name="ngaybay" placeholder="Tên hạng" class="form-control">
+                                            <input type="date" id="themngaybay" name="ngaybay" min="<?php date_default_timezone_set('Asia/Ho_Chi_Minh'); $today = date("Y-m-d"); echo $today?>"  class="form-control">
                                         </div>
                                         <label for="fullname">Ngày dến : </label>
                                         <div class="form-group">
-                                            <input type="date" id="themngayden" name="ngayden" placeholder="Tên hạng" class="form-control">
+                                            <input type="date" id="themngayden" name="ngayden" min="<?php date_default_timezone_set('Asia/Ho_Chi_Minh'); $today = date("Y-m-d"); echo $today?>"  class="form-control">
                                         </div>
                                         <label for="fullname">Giờ bay: </label>
                                         <div class="form-group">
-                                        <select style="width:50% ;float:left" class="form-select" name="themgiodi" id="cardthem-noiden" >
-                                        <?php for($i=0 ;$i<=23;$i++){ ?>
-                                        <option value="<?php echo $i ?>"><?php echo $i ?> </option>
-                                        <?php } ?>
-                                            </select>
-                                            <select style="width:50%" class="form-select" name="themphutdi" id="cardthem-noiden" >
+                                        <select style="width:50% ;float:left" class="form-select" name="themgiodi" id="themgiodi" >
+                                            <?php for($i=0 ;$i<=23;$i++){ ?>
+                                            <option value="<?php echo $i ?>"><?php echo $i ?> </option>
+                                            <?php } ?>
+                                        </select>
+                                        <select style="width:50%" class="form-select" name="themphutdi" id="themphutdi" >
                                             <?php for($i=0 ;$i<=59;$i++){ ?>
                                             <option value="<?php echo $i ?>"><?php echo $i ?> </option>
                                             <?php } ?>
-                                            </select>
+                                        </select>
                                         </div>
                                         <label for="fullname">Giờ đến: </label>
                                         <div class="form-group">
-                                        <select style="width:50% ;float:left" class="form-select" name="themgioden" id="cardthem-noiden" >
-                                        <?php for($i=0 ;$i<=23;$i++){ ?>
-                                        <option value="<?php echo $i ?>"><?php echo $i ?> </option>
-                                        <?php } ?>
-                                            </select>
-                                            <select style="width:50%" class="form-select" name="themphutden" id="cardthem-noiden" >
+                                        <select style="width:50% ;float:left" class="form-select" name="themgioden" id="themgioden" >
+                                            <?php for($i=0 ;$i<=23;$i++){ ?>
+                                            <option value="<?php echo $i ?>"><?php echo $i ?> </option>
+                                            <?php } ?>
+                                        </select>
+                                        <select style="width:50%" class="form-select" name="themphutden" id="themphutden" >
                                             <?php for($i=0 ;$i<=59;$i++){ ?>
                                             <option value="<?php echo $i ?>"><?php echo $i ?> </option>
                                             <?php } ?>
-                                            </select>
+                                        </select>
                                         </div>
                                         <label for="fullname">Số hiệu máy bay: </label>
                                         <div class="form-group">
-                                            <input type="text" id="themmaybay" name="maybay" placeholder="Tên hạng" class="form-control">
-                                        </div>
-                                        <label for="fullname">Phần trăm hoàn tiền: </label>
-                                        <div class="form-group">
-                                            <input type="text" id="themphantram" name="phantram" placeholder="Tên hạng" class="form-control">
+                                            <select style="width:70%; float:left" class="form-select" name="themmaybay" id="themmaybay" >
+                                            </select>
+                                            <button style="width:30%" id="nutmaybay" type="button" class="btn btn-primary ml-1">
+                                                <i class="bx bx-check d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Cập nhật</span>
+                                            </button>
                                         </div>
                                     </div>
                             </div>
@@ -319,6 +317,32 @@ View::$activeItem = 'flight';
                         </div>
                     </div>
                 </div>
+                <!-- Modal1 Thong bao -->
+                <div class="modal fade text-left" id="question-flight1-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <h5 class="modal-title white" id="myModalLabel1101">
+                                </h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="question1-model">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="button" class="btn btn-success ml-1" data-bs-dismiss="modal">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span id="thuchien1" class="d-none d-sm-block">Thực hiện</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Modal View -->
                 <div class="modal fade" id="view-flight-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -391,7 +415,7 @@ View::$activeItem = 'flight';
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Tình trạng:</label>
-                                            <input type="number" class="form-control" id="view-tt" disabled>
+                                            <input type="text" class="form-control" id="view-tt" disabled>
                                         </div>
                                     </li>
                                 </ul>
@@ -446,6 +470,10 @@ View::$activeItem = 'flight';
 
                     });
                     
+                }
+            });
+            $.post(`http://localhost/Software-Technology/flight/setTrangThai`, function(response) {
+                if(response.thanhcong) {
                     layDSflightAjax();
                 }
             });
@@ -491,40 +519,18 @@ View::$activeItem = 'flight';
                     },
                     themgiodi: {
                         required: true,
-                        // remote: {
-                        //     url: "http://localhost/Software-Technology/flight/checkvaliemucdiem",
-                        //     type: "POST",
-                        // }
                     },
                     themgioden: {
                         required: true,
-                        // remote: {
-                        //     url: "http://localhost/Software-Technology/flight/checkvaliemucdiem",
-                        //     type: "POST",
-                        // }
+                        
                     },
                     themphutdi: {
                         required: true,
-                        // remote: {
-                        //     url: "http://localhost/Software-Technology/flight/checkvaliemucdiem",
-                        //     type: "POST",
-                        // }
                     },
                     themphutden: {
                         required: true,
-                        // remote: {
-                        //     url: "http://localhost/Software-Technology/flight/checkvaliemucdiem",
-                        //     type: "POST",
-                        // }
                     },
-                    phantram: {
-                        required: true,
-                        // remote: {
-                        //     url: "http://localhost/Software-Technology/flight/checkvaliemucdiem",
-                        //     type: "POST",
-                        // }
-                    },
-                    maybay: {
+                    themmaybay: {
                         required: true,
                     },
 
@@ -554,64 +560,144 @@ View::$activeItem = 'flight';
                     themgioden: {
                         required: "Vui lòng nhập giờ đến",
                     },
+                    themmaybay: {
+                        required: "Vui lòng nhập tất cả dữ liệu",
+                    },
                 },
                 submitHandler: function(form, event) {
                     event.preventDefault();
                     // lấy dữ liệu từ form
-                    const data = Object.fromEntries(new FormData(form).entries());
-                    $.post(`http://localhost/Software-Technology/flight/create`, data, function(response) {
-                        console.log(response);
-                        if (response.thanhcong) {
-                            currentPage = 1;
-                            layDSflightAjax();
+                    if(getmaybay()==true){
+                        const data = Object.fromEntries(new FormData(form).entries());
+                        var giodi1 = getthoigian(data['themgiodi'],data['themphutdi']);
+                        var giodi2 = getthoigian(data['themgioden'],data['themphutden']);
+                        data['giodi1']=giodi1;
+                        data['giodi2']=giodi2;
+                        if(data['noidi']!=data['noiden']){
+                            $.post(`http://localhost/Software-Technology/flight/create`, data, function(response) {
+                                console.log(response);
+                                if (response.thanhcong) {
+                                    currentPage = 1;
+                                    layDSflightAjax();
+                                    Toastify({
+                                        text: "Thêm thành công",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#4fbe87",
+                                    }).showToast();
+                                } else{
+                                    Toastify({
+                                        text: "Thêm thất bại",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#FF6A6A",
+                                    }).showToast();
+                                }
+                                // Đóng modal
+                                $("#add-flight-modal").modal('toggle')
+                            });
+                            $('#themtencb').val("");
+                            $('#themngaybay').val("");
+                            $('#themngayden').val("");
+                            $('#themgiobay').val(0);
+                            $('#themgioden').val(0);
+                            $('#cardthem-noidi').val("");
+                            $('#cardthem-noiden').val("");
+                            $('#themmaybay').val("");
+                        }else{
                             Toastify({
-                                text: "Thêm thành công",
-                                duration: 1000,
-                                close: true,
-                                gravity: "top",
-                                position: "center",
-                                backgroundColor: "#4fbe87",
-                            }).showToast();
-                        } else{
-                            Toastify({
-                                text: "Thêm thất bại",
-                                duration: 1000,
-                                close: true,
-                                gravity: "top",
-                                position: "center",
-                                backgroundColor: "#FF6A6A",
-                            }).showToast();
+                            text: "Nơi đi không được trùng với nơi đến",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
                         }
-                        // Đóng modal
-                        $("#add-flight-modal").modal('toggle')
-                    });
-                    $('#themmacb').val("");
-                    $('#themtencb').val("");
-                    $('#themngaybay').val("");
-                    $('#themgiobay').val("");
-                    $('#themgiode').val("");
-                    $('#themhang').val("");
-                    $('#themnoidi').val("");
-                    $('#themnoiden').val("");
-                    $('#themmaybay').val("");
-                    $('#themphantram').val("");
+                    } else {
+                        Toastify({
+                            text: "Giờ đến phải lớn hơn giờ bay",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
                 }
             })
 
         });
-
+        function getmaybay(){
+            var giodi= $('#themgiodi').val();
+            var phutdi=$('#themphutdi').val();
+            var gioden= $('#themgioden').val();
+            var phutden= $('#themphutden').val();
+            var gio2=getthoigian(giodi,phutdi);
+            var gio3=getthoigian(gioden,phutden);
+            if(gio2 > gio3){
+                return false;
+            }
+            return true;
+        }
+        function getthoigian(gio,phut){
+            var tg="";
+            if(gio<10) {
+                if(phut<10) {
+                    tg="0"+gio+":0"+phut+":00";
+                } else {
+                    tg="0"+gio+":"+phut+":00";
+                }
+            } else {
+                if(phut<10) {
+                    tg=+gio+":0"+phut+":00";
+                } else {
+                    tg=+gio+":"+phut+":00";
+                }
+            }
+            return tg;
+        }
+        $("#nutmaybay").click(function() {
+            let data = {
+                noidi: $('#cardthem-noidi').val(),
+                noiden: $('#cardthem-noiden').val(),
+                ngaybay: $('#themngaybay').val(),
+                hang: $('#cardthem-hang').val(),
+                giodi: getthoigian($('#themgiodi').val(),$('#themphutdi').val()),
+                gioden: getthoigian($('#themgioden').val(),$('#themphutden').val()),
+                ngayden: $('#themngayden').val(),
+            };
+            if(data['noidi']!=data['noiden']) {
+                $.post(`http://localhost/Software-Technology/flight/getsohieu`, data, function(response) {
+                    console.log(response);
+                    let opt="";
+                    response.forEach(data => {
+                        opt+= '<option value="' + data + '">' + data + '</option>';
+                    });
+                    $("#themmaybay").html(opt);
+                });
+            } else {
+                Toastify({
+                    text: "Nơi đi không được trùng với nơi đến",
+                    duration: 1000,
+                    close: true,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#FF6A6A",
+                }).showToast();
+            }
+        });
+        
         $("#open-add-flight-btn").click(function() {
-
-            $('#themmacb').val("");
             $('#themtencb').val("");
             $('#themngaybay').val("");
-            $('#themgiobay').val("");
-            $('#themgiode').val("");
-            $('#themhang').val("");
-            $('#themnoidi').val("");
-            $('#themnoiden').val("");
+            $('#themgiobay').val(0);
+            //$('#themgioden').val("");
             $('#themmaybay').val("");
-            $('#themphantram').val("");
             $("#add-flight-modal").modal('toggle')
         });
 
@@ -625,7 +711,16 @@ View::$activeItem = 'flight';
             currentPage = newPage;
             layDSFlightSearchNangCao(search, search2);
         }
-
+        function changePageSearchNangCao1(newPage, search) {
+            currentPage = newPage;
+            layDSFlightSearchNangCao1(search);
+        }
+        $('#cars-searchtt').change(function() {
+            let search = $('#cars-searchtt option').filter(':selected').val();
+            //alert(search);
+            currentPage = 1;
+            layDSFlightSearchNangCao1(search);
+        });
         $('#cars-search').change(function() {
             let search = $('#cars-search option').filter(':selected').val();
             //alert(search);
@@ -641,7 +736,7 @@ View::$activeItem = 'flight';
         },200));
 
         function layDSflightAjax() {
-            $.get(`http://localhost/Software-Technology/flight/getList?rowsPerPage=2&page=${currentPage}`, function(response) {
+            $.get(`http://localhost/Software-Technology/flight/getList?rowsPerPage=10&page=${currentPage}`, function(response) {
                 console.log(response);
                 // Không được gán biến response này ra ngoài function,
                 // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
@@ -655,9 +750,21 @@ View::$activeItem = 'flight';
                 checkedRows = [];
                 $row = 0;
                 let s=0;
+                console.log("on");
                 response.data.forEach(data => {
+                    console.log("kon");
                     let noidi="";
                     let noiden="";
+                    let tt="";
+                    if(data.trang_thai==1){
+                        tt='<select ><option selected value="1">Chưa công bố(chưa có vé)</option></select>';
+                    }else if(data.trang_thai == 2){
+                        tt='<select id="tinhtrang1" name="'+data.ma_chuyen_bay+'"><option selected value="2">Chưa công bố(Có vé)</option><option value="3">Đã công bố</option></select>';
+                    }else if(data.trang_thai == 3){
+                        tt='<select><option selected value="3">Đã công bố</option></select>';
+                    }else{
+                        tt='<select><option selected value="4">Đã cất cánh</option> <select>';
+                    }
                     response.sanbay.forEach(sanbay => {
                          if (sanbay.ma_san_bay == data.ma_san_bay_di) {
                             noidi = sanbay.dia_diem;
@@ -674,23 +781,15 @@ View::$activeItem = 'flight';
                     if ($row % 2 == 0) {
                         table1.append(`
                         <tr class="table-light">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuyen_bay}">
-                                </div>
-                            </td>
+                            
                             <td>${data.ma_chuyen_bay}</td>
                             <td>${data.ten}</td>
                             <td>${noidi}</td>
                             <td>${noiden}</td>
                             <td>${data.ngay_bay}</td>
-                            <td>${data.trang_thai}</td>
-                            <td>
+                            <td>${tt}<td>
                                 <button onclick="viewRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
@@ -700,23 +799,16 @@ View::$activeItem = 'flight';
                     } else { 
                         table1.append(`
                         <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuyen_bay}">
-                                </div>
-                            </td>
+                           
                             <td>${data.ma_chuyen_bay}</td>
-                            <td>${data.ten_chuyen_bay}</td>
+                            <td>${data.ten}</td>
                             <td>${noidi}</td>
                             <td>${noiden}</td>
                             <td>${data.ngay_bay}</td>
-                            <td>${data.tinh_trang}</td>
+                            <td>${tt}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
@@ -749,10 +841,37 @@ View::$activeItem = 'flight';
                 }
 
             });
-         }
-
-        function layDSFlightSearchNangCao(search, search2, tinhtrang) {
-            $.get(`http://localhost/Software-Technology/flight/searchFlight?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}&tinhtrang=${tinhtrang}`, function(response) {
+        }
+        $(document).on('change',  '#tinhtrang1', function() {
+            var value = $(this).children('option:selected').val();
+            var id = $(this).attr('name');
+            let data ={
+                tinhtrang: value,
+                macb: id,
+            };
+            $("#myModalLabel110").text("Quản Lý hạng khách hàng");
+            $("#question-model").text("Bạn có chắc chắn muốn sửa tình trạng chuyến bay này này không?");
+            $("#question-flight-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/flight/changestatus`, data, function(response) {
+                    if (response.thanhcong) {
+                        currentPage = 1;
+                        layDSflightAjax();
+                        Toastify({
+                            text: "Sửa tình trạng thành công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                    }
+                });
+            });
+        });
+        function layDSFlightSearchNangCao(search, search2) {
+            $.get(`http://localhost/Software-Technology/flight/searchFlight?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
                 console.log(response);
                 // Không được gán biến response này ra ngoài function,
                 // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
@@ -767,11 +886,10 @@ View::$activeItem = 'flight';
                 $row = 0;
                 response.data.forEach(data => {
                     let disabled = "disabled btn icon icon-left btn-secondary";
-                    if ($row % 2 == 0) {
-                        let s=0;
-                        let noidi="";
-                        let noiden="";
-                        response.sanbay.forEach(sanbay => {
+                    let s=0;
+                    let noidi="";
+                    let noiden="";
+                    response.sanbay.forEach(sanbay => {
                             if (sanbay.ma_san_bay == data.ma_san_bay_di) {
                                 noidi = sanbay.dia_diem;
                                 s = s + 1;
@@ -783,26 +901,30 @@ View::$activeItem = 'flight';
                             if(s==2) {
                                 return true;
                             }
-                    });
+                        });
+                    let tt="";
+                    if(data.trang_thai==1){
+                        tt='<select ><option selected value="1">Chưa công bố(chưa có vé)</option></select>';
+                    }else if(data.trang_thai == 2){
+                        tt='<select id="tinhtrang1" name="'+data.ma_chuyen_bay+'"><option selected value="2">Chưa công bố(Có vé)</option><option value="3">Đã công bố</option></select>';
+                    }else if(data.trang_thai == 3){
+                        tt='<select ><option selected value="3">Đã công bố</option></select>';
+                    }else{
+                        tt='<select><option selected value="4">Đã cất cánh</option> <select>';
+                    }
+                    if ($row % 2 == 0) {
+                        
                         table1.append(`
                         <tr class="table-light">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuyen_bay}">
-                                </div>
-                            </td>
                             <td>${data.ma_chuyen_bay}</td>
                             <td>${data.ten}</td>
                             <td>${noidi}</td>
                             <td>${noiden}</td>
                             <td>${data.ngay_bay}</td>
-                            <td>${data.trang_thai}</td>
+                            <td>${tt}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
@@ -812,23 +934,15 @@ View::$activeItem = 'flight';
                     } else { 
                         table1.append(`
                         <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_chuyen_bay}">
-                                </div>
-                            </td>
                             <td>${data.ma_chuyen_bay}</td>
-                            <td>${data.ten_chuyen_bay}</td>
+                            <td>${data.ten}</td>
                             <td>${noidi}</td>
                             <td>${noiden}</td>
-                            <td>${data.ngay_bay}</td>
-                            <td>${data.tinh_trang}</td>
+                            <td>${data.ngay_bay}</td>"
+                            <td>${tt}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
@@ -848,12 +962,122 @@ View::$activeItem = 'flight';
                         if (i == currentPage) {
                             pagination.append(`
                         <li class="page-item active">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'</button>
                         </li>`)
                         } else {
                             pagination.append(`
                         <li class="page-item">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
+
+                    }
+                }
+
+            });
+        }
+
+
+        function layDSFlightSearchNangCao1(search) {
+            $.get(`http://localhost/Software-Technology/flight/searchFlight1?rowsPerPage=10&page=${currentPage}&search=${search}`, function(response) {
+                console.log(response);
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang;
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    let s=0;
+                    let noidi="";
+                    let noiden="";
+                    response.sanbay.forEach(sanbay => {
+                            if (sanbay.ma_san_bay == data.ma_san_bay_di) {
+                                noidi = sanbay.dia_diem;
+                                s = s + 1;
+                            }
+                            if (sanbay.ma_san_bay == data.ma_san_bay_den) {
+                                noiden = sanbay.dia_diem;
+                                s = s + 1;
+                            }
+                            if(s==2) {
+                                return true;
+                            }
+                        });
+                    let tt="";
+                    if(data.trang_thai==1){
+                        tt='<select ><option selected value="1">Chưa công bố(chưa có vé)</option></select>';
+                    }else if(data.trang_thai == 2){
+                        tt='<select id="tinhtrang1" name="'+data.ma_chuyen_bay+'"><option selected value="2">Chưa công bố(Có vé)</option><option value="3">Đã công bố</option></select>';
+                    }else if(data.trang_thai == 3){
+                        tt='<select ><option selected value="3">Đã công bố</option></select>';
+                    }else{
+                        tt='<select><option selected value="4">Đã cất cánh</option> <select>';
+                    }
+                    if ($row % 2 == 0) {
+                        
+                        table1.append(`
+                        <tr class="table-light">
+                            
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ten}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else { 
+                        table1.append(`
+                        <tr class="table-info">
+                            
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ten}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.ngay_bay}</td>"
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_chuyen_bay);
+                    $row += 1;
+                });
+
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao1(${i},"${search}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao1(${i},"${search}")'>${i}</button>
                         </li>`)
                         }
 
@@ -886,6 +1110,16 @@ View::$activeItem = 'flight';
                             return true;
                         }
                     });
+                    let tt = "";
+                    if(response.tt==1){
+                        tt='Chưa công bố(chưa có vé)';
+                    }else if(response.tt == 2){
+                        tt='Chưa công bố(Có vé)';
+                    }else if(response.tt == 3){
+                        tt='Đã công bố';
+                    }else{
+                        tt='Đã cất cánh';
+                    }
                     $("#view-macb").val(response.macb);
                     $("#view-tencb").val(response.tencb);
                     $("#view-maybay").val(response.maybay);
@@ -896,7 +1130,7 @@ View::$activeItem = 'flight';
                     $("#view-giobay").val(response.giobay);
                     $("#view-gioden").val(response.gioden);
                     $("#view-ngaybay").val(response.ngaybay);
-                    $("#view-tt").val(response.tt);
+                    $("#view-tt").val(tt);
                     $("#view-phantram").val(response.phantram);
                 }
             });
@@ -937,7 +1171,7 @@ View::$activeItem = 'flight';
             let data = {
                 macb: params
             };
-            $.post(`http://localhost/Software-Technology/flight/getFlight`, data, function(response) {
+            $.post(`http://localhost/Software-Technology/flight/update`, data, function(response) {
                 if (response.thanhcong) {
                     //alert(response.giobay);
                     $("#suamacb").val(response.macb);
@@ -1020,50 +1254,83 @@ View::$activeItem = 'flight';
             })
         }
 
-        // function deleteRow(params) {
-        //     let data = {
-        //         mahang: params
-        //     };
-        //     $("#myModalLabel110").text("Quản Lý hạng khách hàng");
-        //     $("#question-model").text("Bạn có chắc chắn muốn xóa  hạng khách hàng này không?");
-        //     $("#question-flight-modal").modal('toggle');
-        //     $('#thuchien').off('click');
-        //     $("#thuchien").click(function() {
-        //         $.post(`http://localhost/Software-Technology/flight/delete`, data, function(response) {
-        //             console.log(response);
-        //             if (response.thanhcong==0) {
-        //                 Toastify({
-        //                     text: "Xóa Thành Công",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#4fbe87",
-        //                 }).showToast();
-        //                 currentPage = 1;
-        //                 layDSflightAjax();
-        //             } else  if(response.thanhcong==1){
-        //                 Toastify({
-        //                     text: "Xóa Thất Bại",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }else {
-        //                 Toastify({
-        //                     text: "Hạng khách hàng có chứa khách hàng không thể xóa",
-        //                     duration: 1000,
-        //                     close: true,
-        //                     gravity: "top",
-        //                     position: "center",
-        //                     backgroundColor: "#FF6A6A",
-        //                 }).showToast();
-        //             }
-        //         });
-        //     });
-        // }
+        function deleteRow(params) {
+            let data = {
+                macb: params,
+            };
+            $("#myModalLabel110").text("Quản Lý chuyến bay");
+            $("#question-model").text("Bạn có chắc chắn muốn xóa chuyến bay này này không?");
+            $("#question-flight-modal").modal('toggle');
+            $('#thuchien').off('click');
+            $("#thuchien").click(function() {
+                $.post(`http://localhost/Software-Technology/flight/delete`, data, function(response) {
+                    
+                    if (response.thanhcong==0) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        currentPage = 1;
+                        layDSflightAjax();
+                    } else if(response.thanhcong==1){
+                        Toastify({
+                            text: "chuyến bay đã đủ số lượng khách hàng không thể xóa",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }else if(response.thanhcong==2){
+                        Toastify({
+                            text: "chuyến bay đã cất cánh không thể xóa",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                    else if(response.thanhcong==3){
+                        Toastify({
+                            text: "Xóa thật bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    } else {
+                        
+                        $("#myModalLabel1101").text("Quản Lý chuyến bay");
+                        $("#question1-model").text("Nếu xóa chuyến bay này bạn phải hoàn tiền cho khách hàng đã mua vé");
+                        $("#question-flight1-modal").modal('toggle');
+                        
+                        $('#thuchien1').off('click');
+                        $("#thuchien1").click(function() {
+                            $.post(`http://localhost/Software-Technology/flight/delete1`, data, function(response) {
+                                if(response.thanhcong==1){
+                                    Toastify({
+                                        text: "Xóa thành công",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#FF6A6A",
+                                    }).showToast();
+                                }
+                                console.log(response);
+                            });
+                        });
+                    }
+                });
+            });
+        }
+
         // $("#btn-delete-flight").click(function() {
         //     $("#myModalLabel110").text("Quản Lý Tài Khoản");
         //     $("#question-model").text("Bạn có chắc chắn muốn xóa những hạng khách hàng này không");

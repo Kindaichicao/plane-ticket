@@ -43,7 +43,20 @@ class WalletModel{
         return false;
     }
 
-    public static function withdraw(){
+    public static function withDraw($tien,$tk){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query2 = $database->prepare("SELECT * FROM khach_hang WHERE email = :matk LIMIT 1");
+        $query2->execute([':matk' => $tk]);
+        $data = $query2->fetch();
+
+        $sql = "UPDATE `vi_thanh_toan` SET so_du = so_du - ".$tien." WHERE ma_kh = ".$data->ma_kh;
+        $query = $database->query($sql);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
         
     }
 

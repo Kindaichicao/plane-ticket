@@ -185,6 +185,40 @@ View::$activeItem = 'wallet';
                         </div>
                     </div>
                 </div>
+                <div class="modal fade text-left" id="rut-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" >
+                                <h4 class="modal-title">Rút tiền</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <form name="rut-form" action="/" method="POST">
+                                <div class="modal-body">
+                                    <label for="re-fullname">Số tiền muốn rút: </label>
+                                    <div class="form-group">
+                                        <input type="text" id="re-tenhang" name="tien" placeholder=" nhập tên ngân hàng" class="form-control">
+                                    </div>
+                                    <label for="re-fullname">Mật khẩu: </label>
+                                    <div class="form-group">
+                                        <input type="password" id="re-pass" name="pass" placeholder="nhập mật khẩu" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Đóng</span>
+                                    </button>
+                                    <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Rút</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -214,6 +248,62 @@ View::$activeItem = 'wallet';
                     $('#sodu').text(data.so_du);
                     $('#lk').addClass('d-none');
                 }
+            });
+            $('#rut').click(function(){
+                $("#rut-modal").modal('toggle');
+                $("form[name='rut-form']").validate({
+                    ules: {
+                        tien: {
+                            required: true,
+                        },
+                        pass: {
+                            required: true,
+                        },
+                    },
+                    messages: {
+                        tien: {
+                            required: "Vui lòng nhập số tài khoản",
+                        },
+                        pass: {
+                            required: "Vui lòng mật khẩu",
+                        }
+                    },
+                    submitHandler: function(form, event) {
+                        event.preventDefault();
+                            // lấy dữ liệu từ form
+
+                            const data = Object.fromEntries(new FormData(form).entries());
+                            $.post(`http://localhost/Software-Technology/wallet/withDraw`, data, function(response) {
+                                console.log(response);
+                                if (response.thanhcong) {
+                                    currentPage = 1;
+                                    Toastify({
+                                        text: "Rút Thành Công",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#4fbe87",
+                                    }).showToast();
+                                    setTimeout(function() {
+                                        window.location = "http://localhost/Software-Technology/wallet/wallet";
+                                    }, 1000)
+                                } else {
+                                    Toastify({
+                                        text: "Rút Thất Bại",
+                                        duration: 1000,
+                                        close: true,
+                                        gravity: "top",
+                                        position: "center",
+                                        backgroundColor: "#FF6A6A",
+                                    }).showToast();
+                                }
+
+                                // Đóng modal
+                                $("#rut-modal").modal('toggle')
+                        });
+                    }
+                })
             });
             $('#nap').click(function(){
                 $("#nap-modal").modal('toggle');

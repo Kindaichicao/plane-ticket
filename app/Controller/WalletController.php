@@ -45,8 +45,14 @@ class WalletController extends Controller
         $this->View->renderJSON($response);
     }
 
-    public function withdraw(){
-        
+    public function withDraw(){
+        $tien = Request::post('tien');
+        $tk = Cookie::get('user_email');
+        $data = WalletModel::withDraw($tien,$tk);
+        $response = [
+            'thanhcong' => $data
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function payment(){

@@ -31,4 +31,56 @@ class UserticketModel{
         return $response;
 
     }
+
+    //lấy vé
+    public static function getTicket(){
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay
+        from ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv
+        WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay 
+        AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong
+        AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong 
+        AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu
+        "; // limit 0,5
+        
+        $query = $database->prepare($sql);
+
+
+        $query->execute();
+        $data = $query->fetchAll(); // = while( $r=mysqli_fetch_array())
+
+        $sqlsb = "SELECT * FROM san_bay WHERE trang_thai=1";
+        $querysb = $database->prepare($sqlsb);
+        $querysb->execute();
+        $sanbay = $querysb->fetchAll();
+        // data['ten_chuc_vu']
+
+        $count = 'SELECT COUNT(ma_ve) FROM ve WHERE trang_thai = 1';
+
+        $countQuery = $database->query($count);
+        $totalRows = $countQuery->fetch(PDO::FETCH_COLUMN); // $totalRows=35
+
+        $response = [
+            'data' => $data,
+            'sanbay' => $sanbay,
+        ];
+        return $response; 
+    }
+
+    public static function filter($ngayden, $ngaydi, $noiden,$noidi, $gia,$hang){
+        $list = UserticketModel::getTicket();
+        $listReal = array();
+        foreach($list as $value){
+            if($value->ngay_di >= $ngaydi && $value->ngay_den >= $ngayden 
+            && $value->noi_di == $noidi && $value->noi_den == $noiden
+            && $value->ma_hang = $hang && $value->gia_goc <= $gia*1.05){
+                array_push($listReal, $value);
+            }
+        }
+        return $listReal;
+    }
+
+    
 }

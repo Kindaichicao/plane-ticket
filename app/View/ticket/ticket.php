@@ -60,9 +60,7 @@ View::$activeItem = 'ticket';
                                     <option value="2">Mã chuyến bay</option>
                                     <option value="3">Mã vé</option>
                                     <option value="4">Tên hãng</option>
-                                    <option value="5">Nơi đi</option>
-                                    <option value="6">Nơi đến</option>
-                                    <option value="7">Ngày bay</option>
+                                    <option value="5">Ngày bay</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
@@ -947,7 +945,7 @@ View::$activeItem = 'ticket';
                             <td>${tt}</td>
                             <td>
                                 <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-plus">Add</i>
+                                    <i class="bi bi-tools">Repair</i>
                                 </button>
                             </td>
                         </tr>`);
@@ -965,7 +963,7 @@ View::$activeItem = 'ticket';
                             <td>${tt}</td>
                             <td>
                                 <button onclick="repairRow('${data.ma_chuyen_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-plus">Add</i>
+                                    <i class="bi bi-tools">Repair</i>
                                 </button>
                             </td>
                         </tr>`);
@@ -996,101 +994,107 @@ View::$activeItem = 'ticket';
 
             });
         }
-        // function layDSTicketSearchNangCao(search, search2) {
-        //     $.get(`http://localhost/Software-Technology/ticket/getListSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
-        //         // Không được gán biến response này ra ngoài function,
-        //         // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-        //         // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-        //         //data là danh sách usser
-        //         //page là trang hiện tại
-        //         // rowsPerpage là số dòng trên 1 trang
-        //         // totalPage là tổng số trang
-        //         const table1 = $('#table1 > tbody');
-        //         table1.empty();
-        //         checkedRows = [];
-        //         $row = 0;
-        //         response.data.forEach(data => {
-        //             let disabled = "disabled btn icon icon-left btn-secondary";
+        function layDSTicketSearchNangCao(search, search2) {
+            $.get(`http://localhost/Software-Technology/ticket/getListSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    let noidi="";
+
+                    let noiden="";
+                    let s = 0;
+                    response.sanbay.forEach(sanbay => {
+                        if (sanbay.ma_san_bay == data.ma_san_bay_di) {
+                            noidi = sanbay.dia_diem;
+                            s = s + 1;
+                        }
+                        if (sanbay.ma_san_bay == data.ma_san_bay_den) {
+                            noiden = sanbay.dia_diem;
+                            s = s + 1;
+                        }
+                        if(s==2) {
+                            return true;
+                        }
+                    });
+                    let tt = ""
+                    if(data.trang_thai==1) {
+                        tt="Chưa bán";
+                    } else if(data.trang_thai==2) {
+                        tt="Đã bán";
+                    } else if(data.trang_thai==3) {
+                        tt="Đã hết hạn";
+                    }
                     
-                    
-        //             if ($row % 2 == 0) {
+                    if ($row % 2 == 0) {
 
-        //                 table1.append(`
-        //                 <tr class="table-light">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_kh}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.ho_ten}</td>
-        //                     <td>${data.ten_hang}</td>
-        //                     <td>${data.sdt}</td>
-        //                     <td>${data.cccd}</td>
-                            
-        //                     <td>
-        //                         <button onclick="viewRow('${data.ma_kh}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.ma_kh}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.ma_kh}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             } else {
-        //                 table1.append(`
-        //                 <tr class="table-info">
-        //                     <td>
-        //                         <div class="custom-control custom-checkbox">
-        //                             <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_kh}">
-        //                         </div>
-        //                     </td>
-        //                     <td>${data.ho_ten}</td>
-        //                     <td>${data.ten_hang}</td>
-        //                     <td>${data.sdt}</td>
-        //                     <td>${data.cccd}</td>
-                            
-        //                     <td>
-        //                         <button onclick="viewRow('${data.ma_kh}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-        //                             <i class="bi bi-eye"></i>
-        //                         </button>
-        //                         <button onclick="repairRow('${data.ma_kh}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-tools"></i>
-        //                         </button>
-        //                         <button onclick="deleteRow('${data.ma_kh}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-        //                             <i class="bi bi-trash-fill"></i>
-        //                         </button>
-        //                     </td>
-        //                 </tr>`);
-        //             }
-        //             checkedRows.push(data.ma_kh);
-        //             $row += 1;
-        //         });
+                        table1.append(`
+                        <tr class="table-light">
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ma_ve}</td>
+                            <td>${data.ten}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_ve}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>${data.ma_chuyen_bay}</td>
+                            <td>${data.ma_ve}</td>
+                            <td>${data.ten}</td>
+                            <td>${noidi}</td>
+                            <td>${noiden}</td>
+                            <td>${data.ngay_bay}</td>
+                            <td>${tt}</td>
+                            <td>
+                                <button onclick="viewRow('${data.ma_ve}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.ma_kh);
+                    $row += 1;
+                });
 
-        //         const pagination = $('#pagination');
-        //         // Xóa phân trang cũ
-        //         pagination.empty();
-        //         if (response.totalPage > 1) {
-        //             for (let i = 1; i <= response.totalPage; i++) {
-        //                 if (i == currentPage) {
-        //                     pagination.append(`
-        //                 <li class="page-item active">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 } else {
-        //                     pagination.append(`
-        //                 <li class="page-item">
-        //                     <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-        //                 </li>`)
-        //                 }
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
 
-        //             }
-        //         }
+                    }
+                }
 
-        //     });
-        // }
+            });
+        }
 
         function viewRow(params) {
             let data = {

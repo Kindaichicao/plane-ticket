@@ -332,4 +332,58 @@ class TicketModel{
         ];
         return $response; 
     }
+
+    public static function getListSearch($search,$search2,$page = 1, $rowsPerPage = 10){
+        $limit = $rowsPerPage;
+        $offset = $rowsPerPage * ($page - 1);
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        
+        $raw = "";
+        $raw1 = "";
+        $sql = "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay
+        from ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv
+        WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay 
+        AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong
+        AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong 
+        AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu
+        and cb.trang_thai != 0 LIMIT :limit OFFSET :offset"; // limit 0,5
+        if ($search2 == '2') {
+            $raw .= "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and cb.ma_chuyen_bay LIKE '%$search%' ORDER BY cb.ma_chuyen_bay ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(v.ma_ve) FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and cb.ma_chuyen_bay LIKE '%$search%'";
+        } else if ($search2 == '3') {
+            $raw .= "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and v.ma_ve LIKE '%$search%' ORDER BY v.ma_ve ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(v.ma_ve) FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and v.ma_ve LIKE '%$search%'";
+        } else if ($search2 == '4') {
+            $raw .= "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and hhk.ten LIKE '%$search%' ORDER BY hhk.ten ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(v.ma_ve) FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and hhk.ten LIKE '%$search%'";
+        } else if ($search2 == '5') {
+            $raw .= "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and cb.ngay_bay LIKE '%$search%' ORDER BY cb.ngay_bay ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(v.ma_ve) FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and cb.ngay_bay LIKE '%$search%'";
+        } else {
+            $raw .= "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and (cb.ma_chuyen_bay LIKE '%$search%' or v.ma_ve LIKE '%$search%' or hhk.ten LIKE '%$search%' or cb.ngay_bay LIKE '%$search%')  ORDER BY cb.ma_chuyen_bay ASC LIMIT $limit OFFSET $offset";
+            $raw1 .= "SELECT COUNT(v.ma_ve) FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and (cb.ma_chuyen_bay LIKE '%$search%' or v.ma_ve LIKE '%$search%' or hhk.ten LIKE '%$search%' or cb.ngay_bay LIKE '%$search%')";
+        }
+        $query = $database->prepare($raw);
+        $query->execute();
+        $data = $query->fetchAll();
+        
+        $query1 = $database->prepare($raw1);
+        $query1->execute();
+        $totalRows = $query1->fetch(PDO::FETCH_COLUMN);
+
+        $sqlsb = "SELECT * FROM san_bay WHERE trang_thai=1";
+        $querysb = $database->prepare($sqlsb);
+        $querysb->execute();
+        $sanbay = $querysb->fetchAll();
+
+        $response = [
+            'page' => $page,
+            'rowsPerPage' => $rowsPerPage,
+            'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
+            'data' => $data,
+            'sanbay' => $sanbay,
+        ];
+        return $response;
+    }
 }

@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+  # Không cho user truy cập thẳng vô thư mục này.
+  # Có thể comment dòng ở dưới và truy cập vào localhost/Software-Technology/app để xem sự khác biệt
+  #Options -Indexes
+</IfModule>

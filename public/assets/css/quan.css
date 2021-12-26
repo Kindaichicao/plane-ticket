@@ -1,0 +1,10 @@
+.btn-changepass {
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.btn-changepass:focus {
+    outline: 0;
+}

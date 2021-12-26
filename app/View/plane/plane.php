@@ -119,7 +119,7 @@ View::$activeItem = 'plane';
                             <div class="modal-body">
                                 <form name="add-plane-form" action="/" method="POST">
                                     <div class="modal-body">
-                                        <label for="macauhoi">Số hiệu máy Bay:</label>
+                                        <label for="sohieu">Số hiệu máy Bay:</label>
                                         <div class="form-group">
                                             <input type="text" id="sohieu" name="sohieu" placeholder="Số hiệu máy bay"
                                                 class="form-control">
@@ -130,12 +130,12 @@ View::$activeItem = 'plane';
                                                 style="margin-right: 15px;">
                                             </select>
                                         </fieldset>
-                                        <label for="macauhoi">Số ghế thường:</label>
+                                        <label for="ghethuong">Số ghế thường:</label>
                                         <div class="form-group">
                                             <input type="text" id="ghethuong" name="ghethuong"
                                                 placeholder="Số ghế thường" class="form-control">
                                         </div>
-                                        <label for="macauhoi">Số ghế thương gia:</label>
+                                        <label for="thuonggia">Số ghế thương gia:</label>
                                         <div class="form-group">
                                             <input type="text" id="thuonggia" name="thuonggia"
                                                 placeholder="Số ghế thương gia" class="form-control">
@@ -153,6 +153,84 @@ View::$activeItem = 'plane';
                                 </button>
                             </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODAL UPDATE -->
+                <div class="modal fade text-left" id="update-plane-modal" tabindex="-1" role="dialog"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Sửa thông tin máy bay</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="update-plane-form" action="/" method="POST">
+                                    <div class="modal-body">
+                                        <label for="upsohieu">Số hiệu máy Bay:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="upsohieu" name="upsohieu" class="form-control"
+                                                disabled>
+                                        </div>
+                                        <label for="up-cars-hang">Hãng hàng không: </label><br>
+                                        <fieldset class="form-group">
+                                            <select class="form-select" name="re-cars-hang" id="re-cars-hang"
+                                                style="margin-right: 15px;">
+                                            </select>
+                                        </fieldset>
+                                        <label for="ghethuong">Số ghế thường:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="upghethuong" name="upghethuong" class="form-control">
+                                        </div>
+                                        <label for="thuonggia">Số ghế thương gia:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="upthuonggia" name="upthuonggia" class="form-control">
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Sửa</span>
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Thong bao -->
+                <div class="modal fade text-left" id="question-plane-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel110" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <h5 class="modal-title white" id="myModalLabel110">
+                                </h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="question-model">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="button" class="btn btn-success ml-1" data-bs-dismiss="modal">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span id="thuchien" class="d-none d-sm-block">Thực hiện</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -299,9 +377,6 @@ View::$activeItem = 'plane';
                             <td>${data.so_ghe_thuong_gia}</td>
                             <td>${data.tong_so_ghe}</td>
                             <td>
-                                <button onclick="viewRow('${data.so_hieu_may_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
                                 <button onclick="repairRow('${data.so_hieu_may_bay}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-tools"></i>
                                 </button>
@@ -324,9 +399,6 @@ View::$activeItem = 'plane';
                             <td>${data.so_ghe_thuong_gia}</td>
                             <td>${data.tong_so_ghe}</td>
                             <td>
-                                <button onclick="viewRow('${data.so_hieu_may_bay}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
                                 <button onclick="repairRow('${data.so_hieu_may_bay}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-tools"></i>
                                 </button>
@@ -361,6 +433,79 @@ View::$activeItem = 'plane';
                 }
 
             });
+    }
+
+    function repairRow(params) {
+        let data = {
+            sohieu: params
+        };
+
+        $.post(`http://localhost/Software-Technology/plane/findOneBySoHieu`, data, function(response) {
+            if (response.thanhcong) {
+                $('#upsohieu').val(response.so_hieu_may_bay);
+                $("#re-cars-hang").val(response.ma_hang_hang_khong).prop('selected', true);
+                $("#upghethuong").val(response.so_ghe_thuong);
+                $("#upthuonggia").val(response.so_ghe_thuong_gia);
+            }
+        });
+        $("#update-plane-modal").modal('toggle');
+        //Sua form
+        $("form[name='update-plane-form']").validate({
+            rules: {
+                ghethuong: {
+                    required: true,
+                },
+                thuonggia: {
+                    required: true,
+                },
+            },
+            messages: {
+                ghethuong: {
+                    required: "Vui lòng nhập số lượng ghế thường",
+                },
+                thuonggia: {
+                    required: "Vui lòng nhập số lượng ghế thương gia",
+                },
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                $("#myModalLabel110").text("Sửa máy bay");
+                $("#question-model").text("Bạn có chắc chắn muốn sửa máy bay này không");
+                $("#question-plane-modal").modal('toggle');
+                $('#thuchien').off('click')
+                $("#thuchien").click(function() {
+                    // lấy dữ liệu từ form
+
+                    const data = Object.fromEntries(new FormData(form).entries());
+                    data['upsohieu'] = $('#upsohieu').val();
+                    $.post(`http://localhost/Software-Technology/plane/update`, data, function(
+                        response) {
+                        $("#update-plane-modal").modal('toggle')
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSMayBayAjax();
+                            Toastify({
+                                text: "Sửa Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: "Sửa Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                    });
+                });
+            }
+        });
     }
     </script>
 </body>

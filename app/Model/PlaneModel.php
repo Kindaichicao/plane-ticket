@@ -21,7 +21,6 @@ class PlaneModel{
     public static function create($sohieu, $hang, $ghethuong, $thuonggia){
         $database = DatabaseFactory::getFactory()->getConnection();
         $tongghe= $ghethuong + $thuonggia;
-
         $sql = "INSERT INTO may_bay (so_hieu_may_bay, ma_hang_hang_khong, so_ghe_thuong, so_ghe_thuong_gia, tong_so_ghe, trang_thai)
                 VALUES (:sohieu,:hang, :ghethuong, :thuonggia, :tongghe,1)";
         $query = $database->prepare($sql);
@@ -35,8 +34,17 @@ class PlaneModel{
 
     }
 
-    public static function update(){
-        
+    public static function update($sohieu, $hang, $ghethuong, $thuonggia){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $tongghe= $ghethuong + $thuonggia;
+        $sql = "UPDATE may_bay SET ma_hang_hang_khong =:hang, so_ghe_thuong = :ghethuong, so_ghe_thuong_gia = :thuonggia, tong_so_ghe = :tongghe  WHERE so_hieu_may_bay = :sohieu";
+        $query = $database->prepare($sql);
+        $query->execute([':sohieu' => $sohieu, ':hang' => $hang, ':ghethuong' => $ghethuong, ':thuonggia' => $thuonggia, ':tongghe' => $tongghe]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;        
     }
 
     public static function delete(){

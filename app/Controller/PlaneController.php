@@ -21,7 +21,7 @@ class PlaneController extends Controller
         //Auth::ktraquyen("CN01");
         $this->View->render('plane/plane');
     }
-
+    
     public function checkValidPlane()
     {   
         Auth::checkAuthentication();
@@ -36,6 +36,22 @@ class PlaneController extends Controller
         $this->View->renderJSON($response);
     }
 
+    public function findOneBySoHieu(){
+        Auth::checkAuthentication();
+        $sohieu = Request::post('sohieu');
+        $kq = PlaneModel::findOneBySoHieu($sohieu);
+        $response = ['thanhcong' => false];
+        if ($kq == null) {
+            $response['thanhcong'] = false;
+        } else {
+            $response['so_hieu_may_bay'] = $kq->so_hieu_may_bay;
+            $response['ma_hang_hang_khong'] = $kq->ma_hang_hang_khong;
+            $response['so_ghe_thuong'] = $kq->so_ghe_thuong;
+            $response['so_ghe_thuong_gia'] = $kq->so_ghe_thuong_gia;
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
+    }
 
     public function create(){
         Auth::checkAuthentication();
@@ -52,6 +68,16 @@ class PlaneController extends Controller
     }
 
     public function update(){
+        //Auth::ktraquyen("CN02");
+        $sohieu = Request::post('upsohieu');
+        $hang = Request::post('re-cars-hang');
+        $ghethuong = Request::post('upghethuong');
+        $thuonggia = Request::post('upthuonggia');
+        $kq= PlaneModel::update($sohieu, $hang, $ghethuong, $thuonggia);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
         
     }
 

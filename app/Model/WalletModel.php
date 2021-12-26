@@ -70,10 +70,10 @@ class WalletModel{
         $query = $database->prepare("SELECT * FROM vi_thanh_toan vi  WHERE ma_kh = :ma_kh LIMIT 1");
         $query->execute([':ma_kh' => $data->ma_kh]);
 
-        if($query->fetch()){
-            return true;
+        if($data = $query->fetch()){
+            return $data;
         } 
-        return false;
+        return null;
         
     }
 

@@ -56,6 +56,7 @@ class WalletController extends Controller
         
     }
 
+
     public function readPoint(){
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN11");
@@ -82,9 +83,17 @@ class WalletController extends Controller
         Auth::checkAuthentication();
         //Auth::ktraquyen("CN11");
         $check = WalletModel::checkConnection(Cookie::get('user_matk'));
-        $response = [
-            'thanhcong' => $check,
-        ];
+        if($check != null){
+            $response = [
+                'thanhcong' => true,
+                'data' => $check
+            ];
+        } else {
+            $response = [
+                'thanhcong' => false
+            ];
+        }
+        
         $this->View->renderJSON($response);
     }
 }

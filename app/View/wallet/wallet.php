@@ -91,7 +91,7 @@ View::$activeItem = 'wallet';
                             <div class="col-md-12 col-sm-12">
                                 <span><i class="bi bi-cash" style="color: #04ee07"></i></span>
                                 <span>Số dư: </span>
-                                <span class="diem">17400</span>
+                                <span id="sodu" class="diem">17400</span>
                                 <span>VND</span>
                             </div>
                         </div>
@@ -168,7 +168,7 @@ View::$activeItem = 'wallet';
                                     </div>
                                     <label for="re-fullname">Mật khẩu: </label>
                                     <div class="form-group">
-                                        <input type="password" id="re-mucdiem" name="pass" placeholder="nhập mật khẩu" class="form-control">
+                                        <input type="password" id="re-pass" name="pass" placeholder="nhập mật khẩu" class="form-control">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -178,7 +178,7 @@ View::$activeItem = 'wallet';
                                     </button>
                                     <button id="repair-queston" type="submit" class="btn btn-primary ml-1">
                                         <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Liên kết</span>
+                                        <span class="d-none d-sm-block">Nạp</span>
                                     </button>
                                 </div>
                             </form>
@@ -209,7 +209,9 @@ View::$activeItem = 'wallet';
             });
             $.post(`http://localhost/Software-Technology/wallet/checkConnection`, function(response) {
                 if (response.thanhcong) {
+                    data = response.data;
                     $('#vi_thanh_toan').removeClass('d-none');
+                    $('#sodu').text(data.so_du);
                     $('#lk').addClass('d-none');
                 }
             });
@@ -249,7 +251,7 @@ View::$activeItem = 'wallet';
                                         position: "center",
                                         backgroundColor: "#4fbe87",
                                     }).showToast();
-                                    location.reload();
+                                    window.location = "http://localhost/Software-Technology/wallet/wallet";
                                 } else {
                                     Toastify({
                                         text: "Nạp Thất Bại",

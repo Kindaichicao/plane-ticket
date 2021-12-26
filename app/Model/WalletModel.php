@@ -73,6 +73,16 @@ class WalletModel{
         $query = $database->query($sql);
 
         // Tích điểm
+        $tich_luy = $tien*0.1;
+        $query3 = $database->query("UPDATE khach_hang SET diem_tich_luy = diem_tich_luy + ". $tich_luy." WHERE email = :matk LIMIT 1");
+        $query3->execute([':matk' => $tk]);
+        $count = $query3->RowCount();
+
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+        
         
     }
 

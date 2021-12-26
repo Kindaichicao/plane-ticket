@@ -82,18 +82,27 @@ class PlaneController extends Controller
     }
 
     public function delete(){
-        
+        Auth::checkAuthentication();
+       // Auth::ktraquyen("CN02");
+        $sohieu = Request::post('sohieu');
+        $kq= PlaneModel::delete($sohieu);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);        
     }
 
-    /*public function getList(){
-        Auth::checkAuthentication();
+    public function deletes(){
+        Auth::checkAuthentication();       
         //Auth::ktraquyen("CN02");
-        $search = Request::get('search');
-        $page = Request::get('page', 1);
-        $rowsPerPage = Request::get('rowsPerPage', 20);
-        $data = PlaneModel::getAllPagination($search, $page, $rowsPerPage);
-        $this->View->renderJSON($data);      
-    }*/
+        $sohieus = Request::post('sohieus');
+        $sohieus = json_decode($sohieus);
+        $kq = PlaneModel::deletes($sohieus);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);       
+    }
 
     public function getPlane(){
         Auth::checkAuthentication();

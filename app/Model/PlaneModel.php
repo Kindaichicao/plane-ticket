@@ -47,12 +47,34 @@ class PlaneModel{
         return false;        
     }
 
-    public static function delete(){
-        
+    public static function delete($sohieu){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "UPDATE may_bay SET trang_thai = 0  WHERE so_hieu_may_bay = :sohieu";
+        $query = $database->prepare($sql);
+        $query->execute([':sohieu' => $sohieu]);       
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;        
     }
 
-    public static function getPlane(){
-        
+    public static function deletes($sohieus)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $raw = "(";
+        foreach ($sohieus as &$sohieu) {
+            $raw .= "'" . $sohieu . "',";
+        }
+        $raw = substr($raw, 0, -1);
+        $raw .= ")";
+
+        $sql = "UPDATE may_bay SET trang_thai = 0  WHERE  so_hieu_may_bay IN " . $raw;
+        $count  = $database->exec($sql);
+        if (!$count) {
+            return false;
+        }
+        return true;
     }
 
     public static function getAllPagination($search, $search2, $page , $rowsPerPage)

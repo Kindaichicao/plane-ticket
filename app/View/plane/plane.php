@@ -507,5 +507,81 @@ View::$activeItem = 'plane';
             }
         });
     }
+
+    function deleteRow(params) {
+        let data = {
+            sohieu: params
+        };
+        $("#myModalLabel110").text("Xóa máy bay");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa máy bay này không");
+        $("#question-plane-modal").modal('toggle');
+        $('#thuchien').off('click');
+        $("#thuchien").click(function() {
+            $.post(`http://localhost/Software-Technology/plane/delete`, data, function(response) {
+                if (response.thanhcong) {
+                    Toastify({
+                        text: "Xóa Thành Công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+                    currentPage = 1;
+                    layDSMayBayAjax();
+                } else {
+                    Toastify({
+                        text: "Xóa Thất Bại",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6A6A",
+                    }).showToast();
+                }
+            });
+        });
+    }
+
+    $("#btn-delete-plane").click(function() {
+        $("#myModalLabel110").text("Xóa máy bay");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa những máy bay này không?");
+        $("#question-plane-modal").modal('toggle');
+        $('#thuchien').off('click')
+        $("#thuchien").click(function() {
+            let datas = []
+            checkedRows.forEach(checkedRow => {
+                if ($('#' + checkedRow).prop("checked")) {
+                    datas.push(checkedRow);
+                }
+            });
+            let data = {
+                sohieus: JSON.stringify(datas)
+            };
+            $.post(`http://localhost/Software-Technology/plane/deletes`, data, function(response) {
+                if (response.thanhcong) {
+                    Toastify({
+                        text: "Xóa Thành Công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+                    currentPage = 1;
+                    layDSMayBayAjax();
+                } else {
+                    Toastify({
+                        text: "Xóa Thất Bại",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6A6A",
+                    }).showToast();
+                }
+            });
+        });
+    });
     </script>
 </body>

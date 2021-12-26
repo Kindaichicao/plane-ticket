@@ -41,6 +41,7 @@ spl_autoload_register(function($className){
 
 $database = AccountModel::test();
 UserticketModel::sale(); // săn vé
+UserticketModel::autoBuy();
 // luu info KH1 | LOAIVE1 | <1tr
 // get bang san ve len
 // neu > 1

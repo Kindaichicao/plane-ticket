@@ -82,5 +82,14 @@ class UserticketModel{
         return $listReal;
     }
 
-    
+    function cmp($a, $b) {
+        return strcmp($a->gia_goc, $b->gia_goc);
+    }
+
+
+    public static function autoBuy(){
+        $list = UserticketModel::getTicket();
+        usort($list, "cmp");
+        
+    }
 }

@@ -341,13 +341,7 @@ class TicketModel{
         
         $raw = "";
         $raw1 = "";
-        $sql = "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay
-        from ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv
-        WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay 
-        AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong
-        AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong 
-        AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu
-        and cb.trang_thai != 0 LIMIT :limit OFFSET :offset"; // limit 0,5
+
         if ($search2 == '2') {
             $raw .= "SELECT v.*, hhk.ten, cb.ma_san_bay_di, cb.ma_san_bay_den, cb.ngay_bay FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and cb.ma_chuyen_bay LIKE '%$search%' ORDER BY cb.ma_chuyen_bay ASC LIMIT $limit OFFSET $offset";
             $raw1 .= "SELECT COUNT(v.ma_ve) FROM ve v, hang_hang_khong hhk, chuyen_bay cb, hang_dich_vu hdv WHERE v.ma_chuyen_bay = cb.ma_chuyen_bay AND cb.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_hang_khong = hhk.ma_hang_hang_khong AND v.ma_hang_dich_vu = hdv.ma_hang_dich_vu and v.trang_thai != 0 and cb.ma_chuyen_bay LIKE '%$search%'";
@@ -385,5 +379,27 @@ class TicketModel{
             'sanbay' => $sanbay,
         ];
         return $response;
+    }
+
+    public static function setTrangThai(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        
+        $sql = "SELECT ma_chuyen_bay FROM chuyen_bay WHERE trang_thai=4";
+        $qr = $database->prepare($sql);
+        $qr->execute();
+        $cb = $qr->fetchAll();
+
+        $count = 0;
+        foreach($cb as $data) {
+            $macb = $data->ma_chuyen_bay;
+            $sql1 = "UPDATE ve SET trang_thai=3 WHERE ma_chuyen_bay='$macb' AND trang_thai!=2";
+            $qr1 = $database->prepare($sql1);
+            $qr1->execute();
+            $count++;
+        }
+        if ($count>=1) {
+            return true;
+        }
+        return null;
     }
 }

@@ -554,6 +554,13 @@ View::$activeItem = 'ticket';
             // });
             //kietm tra quyen
             
+            $.post(`http://localhost/Software-Technology/Ticket/setTrangThai`, function(response) {
+                if(response.thanhcong) {
+                    layDSTicketAjax();
+                    layDSTicketAjax1();
+                    layDSTicketAjax2();
+                } 
+            });
 
             // Đặt sự kiện validate cho modal add user
             $("form[name='add-ticket1-form']").validate({

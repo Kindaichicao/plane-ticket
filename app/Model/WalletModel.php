@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Core\Cookie;
 use App\Core\DatabaseFactory;
+use App\Core\Request;
 use PDO;
 
 class WalletModel{
@@ -86,8 +87,39 @@ class WalletModel{
         
     }
 
-    public static function paymentHistory(){
-        
+    public static function paymentHistory($ma_vi){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM lich_su_giao_dich WHERE ma_vi = ".$ma_vi);
+        $query->execute();
+        $data = $query->fetchAll();
+        return $data;
+    }
+
+    public static function paymentAuto()
+    {
+        $tk= Request::post('taikhoan');
+         $tien =Request::post('tien');
+ 
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query2 = $database->prepare("SELECT * FROM khach_hang WHERE email = :matk LIMIT 1");
+        $query2->execute([':matk' => $tk]);
+        $data = $query2->fetch();
+
+        $sql = "UPDATE `vi_thanh_toan` SET so_du = so_du - ".$tien." WHERE ma_kh = ".$data->ma_kh;
+        $query = $database->query($sql);
+
+        // Tích điểm
+        $tich_luy = $tien*0.1;
+        $query3 = $database->query("UPDATE khach_hang SET diem_tich_luy = diem_tich_luy + ". $tich_luy." WHERE email = :matk LIMIT 1");
+        $query3->execute([':matk' => $tk]);
+        $count = $query3->RowCount();
+
+        if ($count == 1) {
+            return true;
+        }
+        return false;
     }
 
     public static function getPoint($email){

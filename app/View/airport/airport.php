@@ -39,9 +39,9 @@ View::$activeItem = 'airport';
                 <div class="page-heading">
                     <div class="col-sm-6">
                         <h6>Tìm Kiếm</h6>
-                        <div id="search-user-form" name="search-user-form">
+                        <div id="search-airport-form" name="search-airport-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                <input id="search-airport-text" type="text" class="form-control shadow-none" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -52,21 +52,21 @@ View::$activeItem = 'airport';
                         <div class="row">
                             <div class="col-12 col-md-7 order-md-1 order-last">
                                 <label>
-                                    <h3 >Danh sách sân bay</h3>
+                                    <h3>Danh sách sân bay</h3>
                                 </label>
                                 <label>
                                     <h5 style="margin-left: 50px; margin-right: 10px;"> Lọc Theo:</h5>
                                 </label>
-                                <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
+                                <select class="btn btn btn-primary shadow-none" name="search-cbb" id="cars-search">
                                     <option value="">Tất Cả</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-user' class="btn btn-danger">
+                                    <button id='btn-delete-airport' class="btn btn-danger shadow-none">
                                         <i class="bi bi-trash-fill"></i> Xóa tài khoản
                                     </button>
-                                    <button id='btn-open-add-airport' class="btn btn-primary shadow-none" data-toggle="modal" data-target="#add-airport-modal" >
+                                    <button id='btn-open-add-airport' class="btn btn-primary shadow-none" data-toggle="modal" data-target="#add-airport-modal">
                                         <i class="bi bi-plus"></i> Thêm tài khoản
                                     </button>
                                 </div>
@@ -114,23 +114,76 @@ View::$activeItem = 'airport';
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form name="add-user-form" action="/" method="POST">
+                                <form name="add-airport-form" action="/" method="POST">
                                     <div class="modal-body">
-                                        <label for="email">Tên Đăng Nhập: </label>
                                         <div class="form-group">
-                                            <input type="text" id="email" name="email" placeholder="Mã Số" class="form-control">
+                                            <label for="id">Mã sân bay: </label>
+                                            <div class="name">
+                                                <input type="text" id="id" name="id" placeholder="Mã sân bay" class="form-control">
+                                            </div>
                                         </div>
-                                        <label for="fullname">Họ tên: </label>
                                         <div class="form-group">
-                                            <input type="text" id="fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                            <label for="fullname">Tên sân bay: </label>
+                                            <input type="text" id="name" name="name" placeholder="Tên sân bay" class="form-control">
                                         </div>
-                                        <label for="password">Mật khẩu: </label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="province">TP/Tỉnh: </label>
+                                                    <select class="form-control shadow-none" id="sel1">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="province">TP/Tỉnh: </label>
+                                                    <select class="form-control shadow-none" id="sel1">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="province">TP/Tỉnh: </label>
+                                                    <select class="form-control shadow-none" id="sel1">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
-                                            <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                            <label for="fullname">Tên đường: </label>
+                                            <input type="text" id="name" name="name" placeholder="Tên đường" class="form-control">
                                         </div>
-                                        <label for="cars-quyen">Quyền: </label>
-                                        <select class="form-group" name="maquyen" id="cars-quyen">
-                                        </select>
+                                        <div class="form-group">
+                                            <label for="fullname">Loại máy bay: </label>
+                                            <div class="radio-type row">
+                                                <div class="col-6">
+                                                    <input type="radio" id="Type-1" name="type" value="1" /> Ký kết hợp đồng
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="radio" id="Type-1" name="type" value="2" /> Tập đoàn xây dựng
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fullname">Số lượng máy bay tối đa (sức chứa): </label>
+                                            <input type="text" id="name" name="name" placeholder="Sức chứa" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fullname">Số lượng khoảng trống dự bị: </label>
+                                            <input type="text" id="name" name="name" placeholder="Số lượng khoảng trống" class="form-control">
+                                        </div>
                                     </div>
                             </div>
                             <div class="modal-footer">
@@ -138,7 +191,7 @@ View::$activeItem = 'airport';
                                     <i class="bx bx-x d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Đóng</span>
                                 </button>
-                                <button type="submit" class="btn btn-primary ml-1">
+                                <button type="submit" class="btn btn-primary ml-1 shadow-none">
                                     <i class="bx bx-check d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Thêm</span>
                                 </button>
@@ -155,13 +208,13 @@ View::$activeItem = 'airport';
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script src="<?= View::assets('js/jquery.min.js') ?>"></script>
-    
+
 
 </body>
 <script>
-    $(document).ready(function(){
-        $('#btn-open-add-airport').click(function () {
+    $(document).ready(function() {
+        $('#btn-open-add-airport').click(function() {
             $('#add-airport-modal').modal('show')
-          })
+        })
     })
 </script>

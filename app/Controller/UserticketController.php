@@ -61,6 +61,19 @@ class UserticketController extends Controller
     }
 
     public function getAirline(){
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN04");
+        $mahang = Request::post('mahanghangkhong');
+        $tenhang = Request::post('tenhanghangkhong');
+        $motahang = Request::post('motahanghangkhong');
+        $loaihang = Request::post('loaihanghangkhong');
+        $ngayban = Request::post('ngay_ban');
+
+        $kq = AirlineModel::create($mahang, $tenhang, $motahang, $loaihang, $ngayban);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
         
     }
 

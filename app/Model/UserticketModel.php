@@ -103,4 +103,16 @@ class UserticketModel{
         usort($list, "cmp");
         WalletModel::paymentAuto();
     }
+
+    public static function create($mahang, $tenhang, $motahang, $loaihang, $ngayban){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = 'INSERT INTO `hang_hang_khong` (`ma_hang_hang_khong`, `ten`, `mo_ta`, `loai_hang`, `ngay_ban`, `trang_thai`) VALUES ("'.$mahang.'", "'.$tenhang.'", "'.$motahang.'", "'.$loaihang.'", "'.$ngayban.'", 1)';
+        $query = $database->query($sql);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+
+        return false;
+    }
 }

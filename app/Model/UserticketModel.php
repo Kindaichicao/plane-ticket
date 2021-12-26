@@ -13,4 +13,22 @@ class UserticketModel{
         // mặc định khách hàng luôn đủ tiền
         return true;
     }
+    public static function getAirPorts(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM san_bay  WHERE trang_thai = 1");
+        $query->execute();
+
+        $data = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$data,
+        ];
+        return $response;
+
+    }
 }

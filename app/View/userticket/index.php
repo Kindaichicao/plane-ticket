@@ -126,12 +126,13 @@ View::$activeItem = 'index';
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script>
+        let diadiemss;
         $(function() {
-            $.post(`http://localhost/Software-Technology/airport/getList`, function(response) {
+            $.post(`http://localhost/Software-Technology/userticket/getAirports`, function(response) {
                 if (response.thanhcong) {
-                    quyens = response.data;
-                    quyens.forEach(data => {
-                        let opt = '<option value="' + data.ma_san_bay + '">' + data.ten_chuc_vu + '</option>';
+                    diadiems = response.data;
+                    diadiems.forEach(data => {
+                        let opt = '<option value="' + data.ma_san_bay + '">' + data.dia_diem + '</option>';
                         $("#noidi").append(opt);
                         $("#noiden").append(opt);
                     });
@@ -187,7 +188,7 @@ View::$activeItem = 'index';
                     // lấy dữ liệu từ form
                     const data = Object.fromEntries(new FormData(form).entries());
 
-                    $.post(`http://localhost/Software-Technology/account/create`, data, function(response) {
+                    $.post(`http://localhost/Software-Technology/userticket/getList`, data, function(response) {
                         if (response.thanhcong) {
                             currentPage = 1;
                             layDSVe();
@@ -201,10 +202,9 @@ View::$activeItem = 'index';
                                 backgroundColor: "#FF6A6A",
                             }).showToast();
                         }
-
+                    });
                 }
-            })
-
+            });
         });
     </script>
 </body>

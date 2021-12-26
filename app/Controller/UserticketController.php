@@ -69,4 +69,23 @@ class UserticketController extends Controller
     public function getAirline(){
         
     }
+
+    public function payment(){
+        
+    }
+
+    public function getAirports()
+    {
+        Auth::checkAuthentication();
+        // Auth::ktraquyen("CN01");
+        $macv = Request::post('macv');
+        $kq = UserticketModel::getAirPorts($macv);
+        if($kq == null ){
+            $response['thanhcong'] = false;
+        } else{   
+            $response['data'] = $kq['data'];
+            $response['thanhcong'] = true;
+        }
+        $this->View->renderJSON($response);
+    }
 }

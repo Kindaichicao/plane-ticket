@@ -23,6 +23,7 @@ View::$activeItem = 'walletuser';
     <link rel="stylesheet" href="<?= View::assets('css/app.css') ?>" />
     <link rel="shortcut icon" href="<?= View::assets('images/favicon.ico') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?= View::assets('css/quan.css') ?>" />
+    <link rel="stylesheet" href="<?= View::assets('css/duc.css') ?>" />
 </head>
 
 <body>
@@ -33,6 +34,86 @@ View::$activeItem = 'walletuser';
             <!-- HEADER -->
             <?php View::partial('header')  ?>
             <?php View::partial('changepass')  ?>
+            <div class="container con1">
+                <div class="row titlediem">
+                    <div class="col-md-12 col-sm-12">
+                        Điểm tích lũy
+                    </div>
+                </div>
+                <div class="row khung1">
+                    <div class="col-md-4 col-sm-4"></div>
+                    <div class="col-md-4 col-sm-4 khungdiem">
+                        <div class="row khung2">
+                            <div class="col-md-12 col-sm-12">
+                                <span><i class="bi bi-gem" style="color:#159ff9"></i></span>
+                                <span>Điểm tích lũy: </span>
+                                <span class="diem">17400</span>
+                                <span>point</span>
+                            </div>
+                        </div>
+                        <div class="row khung2">
+                            <div class="col-md-12 col-sm-12">
+                                <span><i class="bi bi-trophy" style="color:#ee7404"></i></span>
+                                <span>Hạng:</span>                                
+                                <span>Bạc</span>
+                            </div>
+                        </div>
+                        <div class="row khung2">
+                            <div class="col-md-12 col-sm-12">
+                                <span><i class="bi bi-star-fill" style="color:#e3ee04"></i></span>
+                                <span>Còn </span>                                
+                                <span class="diem">17400</span>
+                                <span> để lên hạng</span>
+                                <span> vàng</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4"></div>
+                </div>
+                <!-- Ví Airpro -->
+                <div class="row titlediem1">
+                    <div class="col-md-12 col-sm-12">
+                        Ví Airpro
+                    </div>
+                </div>
+                <div class="row khung3">
+                    <div class="col-md-12 col-sm-12">
+                        <button class="btn btn-lg btn-outline-primary">
+                            <span><i class="bi bi-credit-card-2-front-fill" style="color: red"></i></span>
+                            <span>Liên kết ngân hàng</span>    
+                        </button>                                                                                            
+                    </div>
+                </div>
+                <div class="row khung1">
+                    <div class="col-md-4 col-sm-4"></div>
+                    <div class="col-md-4 col-sm-4 khungdiem">
+                        <div class="row khung2">
+                            <div class="col-md-12 col-sm-12">
+                                <span><i class="bi bi-cash" style="color: #04ee07"></i></span>
+                                <span>Số dư: </span>
+                                <span class="diem">17400</span>
+                                <span>VND</span>
+                            </div>
+                        </div>
+                        <div class="row khung2">
+                            <div class="col-md-12 col-sm-12">
+                                <span><i class="bi bi-credit-card" style="color: #f28678"></i></span>
+                                <span>Nạp thêm</span>                                
+                                <span class="icondiem"><i class="bi bi-plus-square-fill" style="color: #f28678"></i></span>
+                            </div>
+                        </div>
+                        <div class="row khung2">
+                            <div class="col-md-12 col-sm-12">
+                                <span><i class="bi bi-caret-down-square" style="color: #eaa135"></i></span>
+                                <span>Rút tiền về thẻ</span>                                                                
+                                <span class="icondiem1"><i class="bi bi-dash-square-fill" style="color: #eaa135"></i></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4 col-sm-4"></div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>

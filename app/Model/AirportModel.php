@@ -20,8 +20,16 @@ class AirportModel
     {
     }
 
-    public static function getAirport()
+    public static function getAirport($masb)
     {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT * FROM san_bay WHERE ma_san_bay = :masb LIMIT 1");
+        $query->execute([':masb' => $masb]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
 
     public static function getList($page = 1, $rowsPerPage = 10)

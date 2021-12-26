@@ -23,8 +23,7 @@ View::$activeItem = 'airport';
     <link rel="stylesheet" href="<?= View::assets('css/app.css') ?>" />
     <link rel="shortcut icon" href="<?= View::assets('images/favicon.ico') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?= View::assets('css/quan.css') ?>" />
-    <style>
-    </style>
+
 </head>
 
 <body>
@@ -80,7 +79,6 @@ View::$activeItem = 'airport';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
-                                                <th>Chọn</th>
                                                 <th>Mã sân bay</th>
                                                 <th>Tên sân bay</th>
                                                 <th>Tỉnh/TP</th>
@@ -89,10 +87,10 @@ View::$activeItem = 'airport';
                                                 <th>Đường</th>
                                                 <th>Loại</th>
                                                 <th>Sức chứa</th>
-                                                <th>Số lượng trống</th>
+                                                <th>Số lượng dự bị</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="table-airport">
                                         </tbody>
                                     </table>
                                     <nav class="mt-5">
@@ -130,7 +128,15 @@ View::$activeItem = 'airport';
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="province">TP/Tỉnh: </label>
-                                                    <select class="form-control shadow-none" id="sel1">
+                                                    <select class="form-control shadow-none" id="tinh">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="province">Quận/Huyện: </label>
+                                                    <select class="form-control shadow-none" id="huyen">
                                                         <option>1</option>
                                                         <option>2</option>
                                                         <option>3</option>
@@ -140,19 +146,8 @@ View::$activeItem = 'airport';
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label for="province">TP/Tỉnh: </label>
-                                                    <select class="form-control shadow-none" id="sel1">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label for="province">TP/Tỉnh: </label>
-                                                    <select class="form-control shadow-none" id="sel1">
+                                                    <label for="province">Phường/Xã: </label>
+                                                    <select class="form-control shadow-none" id="xa">
                                                         <option>1</option>
                                                         <option>2</option>
                                                         <option>3</option>
@@ -208,13 +203,75 @@ View::$activeItem = 'airport';
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script src="<?= View::assets('js/jquery.min.js') ?>"></script>
-
-
+    <script src="<?= View::assets('js/jquery.validate.js') ?>"></script>
 </body>
 <script>
     $(document).ready(function() {
         $('#btn-open-add-airport').click(function() {
             $('#add-airport-modal').modal('show')
         })
+        getList();
+        getAddress();
     })
+
+    function getList() {
+        $.ajax({
+            url: 'http://localhost/Software-Technology/Airport/getList',
+            data: {
+                page: 1,
+                rowPerPage: 10,
+            }
+        }).done(function(data) {
+            $('#table-airport').empty();
+            var row = 1;
+            data.forEach(function(element) {
+                var code = '<tr class="table-primary">\
+                            <td>' + element['ma_san_bay'] + '</td>\
+                            <td>' + element['ten'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['loai_san_bay'] + '</td>\
+                            <td>' + element['so_luong_may_bay_toi_da'] + '</td>\
+                            <td>' + element['so_luong_may_bay_du_bi'] + '</td>\
+                            </tr>'
+                if (row % 2) {
+                    code = '<tr class="table-light">\
+                            <td>' + element['ma_san_bay'] + '</td>\
+                            <td>' + element['ten'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['dia_diem'] + '</td>\
+                            <td>' + element['loai_san_bay'] + '</td>\
+                            <td>' + element['so_luong_may_bay_toi_da'] + '</td>\
+                            <td>' + element['so_luong_may_bay_du_bi'] + '</td>\
+                            </tr>'
+                }
+                row++;
+                $('#table-airport').append(code)
+            })
+        })
+    }
+
+    function formatAddress(index, address) {
+        address.toString();
+        return address.slice(index, address.length);
+    }
+
+    function getAddress() {
+        $.ajax({
+            url: 'https://provinces.open-api.vn/api/?depth=3',
+        }).done(function(data) {
+            data.forEach(function(element, index) {
+                if (element["division_type"] == 'tỉnh')
+                    $('#tinh').append('<option value="' + index + '">' + formatAddress(5, element['name']) + '</option>');
+                else $('#tinh').append('<option value="' + index + '">' + formatAddress(9, element['name']) + '</option>');
+            })
+            $('#tinh').change(function() {
+                alert($('#tinh').val());
+            })
+        })
+    }
 </script>

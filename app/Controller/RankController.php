@@ -18,13 +18,13 @@ class RankController extends Controller
     public function rank()
     {
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $this->View->render('rank/rank');
     }
 
     public function create(){
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $mahang = Request::post('mahang');
         $tenhang = Request::post('tenhang');
         $mucdiem = Request::post('mucdiem');
@@ -37,7 +37,7 @@ class RankController extends Controller
 
     public function update(){
         Auth::checkAuthentication();
-       // Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $mahang = Request::post('mahang');
         $tenhang = Request::post('tenhang');
         $mucdiem = Request::post('mucdiem');
@@ -50,7 +50,7 @@ class RankController extends Controller
 
     public function delete(){
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $mahang = Request::post('mahang');
         $kq= RankModel::delete($mahang);
         $response = [
@@ -60,7 +60,7 @@ class RankController extends Controller
     }
     public function deletes(){
         Auth::checkAuthentication();  
-        //Auth::ktraquyen("CN01");     
+        Auth::ktraquyen("CN09");  
         $mahang = Request::post('mahang');
         $mahang = json_decode($mahang);
         $kq = RankModel::deletes($mahang);
@@ -72,7 +72,7 @@ class RankController extends Controller
     }
     public function getList(){
         Auth::checkAuthentication(); // Ktra có đang đăng nhập hay chưa
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $search = Request::get('search');
         $page = Request::get('page', 1);
         $rowsPerPage = Request::get('rowsPerPage', 10);
@@ -82,7 +82,7 @@ class RankController extends Controller
 
     public function getRank(){
         Auth::checkAuthentication();
-        //Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $mahang=Request::post('mahang');
         $data = RankModel::getRank($mahang);
         if($data==null){
@@ -97,7 +97,7 @@ class RankController extends Controller
     }
     public function searchRank1(){
         Auth::checkAuthentication();
-        // Auth::ktraquyen("CN01");
+        Auth::ktraquyen("CN09");
         $search = Request::get('search');
         $search2 = Request::get('search2');
         $page = Request::get('page', 1);

@@ -40,7 +40,7 @@ View::$activeItem = 'index';
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal">
+                            <form class="form form-horizontal" name="timchuyenbay">
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-3 form-group">
@@ -91,7 +91,7 @@ View::$activeItem = 'index';
                                         <div class="col-md-3 form-group">
                                             <input type="checkbox" id="khuhoi" class='form-check-input'>
                                             <label for="checkbox1">Khứ hồi</label>
-                                            <input class="d-none" type="date" name="ngayve">
+                                            <input class="d-none" id="ngayve" type="date" name="ngayve">
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label>Hạng ghế : </label>
@@ -127,7 +127,7 @@ View::$activeItem = 'index';
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script>
         $(function() {
-            $.post(`http://localhost/Software-Technology/position/getPositions`, function(response) {
+            $.post(`http://localhost/Software-Technology/airport/getList`, function(response) {
                 if (response.thanhcong) {
                     quyens = response.data;
                     quyens.forEach(data => {
@@ -137,10 +137,73 @@ View::$activeItem = 'index';
                     });
                 }
             });
+            $('#khuhoi').click(function(){
+                if($('#khuhoi').is(":checked")){
+                    $('#ngayve').removeClass("d-none");
+                } else{
+                    $('#ngayve').addClass("d-none");
+                }
+            });
             //kietm tra quyen
+            $("form[name='timchuyenbay']").validate({
+                rules: {
+                    ngaydi: {
+                        required: true,
+                    },
+                    nguoilon:{
+                        require: true,
+                        number: true,
+                        min:1
+                    },
+                    treem:{
+                        number: true,
+                        min:0
+                    },
+                    embe: {
+                        number: true,
+                        min:0
+                    }
+                },
+                messages: {
+                    password: {
+                        required: "Vui lòng chọn ngày đi",
+                    },
+                    nguoilon:{
+                        required:"Vui lòng chọn số người lớn",
+                        number: "Phải là số",
+                        min:"Lớn hơn 0"
+                    },
+                    treem:{
+                        number: "Phải là số",
+                        min:"Lớn hơn 0"
+                    },
+                    embe: {
+                        number: "Phải là số",
+                        min:"Lớn hơn 0"  
+                    }
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    // lấy dữ liệu từ form
+                    const data = Object.fromEntries(new FormData(form).entries());
 
+                    $.post(`http://localhost/Software-Technology/account/create`, data, function(response) {
+                        if (response.thanhcong) {
+                            currentPage = 1;
+                            layDSVe();
+                        } else {
+                            Toastify({
+                                text: "Không có chuyến bay phù hợp",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
 
-
+                }
+            })
 
         });
     </script>

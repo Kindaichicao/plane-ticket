@@ -69,4 +69,9 @@ class UserticketController extends Controller
     public function getAirline(){
         
     }
+
+    public function payment(){
+        // với trường hợp thanh toán bằng thẻ ngân hàng ta sẽ sử dụng phần mềm bên thứ 3 là Stripe
+        // mặc định khách hàng luôn đủ tiền
+    }
 }

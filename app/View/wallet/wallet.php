@@ -33,6 +33,7 @@ View::$activeItem = 'wallet';
             <!-- HEADER -->
             <?php View::partial('header')  ?>
             <?php View::partial('changepass')  ?>
+            
         </div>
     </div>
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>

@@ -69,7 +69,7 @@ class UserticketController extends Controller
         $loaihang = Request::post('loaihanghangkhong');
         $ngayban = Request::post('ngay_ban');
 
-        $kq = AirlineModel::create($mahang, $tenhang, $motahang, $loaihang, $ngayban);
+        $kq = UserticketModel::create($mahang, $tenhang, $motahang, $loaihang, $ngayban);
         $response = [
             'thanhcong' => $kq
         ];

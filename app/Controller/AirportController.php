@@ -35,9 +35,7 @@ class AirportController extends Controller
     }
 
     public function getList(){
-        Auth::checkAuthentication(); // Ktra có đang đăng nhập hay chưa
-        //Auth::ktraquyen("CN01");
-        $search = Request::get('search');
+        Auth::checkAuthentication(); 
         $page = Request::get('page', 1);
         $rowsPerPage = Request::get('rowsPerPage', 10);
         $data = AirportModel::getList($page, $rowsPerPage);
@@ -45,6 +43,9 @@ class AirportController extends Controller
     }
 
     public function getAirport(){
-        
+        Auth::checkAuthentication(); 
+        $data = AirportModel::getAirport('sb1');
+        $this->View->renderJSON($data['data']);
     }
+    
 }

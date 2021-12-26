@@ -7,7 +7,31 @@ use App\Core\DatabaseFactory;
 use PDO;
 
 class PlaneModel{
-    public static function create(){
+    public static function findOneBySoHieu($sohieu){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM may_bay WHERE so_hieu_may_bay = :sohieu LIMIT 1");
+        $query->execute([':sohieu' => $sohieu]);
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
+    }
+    public static function create($sohieu, $hang, $ghethuong, $thuonggia){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $tongghe= $ghethuong + $thuonggia;
+
+        $sql = "INSERT INTO may_bay (so_hieu_may_bay, ma_hang_hang_khong, so_ghe_thuong, so_ghe_thuong_gia, tong_so_ghe, trang_thai)
+                VALUES (:sohieu,:hang, :ghethuong, :thuonggia, :tongghe,1)";
+        $query = $database->prepare($sql);
+        $query->execute([':sohieu' => $sohieu, ':hang' => $hang, ':ghethuong' => $ghethuong, ':thuonggia' => $thuonggia, ':tongghe' => $tongghe]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+
+        return false;
 
     }
 
@@ -110,6 +134,23 @@ class PlaneModel{
             'rowsPerPage' => $rowsPerPage,
             'totalPage' => ceil(intval($totalRows) / $rowsPerPage),
             'data' => $data,
+        ];
+        return $response;
+    }
+
+    public static function getNameAirlines(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = 'SELECT ma_hang_hang_khong, ten FROM hang_hang_khong WHERE trang_thai=1';
+        $query  = $database->query($sql);
+        $data = $query->fetchAll();
+        $check = true;
+        if(!$query){
+            $check = false;
+        }
+        $response = [
+            'thanhcong' => $check,
+            'data' =>$data,
         ];
         return $response;
     }

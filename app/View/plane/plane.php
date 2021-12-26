@@ -105,17 +105,69 @@ View::$activeItem = 'plane';
                             </div>
                     </section>
                 </div>
+
+                <!-- MODAL ADD -->
+                <div class="modal fade text-left" id="add-plane-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thêm máy bay</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="add-plane-form" action="/" method="POST">
+                                    <div class="modal-body">
+                                        <label for="macauhoi">Số hiệu máy Bay:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="sohieu" name="sohieu" placeholder="Số hiệu máy bay"
+                                                class="form-control">
+                                        </div>
+                                        <label for="cars-hang">Hãng hàng không: </label><br>
+                                        <fieldset class="form-group">
+                                            <select class="form-select" name="hang" id="cars-hang"
+                                                style="margin-right: 15px;">
+                                            </select>
+                                        </fieldset>
+                                        <label for="macauhoi">Số ghế thường:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="ghethuong" name="ghethuong"
+                                                placeholder="Số ghế thường" class="form-control">
+                                        </div>
+                                        <label for="macauhoi">Số ghế thương gia:</label>
+                                        <div class="form-group">
+                                            <input type="text" id="thuonggia" name="thuonggia"
+                                                placeholder="Số ghế thương gia" class="form-control">
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Thêm</span>
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- FOOTER -->
                 <?php View::partial('footer')  ?>
             </div>
         </div>
     </div>
-    <script src="<?= View::assets('js/extensions/toastify.js') ?>"></script>
+    <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>
+    <script src="<?= View::assets('vendors/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
     <script src="<?= View::assets('js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= View::assets('js/jquery.min.js') ?>"></script>
-    <script src="<?= View::assets('js/jquery.validate.js') ?>"></script>
+    <script src="<?= View::assets('vendors/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= View::assets('vendors/jquery/jquery.validate.js') ?>"></script>
     <script src="<?= View::assets('js/main.js') ?>"></script>
-    <script src="<?= View::assets('js/vendors.js') ?>"></script>
     <script src="<?= View::assets('js/changepass.js') ?>"></script>
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
@@ -125,6 +177,86 @@ View::$activeItem = 'plane';
 
     $(function() {
         layDSMayBayAjax();
+
+        $.post(`http://localhost/Software-Technology/plane/getNameAirlines`, function(response) {
+            if (response.thanhcong) {
+                hang = response.data;
+                hang.forEach(data => {
+                    let opt = '<option value="' + data.ma_hang_hang_khong + '">' + data.ten +
+                        '</option>';
+                    $("#cars-hang").append(opt);
+                    $("#re-cars-hang").append(opt);
+                });
+            }
+
+        });
+
+        $("form[name='add-plane-form']").validate({
+            rules: {
+                sohieu: {
+                    required: true,
+                    remote: {
+                        url: "http://localhost/Software-Technology/plane/checkValidPlane",
+                        type: "POST",
+                    }
+                },
+                ghethuong: {
+                    required: true,
+                },
+                thuonggia: {
+                    required: true,
+                },
+            },
+            messages: {
+                sohieu: {
+                    required: "Vui lòng nhập số hiệu máy bay",
+                },
+                ghethuong: {
+                    required: "Vui lòng nhập số lượng ghế thường",
+                },
+                thuonggia: {
+                    required: "Vui lòng nhập số lượng ghế thương gia",
+                },
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                // lấy dữ liệu từ form
+                const data = Object.fromEntries(new FormData(form).entries());
+                console.log(data);
+                $.post(`http://localhost/Software-Technology/plane/create`, data, function(
+                    response) {
+                    $("#add-plane-modal").modal('toggle')
+                    if (response.thanhcong) {
+                        currentPage = 1;
+                        layDSMayBayAjax();
+                        Toastify({
+                            text: "Thêm Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "Thêm Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+                $('#sohieu').val("");
+                $('#ghethuong').val("");
+                $('#thuonggia').val("");
+            }
+        })
+    });
+
+    $("#open-add-plane-btn").click(function() {
+        $("#add-plane-modal").modal('toggle')
     });
 
     function changePage(newPage) {

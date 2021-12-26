@@ -22,8 +22,33 @@ class PlaneController extends Controller
         $this->View->render('plane/plane');
     }
 
-    public function create(){
+    public function checkValidPlane()
+    {   
+        Auth::checkAuthentication();
+        $sohieu = Request::post('sohieu');
+        $maybay = PlaneModel::findOneBySoHieu($sohieu);
 
+        $response = true;
+
+        if ($maybay) {
+            $response = 'Số hiệu máy bay đã tồn tại trong hệ thống';
+        }
+        $this->View->renderJSON($response);
+    }
+
+
+    public function create(){
+        Auth::checkAuthentication();
+        //Auth::ktraquyen("CN02");
+        $sohieu = Request::post('sohieu');
+        $hang = Request::post('hang');
+        $ghethuong = Request::post('ghethuong');
+        $thuonggia = Request::post('thuonggia');
+        $kq = PlaneModel::create($sohieu, $hang, $ghethuong, $thuonggia);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function update(){
@@ -52,6 +77,12 @@ class PlaneController extends Controller
         $page = Request::get('page');
         $rowsPerPage = Request::get('rowsPerPage');
         $data = PlaneModel::getAllPagination($search, $search2, $page, $rowsPerPage);
+        $this->View->renderJSON($data);
+    }
+
+    public function getNameAirlines(){
+        Auth::checkAuthentication();
+        $data = PlaneModel::getNameAirlines();
         $this->View->renderJSON($data);
     }
     

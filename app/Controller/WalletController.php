@@ -56,7 +56,13 @@ class WalletController extends Controller
     }
 
     public function payment(){
-        
+        $tien = Request::post('tien');
+        $tk = Cookie::get('user_email');
+        $data = WalletModel::payMent($tien,$tk);
+        $response = [
+            'thanhcong' => $data
+        ];
+        $this->View->renderJSON($response);
     }
 
     public function paymentHistory(){

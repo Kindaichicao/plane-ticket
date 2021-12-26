@@ -60,7 +60,19 @@ class WalletModel{
         
     }
 
-    public static function payment(){
+    public static function payMent($tien,$tk){
+
+        // Trừ tiền trong ví
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query2 = $database->prepare("SELECT * FROM khach_hang WHERE email = :matk LIMIT 1");
+        $query2->execute([':matk' => $tk]);
+        $data = $query2->fetch();
+
+        $sql = "UPDATE `vi_thanh_toan` SET so_du = so_du - ".$tien." WHERE ma_kh = ".$data->ma_kh;
+        $query = $database->query($sql);
+
+        // Tích điểm
         
     }
 

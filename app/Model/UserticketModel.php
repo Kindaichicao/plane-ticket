@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Core\Cookie;
 use App\Core\DatabaseFactory;
+use App\Core\Request;
 use PDO;
 
 class UserticketModel{
@@ -82,6 +83,16 @@ class UserticketModel{
         return $listReal;
     }
 
+    public static function sale(){
+        $ngayden= Request::post('ngayden');
+         $ngaydi =Request::post('ngaydi');
+          $noiden =Request::post('noiden');
+          $noidi= Request::post('noidi');
+           $gia= Request::post('gia');
+          $hang= Request::post('hang');
+        UserticketModel::filter($ngayden, $ngaydi, $noiden,$noidi, $gia,$hang);
+    }
+
     function cmp($a, $b) {
         return strcmp($a->gia_goc, $b->gia_goc);
     }
@@ -90,6 +101,6 @@ class UserticketModel{
     public static function autoBuy(){
         $list = UserticketModel::getTicket();
         usort($list, "cmp");
-        
+        WalletModel::paymentAuto();
     }
 }

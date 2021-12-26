@@ -3,6 +3,7 @@ namespace App\Cron;
 $GLOBALS['cron'] = true;
 
 use App\Model\AccountModel;
+use App\Model\UserticketModel;
 
 // Không được xóa
 spl_autoload_register(function($className){
@@ -39,6 +40,7 @@ spl_autoload_register(function($className){
 
 
 $database = AccountModel::test();
+UserticketModel::sale(); // săn vé
 // luu info KH1 | LOAIVE1 | <1tr
 // get bang san ve len
 // neu > 1
